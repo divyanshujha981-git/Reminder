@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout style="@style/PeopleCardContainer"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include layout="@layout/people_card_horizontal"/>
+
+    <LinearLayout
+        style="@style/EndHorizontalContainer_PPC">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rejectButton"
+            style="@style/RejectButton"/>
+
+        <View
+            style="@style/VerticalDivider_People_Pending_Card"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/acceptButton"
+            style="@style/AcceptButton"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/rejectButtonOnly"
+        style="@style/RejectButton"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/accepted"
+        style="@style/AcceptedButton"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/connect"
+        style="@style/ConnectButton"/>
+
+
+
+</FrameLayout>

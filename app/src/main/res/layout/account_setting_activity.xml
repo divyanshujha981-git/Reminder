@@ -1,0 +1,74 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true">
+
+
+
+    <FrameLayout
+        style="@style/LINEAR_LAYOUT_USER_CARD">
+
+
+
+
+        <include layout="@layout/people_card_horizontal"
+            />
+
+        <View
+            android:layout_marginEnd="15dp"
+            style="@style/Edit_Button_AccountSettingsActivity" />
+
+
+        <!--        <com.google.android.material.card.MaterialCardView-->
+<!--            android:id="@+id/editButton"-->
+<!--            style="@style/CARD_USER_CARD">-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_marginStart="88dp"-->
+<!--                style="@style/TEXT_LINEAR_LAYOUT_USER_CARD">-->
+
+<!--                <TextView-->
+<!--                    android:textSize="20sp"-->
+<!--                    android:layout_marginBottom="4dp"-->
+<!--                    style="@style/NAME_TEXT_LINEAR_LAYOUT_USER_CARD"-->
+<!--                    android:id="@+id/setName"/>-->
+
+
+<!--                <TextView-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:id="@+id/setProfession"-->
+<!--                    style="@style/EMAIL_TEXT_LINEAR_LAYOUT_USER_CARD"/>-->
+
+<!--            </LinearLayout>-->
+
+
+<!--        </com.google.android.material.card.MaterialCardView>-->
+
+<!--        <include-->
+<!--            android:layout_marginStart="12dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_height="64dp"-->
+<!--            android:layout_width="64dp"-->
+<!--            layout="@layout/profile_pic"/>-->
+
+
+    </FrameLayout>
+
+
+
+
+    <include
+        layout="@layout/setting_activity"
+        android:layout_marginTop="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include
+        layout="@layout/circular_progress_middle"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

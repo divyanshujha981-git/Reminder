@@ -1,0 +1,216 @@
+<resources>
+
+
+
+
+    <!-- Base application theme. -->
+
+    <style name="ACTION_BAR_THEME" parent="">
+        <!-- Primary brand color. -->
+        <item name="title">@string/app_name</item>
+        <item name="android:textColorPrimary">@color/blue_violet</item>
+        <item name="iconTint">@color/iconsDefaultColorEnabled</item>
+        <item name="android:textColor">@color/windowBackgroundDark</item>
+        <item name="android:editTextColor">@color/black</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="ACTION_BAR_STYLE" parent="">
+        <!-- Primary brand color. -->
+        <item name="elevation">0dp</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.Reminder" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+
+
+        <item name="actionModeStyle">@style/Widget.App.ActionMode</item>
+        <item name="actionBarTheme">@style/ACTION_BAR_THEME</item>
+        <item name="actionBarStyle">@style/ACTION_BAR_STYLE</item>
+        <!-- Primary brand color. -->
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="colorPrimary">@color/blue_violet</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/blue_violet</item>
+        <item name="colorSecondaryVariant">@color/blue_violet</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/windowBackground</item>
+        <item name="android:navigationBarColor">@color/windowBackground</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <!-- Customize your theme here. -->
+
+    </style>
+
+
+
+
+    <style name="PEOPLE_ACTION_BAR_THEME" parent="ACTION_BAR_THEME">
+        <item name="title">@string/people</item>
+        <item name="android:textColorPrimary">@color/windowBackgroundInverse</item>
+    </style>
+
+    <style name="Theme.People" parent="Theme.Reminder">
+        <item name="actionBarTheme">@style/PEOPLE_ACTION_BAR_THEME</item>
+        <item name="actionBarStyle">@style/ACTION_BAR_STYLE</item>
+        <item name="materialSearchBarStyle">@style/Widget.Material3.SearchBar</item>
+        <item name="searchViewStyle">@style/Widget.Material3.SearchView</item>
+    </style>
+
+
+
+    <style name="PINNED_ACTION_BAR_THEME" parent="ACTION_BAR_THEME">
+        <item name="title">Pinned</item>
+    </style>
+
+    <style name="Theme.Pinned" parent="Theme.Reminder">
+        <item name="actionBarTheme">@style/PINNED_ACTION_BAR_THEME</item>
+        <item name="actionBarStyle">@style/ACTION_BAR_STYLE</item>
+    </style>
+
+
+    <style name="PRIVATE_ACTION_BAR_THEME" parent="ACTION_BAR_THEME">
+        <item name="title">@string/privates</item>
+    </style>
+
+    <style name="Theme.Private" parent="Theme.Reminder">
+        <item name="actionBarTheme">@style/PRIVATE_ACTION_BAR_THEME</item>
+        <item name="actionBarStyle">@style/ACTION_BAR_STYLE</item>
+    </style>
+
+
+
+    <style name="Theme.AddTask" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="android:windowBackground">@drawable/window_background_gradient</item>
+        <item name="colorPrimary">@color/blue_violet</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/blue_violet</item>
+        <item name="colorSecondaryVariant">@color/blue_violet</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/windowBackgroundLight</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+
+    <style name="SETTINGS_ACTION_BAR_THEME" parent="ACTION_BAR_THEME">
+        <item name="title">@string/settings</item>
+    </style>
+    <style name="Theme.Settings" parent="Theme.Reminder">
+        <item name="actionBarTheme">@style/SETTINGS_ACTION_BAR_THEME</item>
+        <item name="colorSecondary">@color/blue_violet</item>
+    </style>
+
+
+
+
+    <style name="TASK_SETTINGS_ACTION_BAR_THEME" parent="ACTION_BAR_THEME">
+        <item name="title">Task settings</item>
+    </style>
+    <style name="Theme.TaskSettings" parent="Theme.Settings">
+        <item name="actionBarTheme">@style/TASK_SETTINGS_ACTION_BAR_THEME</item>
+    </style>
+
+
+    <style name="TASK_INBOX_SETTINGS_ACTION_BAR_THEME" parent="ACTION_BAR_THEME">
+        <item name="title">Task inbox settings</item>
+    </style>
+    <style name="Theme.TaskInboxSettings" parent="Theme.Settings">
+        <item name="actionBarTheme">@style/TASK_INBOX_SETTINGS_ACTION_BAR_THEME</item>
+    </style>
+
+
+
+    <style name="ACCOUNT_SETTINGS_ACTION_BAR_THEME" parent="ACTION_BAR_THEME">
+        <item name="title">Account settings</item>
+    </style>
+    <style name="Theme.AccountSettings" parent="Theme.Settings">
+        <item name="actionBarTheme">@style/ACCOUNT_SETTINGS_ACTION_BAR_THEME</item>
+    </style>
+
+
+
+    <style name="LOCK_SETTINGS_ACTION_BAR_THEME" parent="ACTION_BAR_THEME">
+        <item name="title">Lock settings</item>
+    </style>
+    <style name="Theme.LockSettings" parent="Theme.Settings">
+        <item name="actionBarTheme">@style/LOCK_SETTINGS_ACTION_BAR_THEME</item>
+    </style>
+
+
+    <style name="Theme.LaterTask" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@color/windowBackgroundLight</item>
+        <item name="colorPrimary">@color/blue_violet</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/blue_violet</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+       <item name="android:statusBarColor">@color/windowBackgroundLight</item>
+       <item name="android:navigationBarColor">@color/windowBackgroundLight</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+
+
+
+
+
+
+
+
+    <style name="Theme.NotificationIntent" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="android:windowBackground">@color/windowBackgroundLight</item>
+        <item name="colorPrimary">@color/blue_violet</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/windowBackgroundLight</item>
+        <item name="android:navigationBarColor">@color/windowBackgroundLight</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+
+    <style name="Theme.Password" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="android:windowBackground">@color/windowBackgroundLight</item>
+        <item name="colorPrimary">@color/blue_violet</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/windowBackgroundLight</item>
+        <item name="android:navigationBarColor">@color/windowBackgroundLight</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+
+
+
+
+
+
+</resources>

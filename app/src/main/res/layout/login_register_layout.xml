@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/signInView"
+        style="@style/SIGN_IN_linear_layout_LoginRegister">
+
+
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/googleSignInButton"
+            style="@style/GOOGLE_SIGN_IN_linear_layout_LoginRegister"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/phoneSignInButton"
+            style="@style/PHONE_SIGN_IN_linear_layout_LoginRegister" />
+
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/faceBookSignInButton"-->
+<!--            style="@style/FACEBOOK_SIGN_IN_linear_layout_LoginRegister"/>-->
+
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/microsoftSignInButton"-->
+<!--            style="@style/MICROSOFT_SIGN_IN_linear_layout_LoginRegister"/>-->
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/loadingView"
+        android:visibility="gone"
+        android:padding="0dp"
+        style="@style/SIGN_IN_linear_layout_LoginRegister">
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            style="@style/LINEAR_PROGRESS_VIEW_LoginRegister"/>
+        <View
+            android:background="#4F000000"
+            style="@style/DIMMED_VIEW_linear_layout_LoginRegister"/>
+
+    </LinearLayout>
+
+
+
+
+    <include layout="@layout/circular_progress_middle"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+
+
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

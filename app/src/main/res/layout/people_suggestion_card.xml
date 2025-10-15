@@ -1,0 +1,28 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ProfileCardContainer">
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/ProfileCard"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            style="@style/ProfileCardContent">
+
+            <include
+                layout="@layout/profile_pic"
+                style="@style/ProfilePicture"/>
+
+            <TextView
+                android:id="@+id/set_name"
+                style="@style/ProfileName"
+                android:text="Divyanshu Jha"/>
+
+            <TextView
+                android:id="@+id/set_profession"
+                style="@style/ProfileOccupation"
+                android:text="Software Developer"/>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

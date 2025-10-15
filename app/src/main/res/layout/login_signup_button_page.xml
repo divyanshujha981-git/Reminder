@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        style="@style/NoAccountPlaceholderView" />
+
+<!--    <TextView-->
+<!--        style="@style/NoAccountInfoText" />-->
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/loginSignupButton"
+        android:layout_margin="0dp"
+        style="@style/LoginSignupButton"
+        android:text="@string/login_signup" />
+
+</FrameLayout>

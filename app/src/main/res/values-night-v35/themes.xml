@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Reminder" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+
+        <item name="actionModeStyle">@style/Widget.App.ActionMode</item>
+        <item name="actionBarTheme">@style/ACTION_BAR_THEME</item>
+        <item name="actionBarStyle">@style/ACTION_BAR_STYLE</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+        <!-- Primary brand color. -->
+        <item name="android:windowBackground">@color/windowBackgroundDark</item>
+        <item name="colorPrimary">@color/blue_violet</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/blue_violet</item>
+        <item name="colorSecondaryVariant">@color/blue_violet</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/windowBackgroundDark</item>
+        <item name="android:navigationBarColor">@color/windowBackgroundDark</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <!-- Customize your theme here. -->
+
+    </style>
+</resources>

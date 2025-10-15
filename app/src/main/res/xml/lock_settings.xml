@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceCategory
+    app:iconSpaceReserved="false"
+    android:title="Locks">
+    <Preference app:key="@string/setPattern"  app:iconSpaceReserved="false" android:title="Pattern" />
+    <Preference app:key="@string/setPin" app:iconSpaceReserved="false" android:title="Pin" />
+    <Preference app:key="@string/setPassword" app:iconSpaceReserved="false" android:title="Password" />
+
+</PreferenceCategory>
+
+    <PreferenceCategory android:title="Others" app:iconSpaceReserved="false">
+
+        <SwitchPreference app:key="@string/get_private_lock_and_message_lock_state" android:defaultValue="true" app:iconSpaceReserved="false" android:title="Tasks" android:summary="Lock tasks and chats"/>
+        <SwitchPreference app:key="@string/get_settings_lock_state" android:defaultValue="true" app:iconSpaceReserved="false" android:title="Settings" android:summary="Lock app's settings"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

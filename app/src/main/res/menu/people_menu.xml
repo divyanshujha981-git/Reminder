@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menu_search"
+        android:title="@string/search"
+        android:icon="@drawable/person_search_24px"/>
+
+    <item android:id="@+id/menu_accepted"
+        android:title="@string/connected"
+        android:icon="@drawable/person_check_24px"/>
+
+    <item android:id="@+id/menu_pending"
+        android:title="@string/pending"
+        android:icon="@drawable/pending"/>
+
+</menu>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="Download" app:iconSpaceReserved="false">
+
+        <SwitchPreference app:key="@string/taskAutoDownload" android:defaultValue="false" app:iconSpaceReserved="false" android:title="Task auto-download" android:summary="Automatically adds tasks in your task's list"/>
+        <SwitchPreference app:key="@string/receiveTask" android:defaultValue="true" app:iconSpaceReserved="false" android:title="Receive tasks" android:summary="Allows you receive the task"/>
+
+
+    </PreferenceCategory>
+</PreferenceScreen>

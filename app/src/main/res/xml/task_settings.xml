@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+<PreferenceCategory app:iconSpaceReserved="false" app:title="Task">
+        <SwitchPreference app:iconSpaceReserved="false" app:key="@string/pinTaskOnTop" android:defaultValue="true" android:title="Pinned Tasks" android:summary="Show pinned tasks at the top of the list."/>
+        <SwitchPreference app:iconSpaceReserved="false" app:key="@string/removeTask" android:title="Exclude Completed Tasks" android:summary="Hide tasks from the list that are already marked as completed."/>
+    </PreferenceCategory>
+
+<PreferenceCategory app:iconSpaceReserved="false" app:title="Notification">
+
+    <SwitchPreference
+        app:key="@string/post_notification_for_completed_task"
+        app:iconSpaceReserved="false"
+        android:title="Notifications for Completed Tasks"
+        android:defaultValue="false"
+        android:summary="Post notifications for tasks that are already marked as completed."/>
+
+    <SwitchPreference
+        app:key="@string/turn_on_flash_for_task_alert"
+        app:iconSpaceReserved="false"
+        android:title="Turn On Flashlight"
+        android:defaultValue="true"
+        android:summary="The flashlight will turn on when the notification is active."/>
+
+</PreferenceCategory>
+
+<PreferenceCategory app:iconSpaceReserved="false" app:title="Privacy">
+    <SwitchPreference
+        app:key="@string/notifyForPrivate"
+        android:defaultValue="true"
+        app:iconSpaceReserved="false"
+        android:title="Private Task Notifications on Lock Screen"
+        android:summary="Lock screen notifications for private tasks will be disabled if this is off." />
+</PreferenceCategory>
+
+
+</PreferenceScreen>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/LINEAR_LAYOUT_USER_CARD">
+
+
+    <include
+        layout="@layout/profile_pic"
+        style="@style/PP_USER_CARD"/>
+
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/editButton"
+        style="@style/CARD_USER_CARD">
+
+        <LinearLayout
+            style="@style/TEXT_LINEAR_LAYOUT_USER_CARD">
+
+            <TextView
+                android:layout_marginBottom="4dp"
+                style="@style/NAME_TEXT_LINEAR_LAYOUT_USER_CARD"
+                android:id="@+id/setName"/>
+
+
+            <TextView
+                android:id="@+id/setProfession"
+                style="@style/EMAIL_TEXT_LINEAR_LAYOUT_USER_CARD"/>
+
+        </LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

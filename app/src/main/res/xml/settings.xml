@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen  xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory app:iconSpaceReserved="false" app:title="Settings">
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="taskOpt"
+            android:title="Task" />
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="taskInboxOpt"
+            android:title="@string/task_inbox"/>
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="accountOpt"
+            android:title="@string/account"/>
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="lockOpt"
+            android:title="Locked"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="Other">
+        <Preference
+            app:iconSpaceReserved="false"
+            android:title="Help"/>
+        <Preference
+            app:iconSpaceReserved="false"
+            android:key="@string/about"
+            android:title="About"/>
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

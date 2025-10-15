@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView android:id="@+id/editButton"
+    style="@style/CARD_USER_CARD"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_height="64dp"
+            android:layout_width="64dp"
+            layout="@layout/profile_pic"/>
+
+        <LinearLayout
+            android:layout_marginStart="7dp"
+            style="@style/TEXT_LINEAR_LAYOUT_USER_CARD">
+
+            <TextView
+                android:textSize="20sp"
+                android:layout_marginBottom="4dp"
+                style="@style/NAME_TEXT_LINEAR_LAYOUT_USER_CARD"
+                android:id="@+id/setName"/>
+
+
+        <TextView
+            android:id="@+id/setProfession"
+            style="@style/EMAIL_TEXT_LINEAR_LAYOUT_USER_CARD"
+            android:textSize="16sp" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+
+</com.google.android.material.card.MaterialCardView>

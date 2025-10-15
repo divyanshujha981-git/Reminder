@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.REQUEST_SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/adaptive_app_icon"
+        android:theme="@style/Theme.AppCompat"
+        android:roundIcon="@mipmap/adaptive_app_icon_round"
+        android:supportsRtl="true">
+
+
+
+
+        <activity
+            android:name=".UserInterfaces.HomePage.MainActivity.MainActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:theme="@style/Theme.Reminder"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+        </activity>
+
+
+
+
+
+        <activity
+            android:name=".UserInterfaces.AddTaskPage.AddTask"
+            android:parentActivityName=".UserInterfaces.HomePage.MainActivity.MainActivity"
+            android:theme="@style/Theme.AddTask" />
+
+
+
+
+
+        <activity
+            android:name=".UserInterfaces.ReschedulePage.ReSchedulePage"
+            android:parentActivityName=".UserInterfaces.HomePage.MainActivity.MainActivity"
+            android:theme="@style/Theme.AddTask" />
+
+
+        <activity
+            android:name=".UserInterfaces.PinnedTaskPage.PinnedTask"
+            android:theme="@style/Theme.Pinned"
+            android:parentActivityName=".UserInterfaces.HomePage.MainActivity.MainActivity"
+            android:windowSoftInputMode="adjustNothing"/>
+
+
+        <activity
+            android:name=".UserInterfaces.TaskViewPage.TaskViewMain"
+            android:theme="@style/Theme.AddTask"
+            android:parentActivityName=".UserInterfaces.HomePage.MainActivity.MainActivity"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:windowSoftInputMode="adjustNothing"/>
+
+
+        <activity
+            android:name=".UserInterfaces.NotificationPage.TaskAlarm.LaterTask.LaterTask"
+            android:theme="@style/Theme.LaterTask"
+            android:label="@string/remind_me"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            />
+
+
+        <activity
+            android:name=".UserInterfaces.NotificationPage.TaskAlarm.NotificationTypes.NotificationIntent"
+            android:theme="@style/Theme.NotificationIntent"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:showOnLockScreen="true" />
+
+
+        <activity
+            android:name=".UserInterfaces.Ppp.Ppp"
+            android:theme="@style/Theme.Password"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"/>
+
+
+        <activity
+            android:name=".UserInterfaces.SettingsPage.LockSettings.PatternLock.PatternLock"
+            android:theme="@style/Theme.Password" />
+
+
+        <activity
+            android:name=".UserInterfaces.SettingsPage.LockSettings.PinLock.PinLock"
+            android:theme="@style/Theme.Password" />
+
+
+        <activity
+            android:name=".UserInterfaces.SettingsPage.LockSettings.PasswordLock.PasswordLock"
+            android:theme="@style/Theme.Password" />
+
+
+        <activity
+            android:name=".UserInterfaces.NotificationPage.TaskAlarm.NotificationTypes.PrivateNotificationIntent"
+            android:theme="@style/Theme.NotificationIntent"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:showOnLockScreen="true" />
+
+
+        <activity
+            android:name=".UserInterfaces.NotificationPage.TaskAlarm.NotificationTypes.HighPriorityNotificationIntent"
+            android:theme="@style/Theme.NotificationIntent"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:showOnLockScreen="true" />
+
+
+
+
+        <activity
+            android:name=".UserInterfaces.PrivatePage.PrivatePages"
+            android:theme="@style/Theme.Private"
+            android:parentActivityName=".UserInterfaces.HomePage.MainActivity.MainActivity"
+            android:windowSoftInputMode="adjustNothing"/>
+
+
+
+        <activity
+            android:name=".UserInterfaces.AboutPage.AboutPage"
+            android:windowSoftInputMode="adjustNothing"
+            android:label="@null"
+            android:parentActivityName=".UserInterfaces.HomePage.MainActivity.MainActivity"
+            android:theme="@style/Theme.Reminder" />
+
+
+        <activity
+            android:name=".UserInterfaces.SettingsPage.AccountSettings.EditAccountInfo"
+            android:theme="@style/Theme.Password"
+            android:windowSoftInputMode="adjustNothing"/>
+
+
+
+
+        <activity
+            android:name=".UserInterfaces.SettingsPage.TaskSettings.TaskSetting"
+            android:theme="@style/Theme.TaskSettings"
+            android:parentActivityName=".UserInterfaces.SettingsPage.AllSettings.SettingsPage"
+            android:windowSoftInputMode="adjustNothing"/>
+
+
+
+
+
+        <activity
+            android:name=".UserInterfaces.SettingsPage.LockSettings.LockSettings"
+            android:theme="@style/Theme.LockSettings"
+            android:label="Lock Setting"
+            android:parentActivityName=".UserInterfaces.SettingsPage.AllSettings.SettingsPage"
+            android:windowSoftInputMode="adjustNothing"/>
+
+
+
+
+
+        <activity
+            android:name=".UserInterfaces.Ppp.PPP_Process_Button_Layout"
+            android:theme="@style/Theme.LockSettings"
+            android:label="Lock Setting"
+            android:parentActivityName=".UserInterfaces.HomePage.MainActivity.MainActivity"
+            android:windowSoftInputMode="adjustNothing"/>
+
+
+
+
+
+
+        <activity
+            android:name=".UserInterfaces.LoginRegisterPage.LoginRegister"
+            android:theme="@style/Theme.Reminder"
+            android:label="Sign up"
+            android:parentActivityName=".UserInterfaces.HomePage.MainActivity.MainActivity"
+            android:windowSoftInputMode="adjustNothing"/>
+
+
+        <activity
+            android:name=".UserInterfaces.LoginRegisterPage.PhoneNumber.PhoneNumberAuthentication"
+            android:theme="@style/Theme.Reminder"
+            android:label="Sign up"
+            android:parentActivityName=".UserInterfaces.LoginRegisterPage.LoginRegister"
+            android:windowSoftInputMode="adjustNothing"/>
+
+        <activity
+            android:name=".UserInterfaces.LoginRegisterPage.PhoneNumber.VerifyCodeActivity"
+            android:theme="@style/Theme.Reminder"
+            android:label="Sign up"
+            android:parentActivityName=".UserInterfaces.LoginRegisterPage.LoginRegister"
+            android:windowSoftInputMode="adjustNothing"/>
+
+
+
+
+        <activity
+            android:name=".UserInterfaces.SettingsPage.AllSettings.SettingsPage"
+            android:theme="@style/Theme.Settings"
+            android:label="Settings"
+            android:parentActivityName=".UserInterfaces.HomePage.MainActivity.MainActivity"
+            android:windowSoftInputMode="adjustNothing"/>
+
+
+        <activity
+            android:name=".UserInterfaces.SettingsPage.AccountSettings.AccountSettings"
+            android:theme="@style/Theme.AccountSettings"
+            android:label="Setting"
+            android:parentActivityName=".UserInterfaces.SettingsPage.AllSettings.SettingsPage"
+            android:windowSoftInputMode="adjustNothing"/>
+
+
+
+        <activity
+            android:name=".UserInterfaces.SettingsPage.AccountSettings.BlockedContacts.BlockedContacts"
+            android:theme="@style/Theme.TaskInboxSettings"
+            android:label="Blocked Contacts"
+            android:parentActivityName=".UserInterfaces.SettingsPage.AccountSettings.AccountSettings"
+            android:windowSoftInputMode="adjustNothing"/>
+
+
+
+        <activity
+            android:name=".UserInterfaces.SettingsPage.TaskInboxSettings.TaskInboxSettings"
+            android:theme="@style/Theme.TaskInboxSettings"
+            android:label="Setting"
+            android:parentActivityName=".UserInterfaces.SettingsPage.AllSettings.SettingsPage"
+            android:windowSoftInputMode="adjustNothing"/>
+
+
+
+        <activity
+            android:name=".UserInterfaces.PeoplePage.MainActivity.People"
+            android:theme="@style/Theme.People"
+            android:parentActivityName=".UserInterfaces.HomePage.MainActivity.MainActivity"
+            android:windowSoftInputMode="adjustNothing"/>
+
+
+
+        <receiver
+            android:name=".UserInterfaces.NotificationPage.TaskAlarm.BroadCasts.TaskAlertBroadcast"
+            android:exported="false" />
+
+
+        <receiver
+            android:name=".UserInterfaces.NotificationPage.TaskAlarm.BroadCasts.TaskAlertCancelBroadcast"
+            android:exported="false" />
+
+
+        <receiver
+            android:name=".BackgroundWorks.TaskWork.RescheduleTaskAfterAlarmTrigger"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTERY_CHANGED" />
+                <action android:name="android.intent.action.BATTERY_LOW" />
+                <action android:name="android.intent.action.BATTERY_OKAY" />
+            </intent-filter>
+        </receiver>
+
+
+        <receiver
+            android:name=".BackgroundWorks.TaskWork.SystemRescheduleTaskAfterAlarmTrigger"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.reminder.mini.APP_STARTED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.REBOOT" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+
+        <service
+            android:exported="false"
+            android:name=".BackgroundWorks.CheckNotificationService">
+        </service>
+
+
+    </application>
+
+
+
+</manifest>

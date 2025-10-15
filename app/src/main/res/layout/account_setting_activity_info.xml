@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <LinearLayout
+            android:id="@+id/cancelSaveLayout"
+            android:layout_marginEnd="-20dp"
+            style="@style/LinearLayoutSaveCancelButtons">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancel"
+                style="@style/CancelButton_AccountSettingsActivity"/>
+
+            <View style="@style/VD_AccountSettingsActivity"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/save"
+                style="@style/SaveButton_AccountSettingsActivity"/>
+
+        </LinearLayout>
+
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+
+    <ScrollView
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:gravity="start"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:layout_height="wrap_content"
+            style="@style/LinearLayoutAppBar_ActivityMain">
+
+            <!--        // 0-->
+
+
+
+            <!--        // 1-->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/PpOuter_AccountPage">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/setProfilePic"
+                    style="@style/PpInner_UserCard" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <TextView style="@style/EmailLabel_AccountSettingActivity"/>
+
+            <!--        // 2-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/eLayout"
+                style="@style/EMAIL_INPUT_TEXT_LAYOUT">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/setEmail"
+                    style="@style/INPUT_TEXT" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/NameLabel_AccountSettingActivity"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/EMAIL_INPUT_TEXT_LAYOUT">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/setName"
+                    style="@style/INPUT_TEXT"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView style="@style/PhoneNumberLabel_AccountSettingActivity"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/pLayout"
+                style="@style/EMAIL_INPUT_TEXT_LAYOUT">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/setPhoneNumber"
+                    style="@style/INPUT_TEXT" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+            <TextView style="@style/ProfessionLabel_AccountSettingActivity"/>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/EMAIL_INPUT_TEXT_LAYOUT">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/setProfession"
+                    style="@style/INPUT_TEXT" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView style="@style/AboutLabel_AccountSettingActivity"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginBottom="70dp"
+                style="@style/EMAIL_INPUT_TEXT_LAYOUT">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/setAbout"
+                    android:maxLines="100"
+                    style="@style/INPUT_TEXT" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <include
+        layout="@layout/circular_progress_middle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

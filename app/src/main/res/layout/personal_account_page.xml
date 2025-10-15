@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:scrollbars="none"
+    android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="50dp"
+            style="@style/LinearLayout_AccountPage">
+
+
+            <include layout="@layout/profile_pic" />
+
+
+
+            <TextView
+                android:textSize="24sp"
+                android:layout_marginBottom="8dp"
+                android:id="@+id/setName"
+                style="@style/SetName_AccountPage"/>
+
+            <TextView
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp"
+                android:id="@+id/setEmail"
+                style="@style/SetEmail_AccountPage"/>
+
+            <TextView
+                android:textSize="14sp"
+                android:id="@+id/setProfession"
+                style="@style/SetPhoneNumber_AccountPage"/>
+
+
+            <GridLayout
+                style="@style/GridLayout_AccountPage">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:padding="16dp"
+                    style="@style/GridLayout_CardView_AccountPage">
+                        <TextView
+                            android:id="@+id/pending"
+                            android:textSize="32sp"
+                            android:layout_marginBottom="12dp"
+                            style="@style/Count_AccountPage"/>
+                        <TextView
+                            android:textSize="16sp"
+                            style="@style/CountType_AccountPage"
+                            android:text="@string/pending" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/GridLayout_CardView_AccountPage">
+
+                    <TextView
+                        android:id="@+id/completed"
+                        android:textSize="32sp"
+                        android:layout_marginBottom="12dp"
+                        style="@style/Count_AccountPage"/>
+                    <TextView
+                        android:textSize="16sp"
+                        style="@style/CountType_AccountPage"
+                        android:text="@string/completed"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+
+                    style="@style/GridLayout_CardView_AccountPage">
+                    <TextView
+                        android:id="@+id/sent"
+                        android:textSize="32sp"
+                        android:layout_marginBottom="12dp"
+                        style="@style/Count_AccountPage"/>
+                    <TextView
+                        android:textSize="16sp"
+                        style="@style/CountType_AccountPage"
+                        android:text="@string/sent"/>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+
+                    style="@style/GridLayout_CardView_AccountPage">
+
+                    <TextView
+                        android:id="@+id/received"
+                        android:textSize="32sp"
+                        android:layout_marginBottom="12dp"
+                        style="@style/Count_AccountPage"/>
+                    <TextView
+                        android:textSize="16sp"
+                        style="@style/CountType_AccountPage"
+                        android:text="@string/received"/>
+                </com.google.android.material.card.MaterialCardView>
+            </GridLayout>
+
+
+
+
+        </LinearLayout>
+
+</ScrollView>
+

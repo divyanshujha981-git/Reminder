@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    style="@style/PpOuter_AccountPage"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/setProfilePic"
+        style="@style/PpInner_UserCard"/>
+
+</com.google.android.material.card.MaterialCardView>

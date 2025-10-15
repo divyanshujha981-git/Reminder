@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "503941742089",
+    "firebase_url": "https://divsproduction-reminder-default-rtdb.firebaseio.com",
+    "project_id": "divsproduction-reminder",
+    "storage_bucket": "divsproduction-reminder.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503941742089:android:22925fb4e6aa9f131742d8",
+        "android_client_info": {
+          "package_name": "com.reminder.main"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "503941742089-7f5ljkfbgllqr57fntbd2bsn0uvsvpfr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reminder.main",
+            "certificate_hash": "e4cb0f04748637471324b2d2d3c097626ff1c05f"
+          }
+        },
+        {
+          "client_id": "503941742089-44hr9uson68m7fl5na0e2v3tmgfh598d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKxlbRjtw-bZbIairNoSa05y0K98X-hIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "503941742089-44hr9uson68m7fl5na0e2v3tmgfh598d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

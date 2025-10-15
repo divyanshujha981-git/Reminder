@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_height="65dp"
+    style="@style/MAIN_LINEAR_LAYOUT_Request_Sent_Card"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <include
+        layout="@layout/user_card"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>
+
+
+
+
+    <include
+        android:visibility="gone"
+        layout="@layout/circular_progress_middle"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_gravity="end|center_vertical"/>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

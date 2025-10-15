@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/verification_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:text="@string/enter_verification_code"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif-medium" />
+
+        <TextView
+            android:id="@+id/verification_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/verification_title"
+            android:layout_marginTop="16dp"
+            android:textAlignment="center"
+            android:text="@string/enter_the_6_digit_code_sent_to_your_phone"
+            android:textColor="#666666"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/otp_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/verification_subtitle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/OtpInputLayoutStyle">
+                <com.google.android.material.textfield.TextInputEditText style="@style/OtpEditTextStyle" android:id="@+id/otp_box_1"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/OtpInputLayoutStyle">
+                <com.google.android.material.textfield.TextInputEditText style="@style/OtpEditTextStyle" android:id="@+id/otp_box_2"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/OtpInputLayoutStyle">
+                <com.google.android.material.textfield.TextInputEditText style="@style/OtpEditTextStyle" android:id="@+id/otp_box_3"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/OtpInputLayoutStyle">
+                <com.google.android.material.textfield.TextInputEditText style="@style/OtpEditTextStyle" android:id="@+id/otp_box_4"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/OtpInputLayoutStyle">
+                <com.google.android.material.textfield.TextInputEditText style="@style/OtpEditTextStyle" android:id="@+id/otp_box_5"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/OtpInputLayoutStyle">
+                <com.google.android.material.textfield.TextInputEditText style="@style/OtpEditTextStyle" android:id="@+id/otp_box_6"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/otp_layout"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/resend_otp_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="@string/didn_t_receive_the_otp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/resend_code_button"
+                style="@style/TEXT_BUTTON"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/resend_otp"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/next_button"
+            style="@style/DEFAULT_BUTTON"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:text="@string/next"
+            app:cornerRadius="45dp" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/circular_progress_middle"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

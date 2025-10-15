@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent">
+
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        style="@style/threePageAdapter_activityMain"
+        android:id="@+id/frameLayout" />
+
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_task_button"
+        android:layout_height="50dp"
+        app:cornerRadius="40dp"
+        style="@style/AddTaskButton_ActivityMain"/>
+
+
+
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        style="@style/BottomAppBarStyle">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            style="@style/BottomNavViewStyle"
+            app:menu="@menu/menu_tasks" />
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
