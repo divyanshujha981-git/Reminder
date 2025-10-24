@@ -224,7 +224,7 @@ public class ReSchedulePage extends AppCompatActivity implements
         data.setLaterAlarmDate(cursor.getLong(8));
         data.setAlreadyDone((byte) cursor.getInt(9));
         data.setPinned((byte) cursor.getInt(10));
-        data.setTaskId(cursor.getLong(11));
+        data.setTaskId(cursor.getString(11));
         data.setPriority((byte) cursor.getInt(12));
 
         commonDB.close();

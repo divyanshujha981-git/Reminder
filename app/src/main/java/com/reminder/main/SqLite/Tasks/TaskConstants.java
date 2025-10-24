@@ -37,9 +37,9 @@ public class TaskConstants {
                     LATER_ALARM_DATE + " LONG, " +                              // 8
                     ALREADY_DONE + " BYTE NOT NULL, " +                         // 9
                     PINNED + " BYTE NOT NULL, " +                               // 10
-                    TASK_ID + " LONG NOT NULL, " +                              // 11
+                    TASK_ID + " TEXT NOT NULL, " +                              // 11
                     PRIORITY + " BYTE NOT NULL," +                              // 12
-                    TASK_WEB_ID + " TEXT UNIQUE " +                                    // 13
+                    TASK_WEB_ID + " TEXT UNIQUE " +                             // 13
                     " )";
 
 

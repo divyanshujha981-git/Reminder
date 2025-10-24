@@ -24,6 +24,6 @@ public class TaskStatusConstants {
                         " PRIMARY KEY ( " + TASK_WEB_ID + ", " + USER_PRIMARY_ID + " )" +
                     " )";
 
-    public static byte DOWNLOADED_YES_BYTE = 2;
-    public static byte DOWNLOADED_NO_BYTE= 1;
+    public static byte DOWNLOADED_YES_BYTE = FirebaseConstants.DOWNLOADED_YES_BYTE;
+    public static byte DOWNLOADED_NO_BYTE= FirebaseConstants.DOWNLOADED_NO_BYTE;
 }

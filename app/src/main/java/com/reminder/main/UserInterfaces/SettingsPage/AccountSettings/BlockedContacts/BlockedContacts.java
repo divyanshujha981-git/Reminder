@@ -10,7 +10,7 @@ import com.reminder.main.R;
 public class BlockedContacts extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.default_recycler_adapter);
+        setContentView(R.layout.default_recycler_view);
     }
 
 }

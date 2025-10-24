@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    style="@style/Coordinator_TaskEventPage">
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        layout="@layout/default_tab_layout" />
+
+
+    <include
+        style="@style/FullScreenInclude_DefaultRecyclerView"
+        android:layout_marginTop="50dp"
+        layout="@layout/default_recycler_view"
+        tools:ignore="IncludeLayoutParam" />
+
+
+
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/sendTaskButton"
+        style="@style/ShareTaskButton_UserTaskInbox"/>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

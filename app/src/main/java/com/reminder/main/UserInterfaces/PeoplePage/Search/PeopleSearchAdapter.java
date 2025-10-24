@@ -230,7 +230,7 @@ public class PeopleSearchAdapter extends RecyclerView.Adapter<PeopleSearchAdapte
         enableButtonsAfterClick(currentViewOrButton, currentViewHolder, status, requestType);
         updateRequestDataToSQLite(status, requestType, currentPeopleData);
 
-        refreshCallback.refreshLayout();
+        refreshCallback.refreshLayout(null);
 
     }
 
@@ -239,7 +239,7 @@ public class PeopleSearchAdapter extends RecyclerView.Adapter<PeopleSearchAdapte
         requestData.remove(currentPeopleData.getUserPrimaryId());
         enableButtonsAfterClick(currentViewOrButton, currentViewHolder, (byte) 5, RequestConstants.REQUEST_SENT_BYTE);
         RequestsDB.deleteRequest(context, RequestConstants.REQUEST_TABLE_NAME, currentPeopleData.getUserPrimaryId());
-        refreshCallback.refreshLayout();
+        refreshCallback.refreshLayout(null);
     }
 
     @Override

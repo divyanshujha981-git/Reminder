@@ -26,11 +26,11 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.auth.api.phone.SmsRetriever;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.reminder.main.Other.ApplicationCustomInterfaces;
 import com.reminder.main.R;
+import com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity;
 import com.reminder.main.UserInterfaces.LoginRegisterPage.LoginRegister;
 import com.reminder.main.UserInterfaces.SettingsPage.AccountSettings.EditAccountInfo;
 
@@ -48,7 +48,6 @@ public class VerifyCodeActivity extends AppCompatActivity {
     private CoordinatorLayout circularProgress;
     public static final String OTP = "otp", VERIFICATION_ID = "verificationId", PHONE_NUMBER = "phoneNumber";
     private String phoneNumber, otp, verificationId;
-    private final FirebaseAuth FIREBASE_AUTH =  FirebaseAuth.getInstance();
     private ActivityResultLauncher<Intent> smsConsentLauncher;
     private BroadcastReceiver smsVerificationReceiver;
     private final DecimalFormat numberFormat = new DecimalFormat("00");
@@ -293,7 +292,7 @@ public class VerifyCodeActivity extends AppCompatActivity {
 
 
     public static void signInWithPhoneAuthCredential(PhoneAuthCredential credential, ApplicationCustomInterfaces.CallBack callBack) {
-        FirebaseAuth.getInstance().signInWithCredential(credential)
+        MainActivity.FIREBASE_AUTH.signInWithCredential(credential)
                 .addOnCompleteListener( task -> {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "signInWithCredential:success");

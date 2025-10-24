@@ -5,11 +5,12 @@ import android.widget.LinearLayout;
 import com.google.android.material.card.MaterialCardView;
 import com.reminder.main.SqLite.Request.RequestData;
 import com.reminder.main.SqLite.Tasks.TaskData;
+import com.reminder.main.SqLite.UserDetails.UserDetailsData;
 import com.reminder.main.UserInterfaces.HomePage.Tasks.NavBarDateTemplate;
 import com.reminder.main.UserInterfaces.PeoplePage.MainActivity.PeoplePendingOrAcceptedData;
+import com.reminder.main.UserInterfaces.UserTaskInbox.MainActivity.UserTaskInboxData;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class ApplicationCustomInterfaces {
@@ -52,7 +53,7 @@ public class ApplicationCustomInterfaces {
     }
 
     public interface FilterTask{
-        void setFilterTask(int adapterPosition);
+        void setFilteredTaskToUI(int adapterPosition);
     }
 
 
@@ -68,13 +69,23 @@ public class ApplicationCustomInterfaces {
 
 
 
-    public interface SqlData{
-        void getSQLCursorData(ArrayList<TaskData> taskData);
+    public interface TaskSQLInterface {
+        void setMainTaskData(ArrayList<TaskData> taskData);
         void setUpComingTask(TaskData tasks, int position);
-        void setNavDateView(ArrayList<NavBarDateTemplate> navDateArray);
-        void setFilterDate(ArrayList<ArrayList<TaskData>> navDateArray);
+        void setNavDateTask(ArrayList<NavBarDateTemplate> navDateArray);
+        void setFilteredTask(ArrayList<ArrayList<TaskData>> navDateArray);
+        void setPinnedTaskOnTop(boolean pinTaskOnTop, boolean isPinnedTaskAvailable);
     }
 
+
+    public interface TaskInboxPeopleInterface {
+        void getTaskInboxPeopleData(ArrayList<UserDetailsData> taskInboxPeopleData);
+    }
+
+
+    public interface AccountInterface {
+        void getAccountData(Map<String, Object> accountData);
+    }
 
 
 
@@ -145,7 +156,7 @@ public class ApplicationCustomInterfaces {
     }
 
     public interface RefreshLayout {
-        void refreshLayout();
+        void refreshLayout(Class<?> cls);
     }
 
 
@@ -164,6 +175,11 @@ public class ApplicationCustomInterfaces {
         void setPeoplePendingData(ArrayList<PeoplePendingOrAcceptedData> requestData);
         void setPeopleAcceptedData(ArrayList<PeoplePendingOrAcceptedData> requestData);
         void setPeoplePendingAndAcceptedData(Map<String, RequestData> requestData);
+    }
+
+    public interface TaskInboxInterface {
+        void setTaskSentList(ArrayList<UserTaskInboxData> taskSentList);
+        void setTaskReceivedList(ArrayList<UserTaskInboxData> taskSentList);
     }
 
 }

@@ -1594,7 +1594,7 @@
     <style name="NAME_TEXT_LINEAR_LAYOUT_USER_CARD" parent="">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:text">Divyanshu Jha</item>
+        <item name="android:text">[ Name ]</item>
         <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:ellipsize">end</item>
@@ -1604,7 +1604,7 @@
     <style name="EMAIL_TEXT_LINEAR_LAYOUT_USER_CARD" parent="">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:text">Software engineer</item>
+        <item name="android:text">[ Email ]</item>
         <item name="android:textSize">14sp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
@@ -2276,5 +2276,103 @@
 
 
 
+
+
+
+    <!--             U S E R  T A S K  C A R D  -->
+
+
+    <!-- Root Coordinator -->
+    <style name="Coordinator_TaskEventPage">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <!-- Profile Card (the top header container) -->
+    <style name="ProfileCard_TaskEventPage">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:backgroundTint">@color/windowBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="SetNameText_TaskEventPage" parent="@style/NAME_TEXT_LINEAR_LAYOUT_USER_CARD">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">#DEFFFFFF</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="BackButton_TaskEventPage" parent="@style/TEXT_BUTTON_ICON_ONLY">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="shapeAppearance">@style/RoundShape</item>
+        <item name="icon">@drawable/arrow_back</item>
+    </style>
+
+
+    <!-- LinearLayout inside the card -->
+    <style name="ProfileCardContent_TaskEventPage">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+
+
+
+    <!-- T A S K  S E N T  A N D  R E C E I V E D  C A R D  -->
+    <style name="TaskSentOrReceived_CardView_TaskCard" parent="CardView_TaskCard">
+        <item name="android:layout_height">80dp</item>
+    </style>
+
+
+
+    <!-- T A S K  S E N T  A N D  R E C E I V E D  P A G E  -->
+
+    <!-- Base container for full-screen layouts -->
+    <style name="FullScreenContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <!-- Generic include layout style for full-screen includes -->
+    <style name="FullScreenInclude_DefaultRecyclerView" parent="@style/FullScreenContainer">
+        <!-- You could also add margins, paddings, etc. if needed -->
+    </style>
+
+    <!-- Base style for overlay images -->
+    <style name="FullScreenOverlayImage">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:alpha">0.5</item>
+    </style>
+
+    <!-- Specific style for this screen’s overlay image -->
+    <style name="TaskSentImageStyle" parent="@style/FullScreenOverlayImage">
+        <item name="android:contentDescription">@string/todo</item>
+        <item name="android:src">@drawable/task_upload</item>
+    </style>
+
+
+    <style name="TaskReceivedImageStyle" parent="@style/FullScreenOverlayImage">
+        <item name="android:contentDescription">@string/todo</item>
+        <item name="android:src">@drawable/task_download</item>
+    </style>
+
+
+    <style name="ShareTaskButton_UserTaskInbox" parent="ShapeAppearanceOverlay.Material3.FloatingActionButton">
+        <item name="android:contentDescription">@string/contentDescription_addTask</item>
+        <item name="android:layout_width">56dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:src">@drawable/send_24px</item>
+        <item name="iconGravity">textStart</item>
+        <item name="android:layout_margin">16dp</item>
+    </style>
 
 </resources>

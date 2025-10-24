@@ -262,6 +262,22 @@
 
 
 
+        <activity
+            android:name=".UserInterfaces.UserTaskInbox.MainActivity.UserTaskInbox"
+            android:theme="@style/Theme.UserTaskInbox"
+            android:parentActivityName=".UserInterfaces.HomePage.MainActivity.MainActivity"
+            android:windowSoftInputMode="adjustNothing"/>
+
+
+
+        <activity
+            android:name=".UserInterfaces.SendTaskPage.SendTask"
+            android:theme="@style/Theme.SendTask"
+            android:parentActivityName=".UserInterfaces.UserTaskInbox.MainActivity.UserTaskInbox"
+            android:windowSoftInputMode="adjustNothing"/>
+
+
+
         <receiver
             android:name=".UserInterfaces.NotificationPage.TaskAlarm.BroadCasts.TaskAlertBroadcast"
             android:exported="false" />

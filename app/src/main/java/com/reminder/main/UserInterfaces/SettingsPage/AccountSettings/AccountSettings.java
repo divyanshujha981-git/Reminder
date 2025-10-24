@@ -3,6 +3,7 @@ package com.reminder.main.UserInterfaces.SettingsPage.AccountSettings;
 import static com.reminder.main.Firebase.FirebaseConstants.USER_NAME;
 import static com.reminder.main.Firebase.FirebaseConstants.USER_PROFESSION;
 import static com.reminder.main.Firebase.FirebaseConstants.USER_PROFILE_PIC;
+import static com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity.FIREBASE_AUTH;
 
 import android.content.Context;
 import android.content.Intent;
@@ -46,7 +47,7 @@ import java.util.concurrent.Executors;
 public class AccountSettings extends AppCompatActivity {
 
     private MaterialCardView editProfile;
-    private final FirebaseUser FIREBASE_USER = MainActivity.FIREBASE_AUTH.getCurrentUser();
+    private final FirebaseUser FIREBASE_USER = FIREBASE_AUTH.getCurrentUser();
     private final UserDetailsData userData = new UserDetailsData();
     private TextView setName, setProfession;
 

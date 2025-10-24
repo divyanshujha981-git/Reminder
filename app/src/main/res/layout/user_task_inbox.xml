@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true"
+    style="@style/Coordinator_TaskEventPage">
+
+<!--    <include-->
+<!--        style="@style/FullScreenInclude_DefaultRecyclerView"-->
+<!--        layout="@layout/default_recycler_view" />-->
+
+    <com.google.android.material.appbar.AppBarLayout
+        style="@style/AppBar_TaskEventPage">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            style="@style/Collapsing_AppBar_TaskEventPage">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/viewProfile"
+                style="@style/ProfileCard_TaskEventPage">
+
+                <LinearLayout
+                    style="@style/ProfileCardContent_TaskEventPage">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/backButton"
+                        style="@style/BackButton_TaskEventPage" />
+
+
+                    <include
+                        layout="@layout/profile_pic"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical" />
+
+                    <TextView
+                        android:id="@+id/setName"
+                        style="@style/SetNameText_TaskEventPage" />
+
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            layout="@layout/default_tab_layout" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        style="@style/TaskLinearLayout_TaskEventPage">
+
+        <include
+            style="@style/FullScreenInclude_DefaultRecyclerView"
+            layout="@layout/default_view_pager" />
+
+    </LinearLayout>
+
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/sendTaskButton"
+        style="@style/ShareTaskButton_UserTaskInbox"/>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

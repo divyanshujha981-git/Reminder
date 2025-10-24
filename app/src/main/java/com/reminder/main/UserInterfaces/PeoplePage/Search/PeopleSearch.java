@@ -7,11 +7,9 @@ import static com.reminder.main.Firebase.FirebaseConstants.USER_NAME;
 import static com.reminder.main.Firebase.FirebaseConstants.USER_PHONE_NUMBER;
 import static com.reminder.main.Firebase.FirebaseConstants.USER_PROFESSION;
 import static com.reminder.main.Firebase.FirebaseConstants.USER_PROFILE_PIC;
+import static com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity.FIREBASE_DATABASE;
 
-import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,7 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,24 +31,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.reminder.main.R;
-import com.reminder.main.SqLite.CommonDB.CommonDB;
-import com.reminder.main.SqLite.Request.RequestConstants;
 import com.reminder.main.SqLite.Request.RequestData;
-import com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class PeopleSearch extends Fragment {
     private EditText searchUser;
     private Map<String, RequestData> requestData;
-    private Cursor cursor;
-    private CommonDB commonDB;
     private DatabaseReference ref;
     private RecyclerView recyclerView;
-    private final FirebaseUser FIREBASE_USER = MainActivity.FIREBASE_AUTH.getCurrentUser();
-    private final Handler handler = new Handler(Looper.getMainLooper());
+    private final FirebaseUser FIREBASE_USER = FirebaseAuth.getInstance().getCurrentUser();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,10 +58,9 @@ public class PeopleSearch extends Fragment {
 
 
     private void declare(View view) {
-        commonDB = new CommonDB(requireContext());
         searchUser = view.findViewById(R.id.searchUser);
         recyclerView = view.findViewById(R.id.recycler_view);
-        ref = MainActivity.FIREBASE_DATABASE.getReference(USERS);
+        ref = FIREBASE_DATABASE.getReference(USERS);
     }
 
 
@@ -105,33 +95,6 @@ public class PeopleSearch extends Fragment {
 
     }
 
-
-    private void getRequestData() {
-
-
-
-        new Thread(() -> {
-
-            cursor = commonDB.getReadableDatabase().rawQuery(" SELECT * FROM " + RequestConstants.REQUEST_TABLE_NAME, null);
-            if (cursor.getCount() > 0) {
-                cursor.moveToFirst();
-                do {
-                    RequestData data = new RequestData();
-                    data.setUserPrimaryId(cursor.getString(1));
-                    data.setRequestType((byte) cursor.getInt(2));
-                    data.setStatus((byte) cursor.getInt(3));
-                    requestData.put(data.getUserPrimaryId(), data);
-                }
-                while (cursor.moveToNext());
-            }
-
-            handler.post(() -> searchUser.setEnabled(true));
-
-
-            cursor.close();
-
-        }).start();
-    }
 
 
     public void setPeoplePendingAndAcceptedDataToClass(Map<String, RequestData> requestData) {
@@ -178,23 +141,6 @@ public class PeopleSearch extends Fragment {
 
     }
 
-
-    private void setSearchUser(String text) {
-
-        FirebaseRecyclerOptions<PeopleSearchData> firebaseRecyclerOptions =
-                new FirebaseRecyclerOptions.Builder<PeopleSearchData>()
-                        .setQuery(
-                                ref
-                                        .orderByChild(USER_NAME)
-                                        .startAt(text)
-                                        .endAt(text + "~"),
-                                PeopleSearchData.class
-                        ).build();
-        PeopleSearchFirebaseAdapter searchUserFirebaseAdapter = new PeopleSearchFirebaseAdapter(firebaseRecyclerOptions, requestData);
-        searchUserFirebaseAdapter.startListening();
-        recyclerView.setAdapter(searchUserFirebaseAdapter);
-
-    }
 
 
 }

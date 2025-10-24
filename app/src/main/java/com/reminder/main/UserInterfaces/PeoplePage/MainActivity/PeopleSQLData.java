@@ -76,7 +76,6 @@ public class PeopleSQLData {
     private void startDB() {
         commonDB = new CommonDB(context);
         db = commonDB.getReadableDatabase();
-
     }
 
 
@@ -209,8 +208,6 @@ public class PeopleSQLData {
                 stopDB();
             });
             cursor.close();
-
-
 
         });
     }

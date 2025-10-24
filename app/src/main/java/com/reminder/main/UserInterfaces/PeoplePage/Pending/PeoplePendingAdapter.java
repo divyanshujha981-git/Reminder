@@ -117,7 +117,7 @@ public class PeoplePendingAdapter extends RecyclerView.Adapter<PeoplePendingAdap
     public void requestStatusChangeCallback(byte status, byte requestType) {
 
         updateRequestDataToSQLite(status, requestType, currentPeopleData);
-        refreshCallback.refreshLayout();
+        refreshCallback.refreshLayout(null);
 
     }
 
@@ -126,7 +126,7 @@ public class PeoplePendingAdapter extends RecyclerView.Adapter<PeoplePendingAdap
     public void deleteRequest() {
         Log.d("TAG", "deleteRequest: DLEETED");
         RequestsDB.deleteRequest(context, RequestConstants.REQUEST_TABLE_NAME, currentPeopleData.REQUEST_DATA.getUserPrimaryId());
-        refreshCallback.refreshLayout();
+        refreshCallback.refreshLayout(null);
     }
 
 

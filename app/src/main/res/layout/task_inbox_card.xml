@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout style="@style/PeopleCardContainer"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include layout="@layout/people_card_horizontal"/>
+
+
+</FrameLayout>

@@ -4,19 +4,9 @@ public class TaskStatusData {
 
     private String taskWebId;
     private String comment;
+    private String userPrimaryId;
+    private byte downloaded;
     private byte percentageComplete;
-
-
-    public TaskStatusData() {
-
-    }
-
-    public TaskStatusData(String taskWebId, String comment, byte percentageComplete) {
-        this.taskWebId = taskWebId;
-        this.comment = comment;
-        this.percentageComplete = percentageComplete;
-    }
-
 
 
 
@@ -42,6 +32,24 @@ public class TaskStatusData {
 
     public void setPercentageComplete(byte percentageComplete) {
         this.percentageComplete = percentageComplete;
+    }
+
+
+    public String getUserPrimaryId() {
+        return userPrimaryId;
+    }
+
+
+    public void setUserPrimaryId(String userPrimaryId) {
+        this.userPrimaryId = userPrimaryId;
+    }
+
+    public byte getDownloaded() {
+        return downloaded;
+    }
+
+    public void setDownloaded(byte downloaded) {
+        this.downloaded = downloaded;
     }
 
 

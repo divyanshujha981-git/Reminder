@@ -29,7 +29,7 @@ public class PeoplePending extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.default_recycler_adapter, container, false);
+        return inflater.inflate(R.layout.default_recycler_view, container, false);
     }
 
 

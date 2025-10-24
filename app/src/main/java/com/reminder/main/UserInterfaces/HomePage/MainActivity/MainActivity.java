@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity implements
     private ActionMode actionMode;
     private boolean pinTaskOnTop;
     private NavigationBarView bottomNavigationView;
-    public static final FirebaseAuth FIREBASE_AUTH = FirebaseAuth.getInstance();
-    public static final FirebaseFunctions FIREBASE_FUNCTIONS = FirebaseFunctions.getInstance();
-    public static final FirebaseDatabase FIREBASE_DATABASE = FirebaseDatabase.getInstance();
+    public static FirebaseAuth FIREBASE_AUTH = FirebaseAuth.getInstance();
+    public static FirebaseFunctions FIREBASE_FUNCTIONS = FirebaseFunctions.getInstance();
+    public static FirebaseDatabase FIREBASE_DATABASE = FirebaseDatabase.getInstance();
 
 
 
@@ -76,10 +76,6 @@ public class MainActivity extends AppCompatActivity implements
         declare();
 
         setAction();
-
-        //checkPermissions();
-
-        uiCorrection();
 
     }
 
@@ -99,6 +95,10 @@ public class MainActivity extends AppCompatActivity implements
         Intent intent = new Intent("com.reminder.mini.APP_STARTED");
         intent.setComponent(new ComponentName("com.reminder.mini", "com.reminder.mini.BackgroundWorks.TaskWork.SystemRescheduleTaskAfterAlarmTrigger"));
         sendBroadcast(intent);
+
+        //checkPermissions();
+
+        uiCorrection();
 
     }
 
@@ -153,6 +153,11 @@ public class MainActivity extends AppCompatActivity implements
 
 
     private void setFirebase() {
+
+        FIREBASE_AUTH = FirebaseAuth.getInstance();
+        FIREBASE_FUNCTIONS = FirebaseFunctions.getInstance();
+        FirebaseDatabase FIREBASE_DATABASE = FirebaseDatabase.getInstance();
+
         try {
             FIREBASE_AUTH.useEmulator("10.0.2.2", 9099);
         }
@@ -372,6 +377,7 @@ public class MainActivity extends AppCompatActivity implements
                 public void onDestroyActionMode(ActionMode mode) {
                     if (contextualActionBarCallback != null) contextualActionBarCallback.unSelectAll(true);
                 }
+
             });
 
     }

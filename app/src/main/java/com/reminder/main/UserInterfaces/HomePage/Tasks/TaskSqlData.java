@@ -21,7 +21,7 @@ public class TaskSqlData {
 
     private final SQLiteDatabase database;
     private final CommonDB commonDB;
-    private final ApplicationCustomInterfaces.SqlData sqlData;
+    private final ApplicationCustomInterfaces.TaskSQLInterface taskSqlInterface;
     private final ArrayList<NavBarDateTemplate> navDateArray = new ArrayList<>();
     private final ArrayList<ArrayList<TaskData>> navDateArrayAn = new ArrayList<>();
     private ArrayList<TaskData> childArray;
@@ -35,8 +35,8 @@ public class TaskSqlData {
     boolean pinTaskOnTop;
 
 
-    public TaskSqlData(Context context, ApplicationCustomInterfaces.SqlData sqlData, boolean pinTaskOnTop) {
-        this.sqlData = sqlData;
+    public TaskSqlData(Context context, ApplicationCustomInterfaces.TaskSQLInterface taskSqlInterface, boolean pinTaskOnTop) {
+        this.taskSqlInterface = taskSqlInterface;
         this.commonDB = new CommonDB(context);
         this.context = context;
         this.database = commonDB.getReadableDatabase();
@@ -105,7 +105,7 @@ public class TaskSqlData {
                         data.setRepeatingAlarmDate(cursor.getLong(5));
                         data.setPinned((byte) cursor.getInt(6));
                         data.setAlreadyDone((byte) cursor.getInt(7));
-                        data.setTaskId(cursor.getLong(8));
+                        data.setTaskId(cursor.getString(8));
 
                         calendar.setTimeInMillis(data.getRepeatingAlarmDate());
                         data.setHour((byte) (calendar.get(Calendar.HOUR) == 0 ? 12 : calendar.get(Calendar.HOUR)));
@@ -119,7 +119,7 @@ public class TaskSqlData {
 
                         if (data.getRepeatingAlarmDate() > Calendar.getInstance().getTimeInMillis() && !upcomingAlarmDate) {
                             upcomingAlarmDate = true;
-                            sqlData.setUpComingTask(data, cursor.getPosition());
+                            taskSqlInterface.setUpComingTask(data, cursor.getPosition());
                         }
 
                         dayDateNavArray(cursor.getPosition(), data, calendar);
@@ -138,7 +138,7 @@ public class TaskSqlData {
                         data.setRepeatingAlarmDate(cursor.getLong(5));
                         data.setPinned((byte) cursor.getInt(6));
                         data.setAlreadyDone((byte) cursor.getInt(7));
-                        data.setTaskId(cursor.getLong(8));
+                        data.setTaskId(cursor.getString(8));
 
                         calendar.setTimeInMillis(data.getRepeatingAlarmDate());
                         data.setHour((byte) (calendar.get(Calendar.HOUR) == 0 ? 12 : calendar.get(Calendar.HOUR)));
@@ -152,7 +152,7 @@ public class TaskSqlData {
 
                         if (data.getRepeatingAlarmDate() > Calendar.getInstance().getTimeInMillis() && !upcomingAlarmDate) {
                             upcomingAlarmDate = true;
-                            sqlData.setUpComingTask(data, cursor.getPosition());
+                            taskSqlInterface.setUpComingTask(data, cursor.getPosition());
                         }
 
                         dayDateNavArray(cursor.getPosition(), data, calendar);
@@ -167,11 +167,11 @@ public class TaskSqlData {
             }
 
 
-            if (!upcomingAlarmDate) sqlData.setUpComingTask(null, -1);
+            if (!upcomingAlarmDate) taskSqlInterface.setUpComingTask(null, -1);
 
-            sqlData.getSQLCursorData(taskData);
-            sqlData.setNavDateView(navDateArray);
-            sqlData.setFilterDate(navDateArrayAn);
+            taskSqlInterface.setMainTaskData(taskData);
+            taskSqlInterface.setNavDateTask(navDateArray);
+            taskSqlInterface.setFilteredTask(navDateArrayAn);
 
             commonDB.close();
             database.close();

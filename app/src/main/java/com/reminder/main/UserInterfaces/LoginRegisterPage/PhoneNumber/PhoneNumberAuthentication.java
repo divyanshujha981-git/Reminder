@@ -27,6 +27,7 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.reminder.main.Other.ApplicationCustomInterfaces;
 import com.reminder.main.R;
+import com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -36,7 +37,7 @@ public class PhoneNumberAuthentication extends AppCompatActivity {
     private CoordinatorLayout circularProgress;
     //private TextView autoRetrieveText;
     private AutoCompleteTextView countryCodeAutocomplete;
-    private final FirebaseAuth FIREBASE_AUTH =  FirebaseAuth.getInstance();
+    private final FirebaseAuth FIREBASE_AUTH = MainActivity.FIREBASE_AUTH;
     private TextInputLayout countryCodeLayout, phoneNumberLayout;
     private static PhoneAuthProvider.ForceResendingToken resendingToken;
     private TextInputEditText phoneNumberInput;

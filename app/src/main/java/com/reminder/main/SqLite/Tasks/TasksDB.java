@@ -41,6 +41,7 @@ public class TasksDB {
         commonDB.close();
 
         context.sendBroadcast(new Intent(context, RescheduleTaskAfterAlarmTrigger.class));
+
     }
 
 
@@ -86,7 +87,7 @@ public class TasksDB {
     }
 
 
-    public static void deleteMultipleTask(Context context, ArrayList<Long> taskIDs) {
+    public static void deleteMultipleTask(Context context, ArrayList<String> taskIDs) {
 
         Log.d("TAG", "updateMultipleTask: ** DELETING MULTIPLE TASK **");
 
@@ -96,7 +97,7 @@ public class TasksDB {
         SQLiteDatabase db = commonDB.getWritableDatabase();
         db.beginTransaction();
 
-        for (long taskID: taskIDs) {
+        for (String taskID: taskIDs) {
             db.delete(TaskConstants.TASK_TABLE_NAME, TaskConstants.TASK_ID + "=?", new String[]{taskID+""});
         }
 

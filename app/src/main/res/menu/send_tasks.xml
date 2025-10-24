@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/searchTask"
+        app:showAsAction="ifRoom"
+        android:title="@string/search"
+        android:icon="@drawable/search_24px"/>
+
+    <item android:id="@+id/closeSearch"
+        app:showAsAction="ifRoom"
+        android:title="@string/close"
+        android:visible="false"
+        android:icon="@drawable/close_cross"/>
+
+    <item android:id="@+id/selectAllItem"
+        app:showAsAction="ifRoom"
+        android:title="@string/select_all"
+        android:icon="@drawable/select_all"/>
+
+    <item android:id="@+id/unSelectAllItem"
+        app:showAsAction="ifRoom"
+        android:visible="false"
+        android:title="@string/select_all"
+        android:icon="@drawable/unselect_all"/>
+
+
+
+
+</menu>

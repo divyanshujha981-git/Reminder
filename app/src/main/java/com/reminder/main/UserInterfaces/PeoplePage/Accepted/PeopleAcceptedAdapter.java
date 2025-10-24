@@ -104,13 +104,13 @@ public class PeopleAcceptedAdapter extends RecyclerView.Adapter<PeopleAcceptedAd
     @Override
     public void requestStatusChangeCallback(byte status, byte requestType) {
         updateRequestDataToSQLite(status, requestType, currentPeopleData);
-        refreshCallback.refreshLayout();
+        refreshCallback.refreshLayout(null);
     }
 
     @Override
     public void deleteRequest() {
         RequestsDB.deleteRequest(context, RequestConstants.REQUEST_TABLE_NAME, currentPeopleData.REQUEST_DATA.getUserPrimaryId());
-        refreshCallback.refreshLayout();
+        refreshCallback.refreshLayout(null);
     }
 
     @Override

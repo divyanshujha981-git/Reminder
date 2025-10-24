@@ -34,6 +34,8 @@ import static com.reminder.main.Firebase.FirebaseConstants.USER_PRIMARY_ID_LIST;
 import static com.reminder.main.Firebase.FirebaseConstants.USER_PROFESSION;
 import static com.reminder.main.Firebase.FirebaseConstants.USER_PROFILE_PIC;
 import static com.reminder.main.SqLite.Tasks.TaskConstants.REPEAT_STATUS_NO_REPEAT;
+import static com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity.FIREBASE_AUTH;
+import static com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity.FIREBASE_FUNCTIONS;
 import static com.reminder.main.UserInterfaces.LoginRegisterPage.LoginRegister.SIGN_IN_TYPE_GOOGLE;
 import static com.reminder.main.UserInterfaces.LoginRegisterPage.LoginRegister.SIGN_IN_TYPE_PHONE;
 
@@ -57,6 +59,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -96,10 +99,10 @@ public class EditAccountInfo extends AppCompatActivity {
     private ShapeableImageView setProfilePic;
     private MaterialButton saveButton, cancelButton;
     private final UserDetailsData userDetailsData = new UserDetailsData();
-    private final FirebaseFunctions FIREBASE_FUNCTION = MainActivity.FIREBASE_FUNCTIONS;
+    private final FirebaseFunctions FIREBASE_FUNCTION = FIREBASE_FUNCTIONS;
     private CoordinatorLayout circularProgress;
     private String GET_SIGN_IN_TYPE;
-    private final FirebaseUser FIREBASE_USER = MainActivity.FIREBASE_AUTH.getCurrentUser();
+    private final FirebaseUser FIREBASE_USER = FIREBASE_AUTH.getCurrentUser();
     private AlertDialogueForAll alertDialogueForAll;
     private boolean dataFoundInFirebase = false;
     private final ArrayList<String> userPrimaryIdList = new ArrayList<>();
@@ -598,7 +601,7 @@ public class EditAccountInfo extends AppCompatActivity {
                             TaskConstants.ALREADY_DONE_NO_BYTE,
                             TaskConstants.PINNED_NO,
                             null,
-                            Long.parseLong(taskWebId.split("_")[1]),
+                            taskWebId.split("_")[0],
                             TaskConstants.PRIORITY_NORMAL,
                             taskWebId
                     )

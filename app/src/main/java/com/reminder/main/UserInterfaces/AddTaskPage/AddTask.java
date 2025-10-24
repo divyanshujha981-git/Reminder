@@ -49,7 +49,6 @@ public class AddTask extends AppCompatActivity implements
     private int AM_OR_PM;
     private LinearLayout repeatStatusView;
     private MaterialButton addDateBtn;
-
     public static long rescheduleDateAndTIme(ArrayList<Integer> finalDaysInWeekArray, long givenAlarmDate, int finalRepeatStatus) {
 
         Calendar currentCal = Calendar.getInstance();
@@ -418,7 +417,7 @@ public class AddTask extends AppCompatActivity implements
                         TaskConstants.ALREADY_DONE_NO_BYTE,
                         TaskConstants.PINNED_NO,
                         null,
-                        Calendar.getInstance().getTimeInMillis(),
+                        String.valueOf(Calendar.getInstance().getTimeInMillis()),
                         TaskConstants.PRIORITY_NORMAL,
                         null
                 );

@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.reminder.main.R;
 import com.reminder.main.UserInterfaces.AboutPage.AboutPage;
@@ -21,7 +22,7 @@ import com.reminder.main.UserInterfaces.SettingsPage.TaskSettings.TaskSetting;
 public class SettingsPreferenceFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
 
 
-    private final FirebaseUser FIREBASE_USER = MainActivity.FIREBASE_AUTH.getCurrentUser();
+    private final FirebaseUser FIREBASE_USER = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {

@@ -3,7 +3,7 @@ package com.reminder.main.SqLite.TaskShared;
 public class TaskSharedData {
     private String userPrimaryId;
     private String taskWebID;
-    private boolean downloaded;
+
 
 
 
@@ -33,14 +33,6 @@ public class TaskSharedData {
 
     public void setTaskWebID(String taskWebID) {
         this.taskWebID = taskWebID;
-    }
-
-    public boolean isDownloaded() {
-        return downloaded;
-    }
-
-    public void setDownloaded(boolean downloaded) {
-        this.downloaded = downloaded;
     }
 
     public byte getSharedType() {

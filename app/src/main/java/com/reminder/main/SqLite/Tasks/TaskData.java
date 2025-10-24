@@ -1,5 +1,7 @@
 package com.reminder.main.SqLite.Tasks;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -18,8 +20,11 @@ public class TaskData {
     private int alreadyDone;
     private byte pinned;
     private String userPrimaryId;
-    private long taskId;
+    private String taskId;
     private byte priority;
+    private int year;
+    private byte month;
+    private byte date;
     private byte hour;
     private byte minute;
     private byte amPm;
@@ -30,7 +35,7 @@ public class TaskData {
     public TaskData() {
     }
 
-    public TaskData(byte privateTask, String topic, String description, long alarmDate, byte repeatStatus, String dateArray, long repeatingAlarmDate, long laterAlarmDate, int alreadyDone, byte pinned, String userPrimaryId, long taskId, byte priority, String taskWebId) {
+    public TaskData(byte privateTask, String topic, String description, long alarmDate, byte repeatStatus, String dateArray, long repeatingAlarmDate, long laterAlarmDate, int alreadyDone, byte pinned, String userPrimaryId, String taskId, byte priority, String taskWebId) {
         this.privateTask = privateTask;
         this.topic = topic;
         this.description = description;
@@ -100,7 +105,7 @@ public class TaskData {
         try {
             jsonArray = new JSONArray(this.dateArray);
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.w("TAG", "getDateArray: ", e);
         }
 
         return jsonArray;
@@ -113,19 +118,15 @@ public class TaskData {
     public long getRepeatingAlarmDate() {
         return repeatingAlarmDate;
     }
-
     public void setRepeatingAlarmDate(long repeatingAlarmDate) {
         this.repeatingAlarmDate = repeatingAlarmDate;
     }
-
     public long getLaterAlarmDate() {
         return laterAlarmDate;
     }
-
     public void setLaterAlarmDate(long laterAlarmDate) {
         this.laterAlarmDate = laterAlarmDate;
     }
-
     public int getAlreadyDone() {
         return alreadyDone;
     }
@@ -150,11 +151,11 @@ public class TaskData {
         this.userPrimaryId = userPrimaryId;
     }
 
-    public long getTaskId() {
+    public String getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(long taskId) {
+    public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
 
@@ -197,12 +198,46 @@ public class TaskData {
     public void setTaskWebId(String taskWebId) {
         this.taskWebId = taskWebId;
     }
+
     public void setSelected(boolean isSelected) {
         this.isSelected = isSelected;
     }
+
     public boolean getSelected() {
         return this.isSelected;
     }
+
+    /**
+     * Returns tha day of month ({@link java.util.Calendar#DAY_OF_MONTH})
+     */
+    public byte getDate() {
+        return date;
+    }
+
+
+    public void setDate(byte date) {
+        this.date = date;
+    }
+
+    /**
+    * The starting of this is 0 and end is 11
+    * */
+    public byte getMonth() {
+        return month;
+    }
+
+    public void setMonth(byte month) {
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
 
 }
 

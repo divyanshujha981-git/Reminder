@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout style="@style/RootCoordinator"
+    android:fitsSystemWindows="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        app:navigationIcon="@drawable/arrow_back"
+        app:navigationIconTint="@color/white"
+        app:menu="@menu/send_tasks"
+        app:title="0"
+        android:layout_height="?attr/actionBarSize">
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:animateLayoutChanges="true"
+        style="@style/TaskLinearLayout_TaskEventPage">
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/searchCard"
+        android:visibility="gone"
+        style="@style/SearchCard">
+
+        <View
+            style="@style/SearchIcon"/>
+
+        <EditText
+            android:id="@+id/searchUser"
+            style="@style/SearchInput"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <include
+        style="@style/FullScreenInclude_DefaultRecyclerView"
+        layout="@layout/default_recycler_view" />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/sendTaskButton"
+        style="@style/ShareTaskButton_UserTaskInbox"/>
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

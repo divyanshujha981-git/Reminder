@@ -74,7 +74,7 @@ public class NavBarDateAdapter extends RecyclerView.Adapter<NavBarDateAdapter.Vi
 
 
     private void filterTaskOperation(MaterialCardView view /* CURRENT VIEW TO BE HIGHLIGHTED */, int position, long alarmDate) {
-        filterTask.setFilterTask(position);
+        filterTask.setFilteredTaskToUI(position);
         //currentHighlightView = view;
         viewHighlightMain(view, HIGHLIGHT);
         if (previousHighlightView != null && previousAlarmTime != -1) {

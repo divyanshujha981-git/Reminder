@@ -105,7 +105,7 @@ public class PinnedTask extends AppCompatActivity implements
                 data.setLaterAlarmDate(cursor.getLong(8));
                 data.setPinned((byte) cursor.getInt(9));
                 data.setAlreadyDone((byte) cursor.getInt(10));
-                data.setTaskId(cursor.getLong(11));
+                data.setTaskId(cursor.getString(11));
 
                 calendar.setTimeInMillis(data.getRepeatingAlarmDate());
                 data.setHour((byte) (calendar.get(Calendar.HOUR) == 0 ? 12 : calendar.get(Calendar.HOUR)));
@@ -221,8 +221,10 @@ public class PinnedTask extends AppCompatActivity implements
     }
 
 
+
     @Override
-    public void refreshLayout() {
+    public void refreshLayout(Class<?> cls) {
         getSqlData();
     }
+
 }

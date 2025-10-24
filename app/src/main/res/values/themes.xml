@@ -47,6 +47,32 @@
 
 
 
+    <style name="Theme.UserTaskInbox" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+
+        <item name="actionModeStyle">@style/Widget.App.ActionMode</item>
+        <item name="actionBarTheme">@style/ACTION_BAR_THEME</item>
+        <item name="actionBarStyle">@style/ACTION_BAR_STYLE</item>
+        <!-- Primary brand color. -->
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="colorPrimary">@color/blue_violet</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/blue_violet</item>
+        <item name="colorSecondaryVariant">@color/blue_violet</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/windowBackground</item>
+        <item name="android:navigationBarColor">@color/windowBackground</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <!-- Customize your theme here. -->
+
+    </style>
+
+
+
 
     <style name="PEOPLE_ACTION_BAR_THEME" parent="ACTION_BAR_THEME">
         <item name="title">@string/people</item>
@@ -58,6 +84,32 @@
         <item name="actionBarStyle">@style/ACTION_BAR_STYLE</item>
         <item name="materialSearchBarStyle">@style/Widget.Material3.SearchBar</item>
         <item name="searchViewStyle">@style/Widget.Material3.SearchView</item>
+    </style>
+
+
+    <style name="SEND_TASK_ACTION_BAR_THEME" parent="ACTION_BAR_THEME">
+        <item name="title">Select</item>
+        <item name="android:textColorPrimary">@color/windowBackgroundInverse</item>
+    </style>
+
+    <style name="Theme.SendTask" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="actionModeStyle">@style/Widget.App.ActionMode</item>
+        <item name="actionBarTheme">@style/ACTION_BAR_THEME</item>
+        <item name="actionBarStyle">@style/ACTION_BAR_STYLE</item>
+        <!-- Primary brand color. -->
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="colorPrimary">@color/blue_violet</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/blue_violet</item>
+        <item name="colorSecondaryVariant">@color/blue_violet</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/windowBackground</item>
+        <item name="android:navigationBarColor">@color/windowBackground</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
 

@@ -57,7 +57,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
     private Typeface typeface;
     private final DecimalFormat minuteFormat = new DecimalFormat("00");
     private boolean longClickSelected = false;
-    private ArrayList<Long> itemsSelectedIDs = new ArrayList<>();
+    private ArrayList<String> itemsSelectedIDs = new ArrayList<String>();
     private ArrayList<Integer> itemsSelectedIndex = new ArrayList<>();
 
     private final int
@@ -74,8 +74,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
     public TasksAdapter(
             ArrayList<TaskData> list,
             Context mainActivityContext,
-            ApplicationCustomInterfaces.RefreshLayout refreshLayout
-    ) {
+            ApplicationCustomInterfaces.RefreshLayout refreshLayout) {
         this.taskList = list;
         contextualActionBar = (ApplicationCustomInterfaces.ContextualActionBar) mainActivityContext;
         this.refreshLayout = refreshLayout;
@@ -221,7 +220,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
 
 
-    private void startSelection(long taskID, MaterialCardView view, int index) {
+    private void startSelection(String taskID, MaterialCardView view, int index) {
 
         if (itemsSelectedIDs.contains(taskID)) {
             itemsSelectedIDs.remove(taskID);
@@ -342,7 +341,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
         itemsSelectedIndex.clear();
         itemsSelectedIDs.clear();
-        refreshLayout.refreshLayout();
+        refreshLayout.refreshLayout(TasksAdapter.class);
 
     }
 
@@ -368,7 +367,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         itemsSelectedIndex.clear();
         itemsSelectedIDs.clear();
 
-        refreshLayout.refreshLayout();
+        refreshLayout.refreshLayout(TasksAdapter.class);
     }
 
     @Override
@@ -393,7 +392,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         itemsSelectedIndex.clear();
         itemsSelectedIDs.clear();
 
-        refreshLayout.refreshLayout();
+        refreshLayout.refreshLayout(TasksAdapter.class);
 
     }
 
@@ -418,7 +417,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
         itemsSelectedIndex.clear();
         itemsSelectedIDs.clear();
-        refreshLayout.refreshLayout();
+        refreshLayout.refreshLayout(TasksAdapter.class);
 
     }
 
@@ -447,7 +446,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         itemsSelectedIndex.clear();
         itemsSelectedIDs.clear();
         TasksDB.updateMultipleTask(context, values);
-        refreshLayout.refreshLayout();
+        refreshLayout.refreshLayout(TasksAdapter.class);
     }
 
     @Override
@@ -473,7 +472,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         itemsSelectedIndex.clear();
         itemsSelectedIDs.clear();
 
-        refreshLayout.refreshLayout();
+        refreshLayout.refreshLayout(TasksAdapter.class);
 
     }
 
@@ -500,7 +499,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
         itemsSelectedIndex.clear();
         itemsSelectedIDs.clear();
-        refreshLayout.refreshLayout();
+        refreshLayout.refreshLayout(TasksAdapter.class);
 
     }
 

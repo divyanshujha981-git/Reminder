@@ -146,7 +146,7 @@ public class PeoplePagerAdapter extends FragmentStateAdapter implements
 
 
     @Override
-    public void refreshLayout() {
+    public void refreshLayout(Class<?> cls) {
         Log.d("TAG", "refreshLayout: ");
         peopleSQLData.getPeopleData();
     }
