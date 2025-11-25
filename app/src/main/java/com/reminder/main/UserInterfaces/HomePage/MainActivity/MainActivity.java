@@ -38,7 +38,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.reminder.main.BackgroundWorks.CheckNotificationService;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.BackgroundWorks.FirebaseWork.SyncFirebaseData;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.Tasks.TaskConstants;
 import com.reminder.main.SqLite.Tasks.TaskData;
@@ -52,10 +53,10 @@ import com.reminder.main.UserInterfaces.SettingsPage.AllSettings.SettingsPage;
 
 
 public class MainActivity extends AppCompatActivity implements
-        ApplicationCustomInterfaces.NestedScroll,
+        CustomInterfaces.NestedScroll,
         NavigationBarView.OnItemSelectedListener,
-        ApplicationCustomInterfaces.BottomNavItemCheck,
-        ApplicationCustomInterfaces.ContextualActionBar {
+        CustomInterfaces.BottomNavItemCheck,
+        CustomInterfaces.ContextualActionBar {
 
 
     private ViewPager2 viewPager2;
@@ -87,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements
 
     private void setAction() {
 
+        startService(new Intent(this, SyncFirebaseData.class));
+
         viewPager2.setAdapter(new MainPagePagerAdapter(this));
         bottomNavigationView.setOnItemSelectedListener(MainActivity.this);
 
@@ -113,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         setFirebase();
+        //setFirebaseForPhysicalDevice();
         viewPager2.setAdapter(new MainPagePagerAdapter(this));
     }
 
@@ -156,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements
 
         FIREBASE_AUTH = FirebaseAuth.getInstance();
         FIREBASE_FUNCTIONS = FirebaseFunctions.getInstance();
-        FirebaseDatabase FIREBASE_DATABASE = FirebaseDatabase.getInstance();
 
         try {
             FIREBASE_AUTH.useEmulator("10.0.2.2", 9099);
@@ -174,6 +177,40 @@ public class MainActivity extends AppCompatActivity implements
 
         try {
             FIREBASE_DATABASE.useEmulator("10.0.2.2", 9000);
+        }
+        catch (IllegalStateException e) {
+            Log.e("TAG", "setFirebase: ** FIREBASE_DATABASE **", e);
+        }
+
+        if (FIREBASE_AUTH.getCurrentUser() != null && !userFoundInSQLite(this)) {
+            startActivity(new Intent(this, EditAccountInfo.class));
+        }
+
+    }
+
+
+    private void setFirebaseForPhysicalDevice() {
+
+        FIREBASE_AUTH = FirebaseAuth.getInstance();
+        FIREBASE_FUNCTIONS = FirebaseFunctions.getInstance();
+        FIREBASE_DATABASE = FirebaseDatabase.getInstance();
+
+        try {
+            FIREBASE_AUTH.useEmulator("192.168.105.118", 9099);
+        }
+        catch (IllegalStateException e) {
+            Log.e("TAG", "setFirebase: ** FIREBASE_AUTH **", e);
+        }
+
+        try {
+            FIREBASE_FUNCTIONS.useEmulator("192.168.105.118", 5001);
+        }
+        catch (IllegalStateException e) {
+            Log.e("TAG", "setFirebase: ** FIREBASE_FUNCTIONS **", e);
+        }
+
+        try {
+            FIREBASE_DATABASE.useEmulator("192.168.105.118", 9000);
         }
         catch (IllegalStateException e) {
             Log.e("TAG", "setFirebase: ** FIREBASE_DATABASE **", e);
@@ -312,7 +349,7 @@ public class MainActivity extends AppCompatActivity implements
 
 
     @Override
-    public void setContextualActionBarVisible(ApplicationCustomInterfaces.ContextualActionBarCallback contextualActionBarCallback, ApplicationCustomInterfaces.ManipulateTask manipulateTask) {
+    public void setContextualActionBarVisible(CustomInterfaces.ContextualActionBarCallback contextualActionBarCallback, CustomInterfaces.ManipulateTask manipulateTask) {
 
         actionMode = startSupportActionMode(new ActionMode.Callback() {
                 @Override

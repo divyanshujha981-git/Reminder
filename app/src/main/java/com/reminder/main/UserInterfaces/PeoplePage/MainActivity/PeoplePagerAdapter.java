@@ -22,7 +22,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.google.gson.Gson;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.SqLite.Request.RequestData;
 import com.reminder.main.UserInterfaces.PeoplePage.Accepted.PeopleAccepted;
 import com.reminder.main.UserInterfaces.PeoplePage.Pending.PeoplePending;
@@ -34,8 +34,8 @@ import java.util.Map;
 
 
 public class PeoplePagerAdapter extends FragmentStateAdapter implements
-        ApplicationCustomInterfaces.PeopleData,
-        ApplicationCustomInterfaces.RefreshLayout {
+        CustomInterfaces.PeopleData,
+        CustomInterfaces.RefreshLayout {
     private final PeoplePending peoplePending = new PeoplePending();
     private final PeopleAccepted peopleAccepted = new PeopleAccepted();
     private final PeopleSearch peopleSearch = new PeopleSearch();
@@ -90,7 +90,7 @@ public class PeoplePagerAdapter extends FragmentStateAdapter implements
      * @param statusChangeTo pass false if you want to delete the request, else pass true
      * @param requestStatusChangeCallback callback
      */
-    public static void updateRequestStatus(String userPrimaryId, boolean statusChangeTo, ApplicationCustomInterfaces.RequestStatusChangeCallback requestStatusChangeCallback) {
+    public static void updateRequestStatus(String userPrimaryId, boolean statusChangeTo, CustomInterfaces.RequestStatusChangeCallback requestStatusChangeCallback) {
 
         Map<String, Object> map = new HashMap<>();
         map.put(USER_PRIMARY_ID, userPrimaryId);

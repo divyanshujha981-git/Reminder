@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 
 import java.util.ArrayList;
@@ -27,18 +27,18 @@ public class NavBarDateAdapter extends RecyclerView.Adapter<NavBarDateAdapter.Vi
 
     private final Calendar calendar = Calendar.getInstance();
     private final ArrayList<NavBarDateTemplate> dateArray;
-    private final ApplicationCustomInterfaces.FilterTask filterTask;
+    private final CustomInterfaces.FilterTask filterTask;
     private String[] monthOfYear, dayInWeek;
     private Resources resources;
     private MaterialCardView previousHighlightView;
     private long previousAlarmTime = -1;
     private final Calendar conCalendar = Calendar.getInstance();
     private boolean shouldSetCursor = false;
-    private final ApplicationCustomInterfaces.SetCursorAt setCursorAt;
+    private final CustomInterfaces.SetCursorAt setCursorAt;
 
 
 
-    public NavBarDateAdapter(ArrayList<NavBarDateTemplate> dateArray, ApplicationCustomInterfaces.FilterTask filterTask, ApplicationCustomInterfaces.SetCursorAt setCursorAt) {
+    public NavBarDateAdapter(ArrayList<NavBarDateTemplate> dateArray, CustomInterfaces.FilterTask filterTask, CustomInterfaces.SetCursorAt setCursorAt) {
         this.dateArray = dateArray;
         this.filterTask = filterTask;
         this.setCursorAt = setCursorAt;

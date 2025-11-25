@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.Tasks.TaskConstants;
 import com.reminder.main.UserInterfaces.PrivatePage.PrivatePages;
@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-public class Ppp extends AppCompatActivity implements ApplicationCustomInterfaces.AllowUserToNavigate {
+public class Ppp extends AppCompatActivity implements CustomInterfaces.AllowUserToNavigate {
     private Pattern pattern;
     private Pin pin;
     private Password password;

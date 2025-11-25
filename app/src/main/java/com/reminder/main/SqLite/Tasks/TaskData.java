@@ -29,6 +29,7 @@ public class TaskData {
     private byte minute;
     private byte amPm;
     private String taskWebId;
+    private long taskAddedTime;
     private boolean isSelected = false;
 
 
@@ -157,6 +158,7 @@ public class TaskData {
 
     public void setTaskId(String taskId) {
         this.taskId = taskId;
+        setTaskAddedTime(Long.parseLong(taskId.split("-")[0]));
     }
 
     public byte getPriority() {
@@ -236,6 +238,18 @@ public class TaskData {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public long getTaskAddedTime() {
+        return taskAddedTime;
+    }
+
+    public void setTaskAddedTime(long taskAddedTime) {
+        this.taskAddedTime = taskAddedTime;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
     }
 
 

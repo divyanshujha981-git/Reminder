@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.UserInterfaces.SettingsPage.LockSettings.LockSettings;
 
@@ -23,7 +23,7 @@ public class Password extends Fragment implements TextWatcher {
     private final String key;
     private EditText passwordView;
     private TextView passwordText, errorText, reText;
-    private ApplicationCustomInterfaces.AllowUserToNavigate allowUserToNavigate;
+    private CustomInterfaces.AllowUserToNavigate allowUserToNavigate;
 
 
     public Password(String key) {
@@ -41,7 +41,7 @@ public class Password extends Fragment implements TextWatcher {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        allowUserToNavigate = (ApplicationCustomInterfaces.AllowUserToNavigate) requireContext();
+        allowUserToNavigate = (CustomInterfaces.AllowUserToNavigate) requireContext();
 
         passwordView = view.findViewById(R.id.passLockView);
 

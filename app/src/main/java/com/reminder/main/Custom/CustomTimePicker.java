@@ -1,17 +1,16 @@
-package com.reminder.main.UserInterfaces.Global;
+package com.reminder.main.Custom;
 
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.timepicker.MaterialTimePicker;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
 
 import java.util.Calendar;
 
-public class TimePickerClass {
+public class CustomTimePicker {
     private int[] time = null;
     private final FragmentManager fragmentManager;
 
-    public TimePickerClass(FragmentManager fragmentManager, ApplicationCustomInterfaces.DateTime dateTime) {
+    public CustomTimePicker(FragmentManager fragmentManager, CustomInterfaces.DateTime dateTime) {
         this.fragmentManager = fragmentManager;
 
         materialTimePicker.addOnPositiveButtonClickListener(v -> {

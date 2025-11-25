@@ -47,6 +47,8 @@
     <string name="post_notification_for_completed_task">pnfct</string>
     <string name="user_data_found_in_sqlite">user_data_found_in_sqlite</string>
     <string name="currently_scheduled_task_request_code">Currently scheduled task request code</string>
+    <string name="generate_task_id">%1$s-%2$s</string> <!-- [CalendarTimeInMillis]+-+[DEVICE_SPECIFIC_ID] -->
+    <string name="generate_task_web_id">%1$s-%2$s</string> <!-- [pre-stored TASK_ID]+-+[FIREBASE_UID] -->
 
 
     <string name="about_page_about_text_1">Reminder is your personal assistant for staying organized and on track. Whether you\'re managing a hectic workload, juggling school assignments, or balancing life and love, Reminder simplifies task management and ensures you never miss a beat.</string>

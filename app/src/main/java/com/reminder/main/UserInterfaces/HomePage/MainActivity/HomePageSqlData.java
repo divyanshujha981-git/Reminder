@@ -4,6 +4,11 @@ import static com.reminder.main.SqLite.Request.RequestConstants.REQUEST_TABLE_NA
 import static com.reminder.main.SqLite.Request.RequestConstants.STATUS;
 import static com.reminder.main.SqLite.Request.RequestConstants.STATUS_ACCEPTED_BYTE;
 import static com.reminder.main.SqLite.Request.RequestConstants.USER_PRIMARY_ID;
+import static com.reminder.main.SqLite.TaskShared.TaskSharedConstants.TASK_RECEIVED_TABLE_NAME;
+import static com.reminder.main.SqLite.TaskShared.TaskSharedConstants.TASK_WEB_ID;
+import static com.reminder.main.SqLite.TaskStatus.TaskStatusConstants.DOWNLOADED;
+import static com.reminder.main.SqLite.TaskStatus.TaskStatusConstants.DOWNLOADED_YES_BYTE;
+import static com.reminder.main.SqLite.TaskStatus.TaskStatusConstants.TASK_STATUS_TABLE_NAME;
 import static com.reminder.main.SqLite.Tasks.TaskConstants.PINNED_YES;
 import static com.reminder.main.SqLite.UserDetails.UserDetailsConstant.USER_DETAILS_TABLE_NAME;
 import static com.reminder.main.SqLite.UserDetails.UserDetailsConstant.USER_EMAIL;
@@ -22,7 +27,7 @@ import android.util.Log;
 
 import androidx.preference.PreferenceManager;
 
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.CommonDB.CommonDB;
 import com.reminder.main.SqLite.TaskShared.TaskSharedConstants;
@@ -41,9 +46,9 @@ public class HomePageSqlData {
 
     private SQLiteDatabase db;
     private CommonDB commonDB;
-    private final ApplicationCustomInterfaces.TaskSQLInterface taskSqlInterface;
-    private final ApplicationCustomInterfaces.TaskInboxPeopleInterface taskInboxPeopleInterface;
-    private final ApplicationCustomInterfaces.AccountInterface accountInterface;
+    private final CustomInterfaces.TaskSQLInterface taskSqlInterface;
+    private final CustomInterfaces.TaskInboxPeopleInterface taskInboxPeopleInterface;
+    private final CustomInterfaces.AccountInterface accountInterface;
     private final ArrayList<NavBarDateTemplate> navDateArray = new ArrayList<>();
     private final ArrayList<ArrayList<TaskData>> navDateArrayAn = new ArrayList<>();
     private ArrayList<TaskData> childArray;
@@ -71,24 +76,24 @@ public class HomePageSqlData {
 
         Thread thread1 = getPinnedTaskData();
         Thread thread2 = getTaskData(userSignedIn);
-        Thread thread3 = getTaskInboxData();
-        Thread thread4 = getAccountData();
 
         thread1.start();
+        try {
+            thread1.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        thread2.start();
+        try {
+            thread2.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         if (userSignedIn) {
-            try {
-                thread1.join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            thread2.start();
-            try {
-                thread2.join();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            Thread thread3 = getTaskInboxData();
+            Thread thread4 = getAccountData();
 
             thread3.start();
             try {
@@ -119,19 +124,19 @@ public class HomePageSqlData {
 
             pinTaskOnTop = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.pinTaskOnTop), true);
 
-            Cursor cursor = commonDB.getReadableDatabase().rawQuery("SELECT COUNT(*) FROM " + TaskConstants.TASK_TABLE_NAME + " WHERE " + TaskConstants.PINNED + "=" + PINNED_YES, null);
+            Cursor cursor = db.rawQuery(" SELECT COUNT(*) FROM " + TaskConstants.TASK_TABLE_NAME + " WHERE " + TaskConstants.PINNED + "=" + PINNED_YES, null);
             cursor.moveToFirst();
 
-            handler.post(() -> taskSqlInterface.setPinnedTaskOnTop(pinTaskOnTop, cursor.getCount() > 0));
-            cursor.close();
-
+            handler.post(() -> {
+                taskSqlInterface.setPinnedTaskOnTop(pinTaskOnTop, cursor.getInt(0) > 0);
+                cursor.close();
+            });
 
 
         });
 
 
     }
-
 
 
     private Thread getTaskData(boolean userSignedIn) {
@@ -147,26 +152,43 @@ public class HomePageSqlData {
                 taskCursor = db.rawQuery(
                         "SELECT " +
 
-                                TaskConstants.PRIVATE + ", " + // 0
-                                TaskConstants.TOPIC + ", " + // 1
-                                TaskConstants.PRIORITY + ", " + // 2
-                                TaskConstants.REPEAT_STATUS + ", " + // 3
-                                TaskConstants.DATE_ARRAY + ", " + // 4
-                                TaskConstants.REPEATING_ALARM_DATE + ", " + // 5
-                                TaskConstants.PINNED + ", " + // 6
-                                TaskConstants.ALREADY_DONE + ", " + // 7
-                                TaskConstants.TASK_ID + ", " +  // 8
-                                TaskConstants.ID + ", " +  // 9
-                                TaskConstants.ALARM_DATE + ", " +  // 10
-                                TaskConstants.TASK_WEB_ID +  // 11
+                                " tasks."+TaskConstants.PRIVATE + ", " +      // 0
+                                " tasks."+TaskConstants.TOPIC + ", " +        // 1
+                                " tasks."+TaskConstants.PRIORITY + ", " +     // 2
+                                " tasks."+TaskConstants.REPEAT_STATUS + ", " +// 3
+                                " tasks."+TaskConstants.DATE_ARRAY + ", " +   // 4
+                                " tasks."+TaskConstants.REPEATING_ALARM_DATE + ", " + // 5
+                                " tasks."+TaskConstants.PINNED + ", " +       // 6
+                                " tasks."+TaskConstants.ALREADY_DONE + ", " + // 7
+                                " tasks."+TaskConstants.TASK_ID + ", " +      // 8
+                                " tasks."+TaskConstants.ID + ", " +           // 9
+                                " tasks."+TaskConstants.ALARM_DATE + ", " +   // 10
+                                " tasks."+TaskConstants.TASK_WEB_ID + ", " +  // 11
+                                " COALESCE(taskStatus."+DOWNLOADED+", "+ DOWNLOADED_YES_BYTE +") AS " + DOWNLOADED + // <— DEFAULT VALUE ADDED
 
-                                " FROM " + TaskConstants.TASK_TABLE_NAME +
-                                " WHERE " + TaskConstants.PRIVATE + " != " + TaskConstants.PRIVATE_YES
+                                " FROM " + TaskConstants.TASK_TABLE_NAME + " as tasks " +
+
+                                " LEFT JOIN (" +
+                                    " SELECT " +
+                                        " taskReceived."+TASK_WEB_ID + ", " +
+                                        " COALESCE(ts."+DOWNLOADED+", 1) AS "+DOWNLOADED + // <— DEFAULT INSIDE SUBQUERY ALSO
+                                    " FROM " + TASK_RECEIVED_TABLE_NAME + " as taskReceived " +
+                                    " LEFT JOIN " + TASK_STATUS_TABLE_NAME + " as ts " +
+                                    " ON taskReceived."+TASK_WEB_ID+" = ts."+TASK_WEB_ID +  // <-- missing join condition fixed
+                                    " GROUP BY taskReceived."+TASK_WEB_ID +
+                                ") as taskStatus " +
+
+                                " ON tasks." + TASK_WEB_ID + " = taskStatus." + TASK_WEB_ID +
+
+                                " WHERE " +
+                                " COALESCE(taskStatus."+DOWNLOADED+", "+DOWNLOADED_YES_BYTE+") = " + DOWNLOADED_YES_BYTE +
+                                " AND " +
+                                "tasks." + TaskConstants.PRIVATE + " != " + TaskConstants.PRIVATE_YES
                                 +
                                 (
-                                        PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context.getString(R.string.removeTask)/*"rmvTask"*/, false)
+                                        PreferenceManager.getDefaultSharedPreferences(context).getBoolean("rmvTask", false)
                                                 ?
-                                                " AND " + TaskConstants.ALREADY_DONE + " != " + TaskConstants.ALREADY_DONE_YES_BYTE
+                                                " AND tasks." + TaskConstants.ALREADY_DONE + " != " + TaskConstants.ALREADY_DONE_YES_BYTE
                                                 :
                                                 ""
                                 )
@@ -174,13 +196,16 @@ public class HomePageSqlData {
                                 (
                                         pinTaskOnTop
                                                 ?
-                                                " AND " + TaskConstants.PINNED + " = " + TaskConstants.PINNED_NO
+                                                " AND tasks." + TaskConstants.PINNED + " = " + TaskConstants.PINNED_NO
                                                 :
                                                 ""
                                 )
                                 +
-                                " ORDER BY " + TaskConstants.REPEATING_ALARM_DATE, null);
-            } catch (SQLiteException e) {
+                                " ORDER BY tasks." + TaskConstants.REPEATING_ALARM_DATE
+                        , null);
+
+            }
+            catch (SQLiteException e) {
                 Log.e("TAG", "getSQLData: " + e );
             }
 
@@ -426,26 +451,43 @@ public class HomePageSqlData {
             taskCursor = db.rawQuery(
                     "SELECT " +
 
-                            TaskConstants.PRIVATE + ", " + // 0
-                            TaskConstants.TOPIC + ", " + // 1
-                            TaskConstants.PRIORITY + ", " + // 2
-                            TaskConstants.REPEAT_STATUS + ", " + // 3
-                            TaskConstants.DATE_ARRAY + ", " + // 4
-                            TaskConstants.REPEATING_ALARM_DATE + ", " + // 5
-                            TaskConstants.PINNED + ", " + // 6
-                            TaskConstants.ALREADY_DONE + ", " + // 7
-                            TaskConstants.TASK_ID + ", " +  // 8
-                            TaskConstants.ID + ", " +  // 9
-                            TaskConstants.ALARM_DATE + ", " +  // 10
-                            TaskConstants.TASK_WEB_ID +  // 11
+                            " tasks."+TaskConstants.PRIVATE + ", " +      // 0
+                            " tasks."+TaskConstants.TOPIC + ", " +        // 1
+                            " tasks."+TaskConstants.PRIORITY + ", " +     // 2
+                            " tasks."+TaskConstants.REPEAT_STATUS + ", " +// 3
+                            " tasks."+TaskConstants.DATE_ARRAY + ", " +   // 4
+                            " tasks."+TaskConstants.REPEATING_ALARM_DATE + ", " + // 5
+                            " tasks."+TaskConstants.PINNED + ", " +       // 6
+                            " tasks."+TaskConstants.ALREADY_DONE + ", " + // 7
+                            " tasks."+TaskConstants.TASK_ID + ", " +      // 8
+                            " tasks."+TaskConstants.ID + ", " +           // 9
+                            " tasks."+TaskConstants.ALARM_DATE + ", " +   // 10
+                            " tasks."+TaskConstants.TASK_WEB_ID + ", " +  // 11
+                            " COALESCE(taskStatus."+DOWNLOADED+", "+ DOWNLOADED_YES_BYTE +") AS " + DOWNLOADED + // <— DEFAULT VALUE ADDED
 
-                            " FROM " + TaskConstants.TASK_TABLE_NAME +
-                            " WHERE " + TaskConstants.PRIVATE + " != " + TaskConstants.PRIVATE_YES
+                            " FROM " + TaskConstants.TASK_TABLE_NAME + " as tasks " +
+
+                            " LEFT JOIN (" +
+                            " SELECT " +
+                            " taskReceived."+TASK_WEB_ID + ", " +
+                            " COALESCE(ts."+DOWNLOADED+", 1) AS "+DOWNLOADED + // <— DEFAULT INSIDE SUBQUERY ALSO
+                            " FROM " + TASK_RECEIVED_TABLE_NAME + " as taskReceived " +
+                            " LEFT JOIN " + TASK_STATUS_TABLE_NAME + " as ts " +
+                            " ON taskReceived."+TASK_WEB_ID+" = ts."+TASK_WEB_ID +  // <-- missing join condition fixed
+                            " GROUP BY taskReceived."+TASK_WEB_ID +
+                            ") as taskStatus " +
+
+                            " ON tasks." + TASK_WEB_ID + " = taskStatus." + TASK_WEB_ID +
+
+                            " WHERE " +
+                            " COALESCE(taskStatus."+DOWNLOADED+", "+DOWNLOADED_YES_BYTE+") = " + DOWNLOADED_YES_BYTE +
+                            " AND " +
+                            "tasks." + TaskConstants.PRIVATE + " != " + TaskConstants.PRIVATE_YES
                             +
                             (
                                     PreferenceManager.getDefaultSharedPreferences(context).getBoolean("rmvTask", false)
                                             ?
-                                            " AND " + TaskConstants.ALREADY_DONE + " != " + TaskConstants.ALREADY_DONE_YES_BYTE
+                                            " AND tasks." + TaskConstants.ALREADY_DONE + " != " + TaskConstants.ALREADY_DONE_YES_BYTE
                                             :
                                             ""
                             )
@@ -453,13 +495,16 @@ public class HomePageSqlData {
                             (
                                     pinTaskOnTop
                                             ?
-                                            " AND " + TaskConstants.PINNED + " = " + TaskConstants.PINNED_NO
+                                            " AND tasks." + TaskConstants.PINNED + " = " + TaskConstants.PINNED_NO
                                             :
                                             ""
                             )
                             +
-                            " ORDER BY " + TaskConstants.REPEATING_ALARM_DATE, null);
-        } catch (SQLiteException e) {
+                            " ORDER BY tasks." + TaskConstants.REPEATING_ALARM_DATE
+                    , null);
+
+        }
+        catch (SQLiteException e) {
             Log.e("TAG", "getSQLData: " + e );
         }
 

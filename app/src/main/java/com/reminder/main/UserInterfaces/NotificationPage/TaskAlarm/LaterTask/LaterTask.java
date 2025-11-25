@@ -16,7 +16,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.reminder.main.BackgroundWorks.TaskWork.RescheduleTaskAfterAlarmTrigger;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.Tasks.TaskConstants;
 import com.reminder.main.SqLite.Tasks.TasksDB;
@@ -25,15 +25,15 @@ import com.reminder.main.UserInterfaces.NotificationPage.TaskAlarm.BroadCasts.Ta
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
-public class LaterTask extends AppCompatActivity implements ApplicationCustomInterfaces.DateTime2 {
+public class LaterTask extends AppCompatActivity implements CustomInterfaces.DateTime2 {
     private final DecimalFormat format = new DecimalFormat("00");
-    private ApplicationCustomInterfaces.EnableDateTimePicker datePickerContext;
+    private CustomInterfaces.EnableDateTimePicker datePickerContext;
     private ViewPager2 dateTimeView;
     private TabLayout dateTimeTab;
     private TextView setDate;
     private Drawable dateIcon, timeIcon;
     private TextView setTime;
-    private ApplicationCustomInterfaces.EnableDateTimePicker timePickerContext;
+    private CustomInterfaces.EnableDateTimePicker timePickerContext;
     private Calendar finalCalendar = Calendar.getInstance();
 
 
@@ -118,7 +118,7 @@ public class LaterTask extends AppCompatActivity implements ApplicationCustomInt
 
 
     @Override
-    public void setTime(int[] timeArr, byte amPm, ApplicationCustomInterfaces.EnableDateTimePicker context) {
+    public void setTime(int[] timeArr, byte amPm, CustomInterfaces.EnableDateTimePicker context) {
         if (context != null) {
             this.timePickerContext = context;
             this.timePickerContext.enable(false, 0L);
@@ -132,7 +132,7 @@ public class LaterTask extends AppCompatActivity implements ApplicationCustomInt
 
 
     @Override
-    public void setDate(int[] dateArr, ApplicationCustomInterfaces.EnableDateTimePicker context) {
+    public void setDate(int[] dateArr, CustomInterfaces.EnableDateTimePicker context) {
         if (context != null) {
             this.datePickerContext = context;
             this.datePickerContext.enable(false, 0L);

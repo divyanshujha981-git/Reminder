@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.reminder.main.R;
-import com.reminder.main.UserInterfaces.UserTaskInbox.TaskReceived.TaskInboxReceivedAdapter;
 import com.reminder.main.UserInterfaces.UserTaskInbox.MainActivity.UserTaskInboxData;
 
 import java.util.ArrayList;
@@ -69,6 +68,7 @@ public class TaskSent extends Fragment {
 
 
     public void setTaskSentToClass(ArrayList<UserTaskInboxData> taskSentList) {
+        Log.d("TAG", "setTaskSentToClass: " + taskSentList.size());
         this.taskSentList = taskSentList;
         try {
             setDataToUI();
@@ -82,7 +82,7 @@ public class TaskSent extends Fragment {
     private void setDataToUI() {
         if (!taskSentList.isEmpty()) {
             taskSentImageView.setVisibility(GONE);
-            recyclerView.setAdapter(new TaskInboxReceivedAdapter(taskSentList));
+            recyclerView.setAdapter(new TaskInboxSentAdapter(taskSentList));
         }
 
     }

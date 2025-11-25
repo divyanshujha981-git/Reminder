@@ -6,9 +6,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.Settings;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.reminder.main.BackgroundWorks.TaskWork.RescheduleTaskAfterAlarmTrigger;
+import com.reminder.main.R;
 import com.reminder.main.SqLite.CommonDB.CommonDB;
 
 import java.util.ArrayList;
@@ -171,7 +174,6 @@ public class TasksDB {
         db.beginTransaction();
 
         for (ContentValues values : taskDataList) {
-
             db.update(TaskConstants.TASK_TABLE_NAME, values, TaskConstants.TASK_ID + "=?", new String[]{values.getAsString(TaskConstants.TASK_ID)});
 
         }
@@ -182,6 +184,77 @@ public class TasksDB {
         commonDB.close();
 
     }
+
+
+    public static void insertOrUpdateMultipleTask(Context context, ArrayList<ContentValues> taskDataList) {
+
+        Log.d("TAG", "updateMultipleTask: ** UPDATING MULTIPLE TASK **");
+
+        CommonDB commonDB = new CommonDB(context);
+
+        SQLiteDatabase db = commonDB.getWritableDatabase();
+        db.beginTransaction();
+
+        for (ContentValues values : taskDataList) {
+            try {
+                db.insert(TaskConstants.TASK_TABLE_NAME, null, values);
+            }
+            catch (Exception ignored) {
+                db.update(TaskConstants.TASK_TABLE_NAME, values, TaskConstants.TASK_ID + "=?", new String[]{values.getAsString(TaskConstants.TASK_ID)});
+
+            }
+
+        }
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+        commonDB.close();
+
+    }
+
+    public static void insertOrUpdateMultipleTask(Context context, ArrayList<TaskData> data, ArrayList<ContentValues> taskDataList) {
+
+        CommonDB commonDB = new CommonDB(context);
+
+        SQLiteDatabase db = commonDB.getWritableDatabase();
+        db.beginTransaction();
+
+        for (TaskData data1 : data) {
+            ContentValues values = new ContentValues();
+
+            values.put(TaskConstants.PRIVATE, data1.getPrivateTask());
+            values.put(TaskConstants.TOPIC, data1.getTopic());
+            values.put(TaskConstants.DESCRIPTION, data1.getDescription());
+            values.put(TaskConstants.ALARM_DATE, data1.getAlarmDate());
+            values.put(TaskConstants.REPEAT_STATUS, data1.getRepeatStatus());
+            values.put(TaskConstants.DATE_ARRAY, data1.getDateArray().toString());
+            values.put(TaskConstants.REPEATING_ALARM_DATE, data1.getRepeatingAlarmDate());
+            values.put(TaskConstants.LATER_ALARM_DATE, data1.getLaterAlarmDate());
+            values.put(TaskConstants.ALREADY_DONE, data1.getAlreadyDone());
+            values.put(TaskConstants.PINNED, data1.getPinned());
+            values.put(TaskConstants.PRIORITY, data1.getPriority());
+            values.put(TaskConstants.TASK_ID, data1.getTaskId());
+            values.put(TaskConstants.TASK_WEB_ID, data1.getTaskWebId());
+
+            try {
+                db.insert(TaskConstants.TASK_TABLE_NAME, null, values);
+            }
+            catch (Exception e) {
+                db.update(TaskConstants.TASK_TABLE_NAME, values, TaskConstants.TASK_ID + "=?", new String[]{values.getAsString(TaskConstants.TASK_ID)});
+            }
+
+        }
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+        commonDB.close();
+
+        context.sendBroadcast(new Intent(context, RescheduleTaskAfterAlarmTrigger.class));
+
+    }
+
 
 
 }

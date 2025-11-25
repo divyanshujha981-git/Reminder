@@ -1,5 +1,7 @@
 package com.reminder.main.UserInterfaces.TaskViewPage;
 
+import static com.reminder.main.SqLite.Tasks.TaskConstants.TASK_ID;
+
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
@@ -20,7 +22,7 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.reminder.main.BackgroundWorks.TaskWork.RescheduleTaskAfterAlarmTrigger;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.CommonDB.CommonDB;
 import com.reminder.main.SqLite.Tasks.TaskConstants;
@@ -35,16 +37,15 @@ import org.json.JSONException;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
-import java.util.Objects;
 
 
-public class TaskViewMain extends AppCompatActivity implements ApplicationCustomInterfaces.ManipulateTask {
+public class TaskViewMain extends AppCompatActivity implements CustomInterfaces.ManipulateTask {
     private String[] monthArray;
     private TaskData taskData;
     int setText = R.string.setText;
     private MaterialToolbar toolbar;
     private MenuItem menuItemPin, menuItemDone, menuItemLock;
-    private final ApplicationCustomInterfaces.ManipulateTask manipulateTask = this;
+    private final CustomInterfaces.ManipulateTask manipulateTask = this;
 
 
     @Override
@@ -52,34 +53,38 @@ public class TaskViewMain extends AppCompatActivity implements ApplicationCustom
         super.onCreate(savedInstanceState);
         setContentView(R.layout.task_view);
 
-
-
-        toolbar = findViewById(R.id.toolBar);
-        setSupportActionBar(toolbar);
-
-        long taskID = getIntent().getLongExtra(TaskConstants.TASK_ID, 0);
-        if (taskID == 0)
-            taskID = Long.parseLong(Objects.requireNonNull(getIntent().getStringExtra(TaskConstants.TASK_ID)));
-
-        taskData = getCurrentData(this, taskID);
-
-        //Log.d("TAG", "onCreate: -------->>>>>>>>>>"  + taskData.getRepeatingAlarmDate());
-
-        monthArray = getResources().getStringArray(R.array.monthsInYear);
-
-        findViewById(R.id.seeMore).setOnClickListener(v -> MainActivity.expandHideView(v, findViewById(R.id.info)));
-
-        seeDetails();
-
-
-        Log.d("TAG", "onReceive: " + (taskData.getAlreadyDone() == TaskConstants.ALREADY_DONE_YES_BYTE ? " ALREADY_DONE_YES " : "ALREADY_DONE_NO"));
-
-
+        declare();
+        setActions();
 
     }
 
 
-    public void seeDetails() {
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setDataToUI();
+    }
+
+
+
+    private void declare() {
+        toolbar = findViewById(R.id.toolBar);
+        String taskID = getIntent().getStringExtra(TASK_ID);
+        taskData = getCurrentData(this, taskID);
+        monthArray = getResources().getStringArray(R.array.monthsInYear);
+    }
+
+
+
+    private void setActions() {
+        setSupportActionBar(toolbar);
+        findViewById(R.id.seeMore).setOnClickListener(v -> MainActivity.expandHideView(v, findViewById(R.id.info)));
+    }
+
+
+    public void setDataToUI() {
 
         toolbar.setTitle(getString(setText, taskData.getTopic()));
 
@@ -90,7 +95,10 @@ public class TaskViewMain extends AppCompatActivity implements ApplicationCustom
         Calendar calendar = Calendar.getInstance();
         String dateString;
 
-        calendar.setTimeInMillis(Long.parseLong(taskData.getTaskId()));
+        Log.d("TAG", "seeDetails: " + taskData.getTaskId().split("-")[0]);
+
+
+        calendar.setTimeInMillis(taskData.getTaskAddedTime());
 
 
         dateString = getString(
@@ -146,13 +154,13 @@ public class TaskViewMain extends AppCompatActivity implements ApplicationCustom
     }
 
 
-    public static TaskData getCurrentData(Context context, long taskID) {
+    public static TaskData getCurrentData(Context context, String taskID) {
 
         CommonDB commonDB = new CommonDB(context);
 
         Cursor cursor = commonDB.getReadableDatabase().rawQuery(
                 " SELECT * FROM " + TaskConstants.TASK_TABLE_NAME +
-                        " WHERE " + TaskConstants.TASK_ID + " == " + taskID,
+                        " WHERE " + TASK_ID + " = \"" + taskID + "\"",
                 null
         );
 
@@ -316,7 +324,7 @@ public class TaskViewMain extends AppCompatActivity implements ApplicationCustom
 
     @Override
     public void reschedule(){
-        startActivity(new Intent(this, ReSchedulePage.class).putExtra(TaskConstants.TASK_ID, taskData.getTaskId()));
+        startActivity(new Intent(this, ReSchedulePage.class).putExtra(TASK_ID, taskData.getTaskId()));
     }
 
     @Override

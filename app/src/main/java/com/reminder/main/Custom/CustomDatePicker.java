@@ -1,19 +1,17 @@
-package com.reminder.main.UserInterfaces.Global;
+package com.reminder.main.Custom;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
 
-import com.reminder.main.Other.ApplicationCustomInterfaces;
-
 import java.util.Calendar;
 
-public class DatePickerClass {
-    private final ApplicationCustomInterfaces.DateTime dateTime;
+public class CustomDatePicker {
+    private final CustomInterfaces.DateTime dateTime;
     private final DatePickerDialog datePickerDialog;
     private int[] date;
 
-    public DatePickerClass(Context context) {
-        this.dateTime = (ApplicationCustomInterfaces.DateTime) context;
+    public CustomDatePicker(Context context) {
+        this.dateTime = (CustomInterfaces.DateTime) context;
 
         Calendar newCalendar = Calendar.getInstance();
         Calendar newCalendarAn = Calendar.getInstance();

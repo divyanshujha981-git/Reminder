@@ -1,6 +1,12 @@
 package com.reminder.main.UserInterfaces.PinnedTaskPage;
 
 
+import static com.reminder.main.Firebase.FirebaseConstants.DOWNLOADED_YES_BYTE;
+import static com.reminder.main.SqLite.TaskShared.TaskSharedConstants.TASK_RECEIVED_TABLE_NAME;
+import static com.reminder.main.SqLite.TaskShared.TaskSharedConstants.TASK_WEB_ID;
+import static com.reminder.main.SqLite.TaskStatus.TaskStatusConstants.DOWNLOADED;
+import static com.reminder.main.SqLite.TaskStatus.TaskStatusConstants.TASK_STATUS_TABLE_NAME;
+
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,7 +21,7 @@ import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.CommonDB.CommonDB;
 import com.reminder.main.SqLite.Tasks.TaskConstants;
@@ -27,8 +33,8 @@ import java.util.Calendar;
 
 
 public class PinnedTask extends AppCompatActivity implements
-        ApplicationCustomInterfaces.ContextualActionBar,
-        ApplicationCustomInterfaces.RefreshLayout {
+        CustomInterfaces.ContextualActionBar,
+        CustomInterfaces.RefreshLayout {
 
     private RecyclerView taskRecyclerView;
     private ImageView imageView;
@@ -69,23 +75,46 @@ public class PinnedTask extends AppCompatActivity implements
         SQLiteDatabase database = commonDB.getReadableDatabase();
         ArrayList<TaskData> taskData = new ArrayList<>();
 
-        Cursor cursor = database.rawQuery("SELECT " +
-                TaskConstants.PRIVATE + ", " + // 0
-                TaskConstants.TOPIC + ", " + // 1
-                TaskConstants.DESCRIPTION + ", " + // 2
-                TaskConstants.PRIORITY + ", " + // 3
-                TaskConstants.ALARM_DATE + ", " + // 4
-                TaskConstants.REPEAT_STATUS + ", " + // 5
-                TaskConstants.DATE_ARRAY + ", " + // 6
-                TaskConstants.REPEATING_ALARM_DATE + ", " + // 7
-                TaskConstants.LATER_ALARM_DATE + ", " + // 8
-                TaskConstants.PINNED + ", " + // 9
-                TaskConstants.ALREADY_DONE + ", " + // 10
-                TaskConstants.TASK_ID + // 11
-                " FROM " + TaskConstants.TASK_TABLE_NAME +
-                " WHERE " + TaskConstants.PRIVATE + " != " + TaskConstants.PRIVATE_YES +
-                " AND " + TaskConstants.PINNED + " == " + TaskConstants.PINNED_YES +
-                " ORDER BY " + TaskConstants.REPEATING_ALARM_DATE, null);
+        Cursor cursor = database.rawQuery(
+                "SELECT " +
+
+                        " tasks."+TaskConstants.PRIVATE + ", " +        // 0
+                        " tasks."+TaskConstants.TOPIC + ", " +          // 1
+                        " tasks."+TaskConstants.DESCRIPTION + ", " +    // 2
+                        " tasks."+TaskConstants.PRIORITY + ", " +       // 3
+                        " tasks."+TaskConstants.ALARM_DATE + ", " +     // 4
+                        " tasks."+TaskConstants.REPEAT_STATUS + ", " +  // 5
+                        " tasks."+TaskConstants.DATE_ARRAY + ", " +     // 6
+                        " tasks."+TaskConstants.REPEATING_ALARM_DATE + ", " + // 7
+                        " tasks."+TaskConstants.LATER_ALARM_DATE + ", " + // 8
+                        " tasks."+TaskConstants.PINNED + ", " +         // 9
+                        " tasks."+TaskConstants.ALREADY_DONE + ", " +   // 10
+                        " tasks."+TaskConstants.TASK_ID + ", " +        // 11
+                        " COALESCE(taskStatus."+DOWNLOADED+", "+ DOWNLOADED_YES_BYTE +") AS " + DOWNLOADED + // DEFAULT VALUE
+
+                        " FROM " + TaskConstants.TASK_TABLE_NAME + " as tasks" +
+
+                        " LEFT JOIN (" +
+                        "   SELECT " +
+                        "       taskReceived."+TASK_WEB_ID + ", " +
+                        "       COALESCE(ts."+DOWNLOADED+", "+DOWNLOADED_YES_BYTE+") AS "+DOWNLOADED +
+                        "   FROM " + TASK_RECEIVED_TABLE_NAME + " as taskReceived " +
+                        "   LEFT JOIN " + TASK_STATUS_TABLE_NAME + " as ts " +
+                        "   ON taskReceived."+TASK_WEB_ID+" = ts."+TASK_WEB_ID +
+                        "   GROUP BY taskReceived."+TASK_WEB_ID +
+                        ") as taskStatus " +
+
+                        " ON tasks." + TASK_WEB_ID + " = taskStatus." + TASK_WEB_ID +
+
+                        " WHERE " +
+                        " COALESCE(taskStatus."+DOWNLOADED+", "+DOWNLOADED_YES_BYTE+") = " + DOWNLOADED_YES_BYTE + // DEFAULT USED HERE
+                        " AND tasks." + TaskConstants.PRIVATE + " != " + TaskConstants.PRIVATE_YES +
+                        " AND tasks." + TaskConstants.PINNED + " = " + TaskConstants.PINNED_YES +
+
+                        " ORDER BY tasks." + TaskConstants.REPEATING_ALARM_DATE
+                , null
+        );
+
 
 
         if (cursor.getCount() != 0) {
@@ -137,7 +166,7 @@ public class PinnedTask extends AppCompatActivity implements
 
 
     @Override
-    public void setContextualActionBarVisible(ApplicationCustomInterfaces.ContextualActionBarCallback contextualActionBarCallback, ApplicationCustomInterfaces.ManipulateTask manipulateTask) {
+    public void setContextualActionBarVisible(CustomInterfaces.ContextualActionBarCallback contextualActionBarCallback, CustomInterfaces.ManipulateTask manipulateTask) {
 
 
         actionMode = startSupportActionMode(new ActionMode.Callback() {

@@ -30,7 +30,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.BlockedContact.BlockedContactConstant;
 import com.reminder.main.SqLite.CommonDB.CommonDB;
@@ -39,7 +39,6 @@ import com.reminder.main.SqLite.TaskShared.TaskSharedConstants;
 import com.reminder.main.SqLite.Tasks.TaskConstants;
 import com.reminder.main.SqLite.UserDetails.UserDetailsConstant;
 import com.reminder.main.SqLite.UserDetails.UserDetailsData;
-import com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity;
 
 import java.util.concurrent.Executors;
 
@@ -50,6 +49,9 @@ public class AccountSettings extends AppCompatActivity {
     private final FirebaseUser FIREBASE_USER = FIREBASE_AUTH.getCurrentUser();
     private final UserDetailsData userData = new UserDetailsData();
     private TextView setName, setProfession;
+
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,18 +71,19 @@ public class AccountSettings extends AppCompatActivity {
         getAccountDataFromSQLite();
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
 
     }
 
+
     private void declare() {
         editProfile = findViewById(R.id.editButton);
         setName = findViewById(R.id.setName);
         setProfession = findViewById(R.id.setProfession);
     }
-
 
 
     private void addActions() {
@@ -94,8 +97,7 @@ public class AccountSettings extends AppCompatActivity {
     }
 
 
-
-    public static void signOut(Context context, ApplicationCustomInterfaces.SignOut signOut) {
+    public static void signOut(Context context, CustomInterfaces.SignOut signOut) {
 
 
         String[] tableNames = {
@@ -158,7 +160,6 @@ public class AccountSettings extends AppCompatActivity {
     }
 
 
-
     private void getAccountDataFromSQLite() {
 
         //new Thread(() -> {
@@ -197,7 +198,6 @@ public class AccountSettings extends AppCompatActivity {
     }
 
 
-
     private void setUserDataToUI() {
 
         if (userData.getProfilePic() != null) {
@@ -213,12 +213,6 @@ public class AccountSettings extends AppCompatActivity {
         setProfession.setText(userData.getProfession());
 
     }
-
-
-
-
-
-
 
 
 

@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.SqLite.Tasks.TaskData;
 import com.reminder.main.SqLite.UserDetails.UserDetailsData;
 import com.reminder.main.UserInterfaces.HomePage.Account.AccountPage;
@@ -28,10 +28,10 @@ import java.util.Map;
 
 
 public class MainPagePagerAdapter extends FragmentStateAdapter implements
-        ApplicationCustomInterfaces.TaskSQLInterface,
-        ApplicationCustomInterfaces.TaskInboxPeopleInterface,
-        ApplicationCustomInterfaces.AccountInterface,
-        ApplicationCustomInterfaces.RefreshLayout {
+        CustomInterfaces.TaskSQLInterface,
+        CustomInterfaces.TaskInboxPeopleInterface,
+        CustomInterfaces.AccountInterface,
+        CustomInterfaces.RefreshLayout {
     private final Tasks task = new Tasks(this);
     private final TaskInbox taskInbox = new TaskInbox(this);
     private final AccountPage accountPage = new AccountPage();

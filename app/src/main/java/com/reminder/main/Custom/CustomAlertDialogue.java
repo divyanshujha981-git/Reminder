@@ -1,11 +1,11 @@
-package com.reminder.main.Other;
+package com.reminder.main.Custom;
 
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
-public class AlertDialogueForAll {
+public class CustomAlertDialogue {
 
     private final AlertDialog.Builder builder;
     public final AlertCallBack alertCallBack;
@@ -17,12 +17,12 @@ public class AlertDialogueForAll {
 
 
 
-    public AlertDialogueForAll(@NonNull Context context, AlertCallBack alertCallBack) {
+    public CustomAlertDialogue(@NonNull Context context, AlertCallBack alertCallBack) {
         this.builder= new AlertDialog.Builder(context);
         this.alertCallBack = alertCallBack;
     }
 
-    public AlertDialogueForAll(@NonNull Context context) {
+    public CustomAlertDialogue(@NonNull Context context) {
         this.builder= new AlertDialog.Builder(context);
         this.alertCallBack = null;
     }

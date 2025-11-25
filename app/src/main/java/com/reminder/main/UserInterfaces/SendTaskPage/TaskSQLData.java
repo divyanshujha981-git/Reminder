@@ -1,7 +1,5 @@
 package com.reminder.main.UserInterfaces.SendTaskPage;
 
-import static com.reminder.main.SqLite.Tasks.TaskConstants.PINNED_YES;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,30 +8,25 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import androidx.preference.PreferenceManager;
-
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.SqLite.CommonDB.CommonDB;
 import com.reminder.main.SqLite.Tasks.TaskConstants;
 import com.reminder.main.SqLite.Tasks.TaskData;
-import com.reminder.main.UserInterfaces.HomePage.Tasks.TaskSqlData;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import kotlinx.coroutines.scheduling.Task;
 
 public class TaskSQLData {
     private SQLiteDatabase db;
     private CommonDB commonDB;
     private Cursor taskCursor = null;
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private final ApplicationCustomInterfaces.TaskSQLInterface taskSQLInterface;
+    private final CustomInterfaces.TaskSQLInterface taskSQLInterface;
     private final Calendar calendar = Calendar.getInstance();
     private final Context context;
     public TaskSQLData (Context context) {
         this.context = context;
-        taskSQLInterface = (ApplicationCustomInterfaces.TaskSQLInterface) context;
+        taskSQLInterface = (CustomInterfaces.TaskSQLInterface) context;
     }
 
     public void getAllData() {

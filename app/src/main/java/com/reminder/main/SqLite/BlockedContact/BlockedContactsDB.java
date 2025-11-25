@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.reminder.main.SqLite.CommonDB.CommonDB;
+import com.reminder.main.SqLite.Tasks.TaskConstants;
 
 import java.util.ArrayList;
 
@@ -74,6 +75,34 @@ public class BlockedContactsDB {
             ContentValues values = new ContentValues();
             values.put(BlockedContactConstant.USER_PRIMARY_ID, data1);
             db.insert(BlockedContactConstant.BLOCKED_CONTACT_TABLE_NAME, null,values);
+        }
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+        commonDB.close();
+
+    }
+
+
+    public static void insertOrUpdateMultipleBlockedContact(Context context, ArrayList<String> data) {
+        CommonDB commonDB = new CommonDB(context);
+
+        SQLiteDatabase db = commonDB.getWritableDatabase();
+        db.beginTransaction();
+
+        for (String data1: data) {
+            ContentValues values = new ContentValues();
+            values.put(BlockedContactConstant.USER_PRIMARY_ID, data1);
+
+            try {
+                db.insert(BlockedContactConstant.BLOCKED_CONTACT_TABLE_NAME, null, values);
+            }
+            catch (Exception ignored) {
+                db.update(TaskConstants.TASK_TABLE_NAME, values, TaskConstants.TASK_ID + "=?", new String[]{values.getAsString(TaskConstants.TASK_ID)});
+
+            }
+
         }
 
         db.setTransactionSuccessful();

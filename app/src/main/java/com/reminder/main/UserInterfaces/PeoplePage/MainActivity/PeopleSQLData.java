@@ -16,7 +16,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.SqLite.CommonDB.CommonDB;
 import com.reminder.main.SqLite.Request.RequestConstants;
 import com.reminder.main.SqLite.Request.RequestData;
@@ -31,11 +31,11 @@ public class PeopleSQLData {
     private final Context context;
     private CommonDB commonDB;
     private SQLiteDatabase db;
-    private final ApplicationCustomInterfaces.PeopleData peopleData;
+    private final CustomInterfaces.PeopleData peopleData;
     private final Handler handler = new Handler(Looper.getMainLooper());
 
 
-    public PeopleSQLData (Context context, ApplicationCustomInterfaces.PeopleData peopleData) {
+    public PeopleSQLData (Context context, CustomInterfaces.PeopleData peopleData) {
         this.peopleData = peopleData;
         this.context = context;
     }

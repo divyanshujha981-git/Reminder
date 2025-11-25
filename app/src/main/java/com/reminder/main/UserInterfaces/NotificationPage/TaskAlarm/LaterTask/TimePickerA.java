@@ -9,18 +9,18 @@ import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 
 import java.util.Calendar;
 
-public class TimePickerA extends Fragment implements ApplicationCustomInterfaces.EnableDateTimePicker {
+public class TimePickerA extends Fragment implements CustomInterfaces.EnableDateTimePicker {
     private final Calendar currentCal = Calendar.getInstance();
-    private ApplicationCustomInterfaces.DateTime2 dateTime;
+    private CustomInterfaces.DateTime2 dateTime;
     private TimePicker timePicker;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.dateTime = (ApplicationCustomInterfaces.DateTime2) requireContext();
+        this.dateTime = (CustomInterfaces.DateTime2) requireContext();
         return inflater.inflate(R.layout.time_picker, container);
     }
 

@@ -28,7 +28,7 @@ import com.google.android.gms.auth.api.phone.SmsRetriever;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity;
 import com.reminder.main.UserInterfaces.LoginRegisterPage.LoginRegister;
@@ -291,7 +291,7 @@ public class VerifyCodeActivity extends AppCompatActivity {
 
 
 
-    public static void signInWithPhoneAuthCredential(PhoneAuthCredential credential, ApplicationCustomInterfaces.CallBack callBack) {
+    public static void signInWithPhoneAuthCredential(PhoneAuthCredential credential, CustomInterfaces.CallBack callBack) {
         MainActivity.FIREBASE_AUTH.signInWithCredential(credential)
                 .addOnCompleteListener( task -> {
                     if (task.isSuccessful()) {

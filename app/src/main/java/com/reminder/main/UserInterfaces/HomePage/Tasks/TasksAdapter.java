@@ -28,7 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.reminder.main.BackgroundWorks.TaskWork.RescheduleTaskAfterAlarmTrigger;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.Tasks.TaskConstants;
 import com.reminder.main.SqLite.Tasks.TaskData;
@@ -46,12 +46,12 @@ import java.util.stream.IntStream;
 
 
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> implements
-        ApplicationCustomInterfaces.BindView,
-        ApplicationCustomInterfaces.ContextualActionBarCallback,
-        ApplicationCustomInterfaces.ManipulateTask{
+        CustomInterfaces.BindView,
+        CustomInterfaces.ContextualActionBarCallback,
+        CustomInterfaces.ManipulateTask{
 
     private final ArrayList<TaskData> taskList;
-    private final ApplicationCustomInterfaces.BindView bindView = this;
+    private final CustomInterfaces.BindView bindView = this;
     private Context context;
     private Resources resources;
     private Typeface typeface;
@@ -64,19 +64,19 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             timeStringFormat = R.string.task_card_time_format,
             repeatStringFormat = R.string.task_card_repeat_status_format,
             setTopicStringFormat = R.string.set_topic_task_card_format;
-
     private String[] repeatType, amPm;
+
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private final ApplicationCustomInterfaces.ContextualActionBar contextualActionBar;
-    private final ApplicationCustomInterfaces.RefreshLayout refreshLayout;
+    private final CustomInterfaces.ContextualActionBar contextualActionBar;
+    private final CustomInterfaces.RefreshLayout refreshLayout;
 
 
     public TasksAdapter(
             ArrayList<TaskData> list,
             Context mainActivityContext,
-            ApplicationCustomInterfaces.RefreshLayout refreshLayout) {
+            CustomInterfaces.RefreshLayout refreshLayout) {
         this.taskList = list;
-        contextualActionBar = (ApplicationCustomInterfaces.ContextualActionBar) mainActivityContext;
+        contextualActionBar = (CustomInterfaces.ContextualActionBar) mainActivityContext;
         this.refreshLayout = refreshLayout;
         setHasStableIds(true);
     }
@@ -138,12 +138,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
     @Override
     public void primaryViewBinding(LinearLayout view, TaskData itemView, int position) {
-        MaterialCardView cardView = (MaterialCardView) view.getChildAt(1);
-        ((TextView) cardView.getChildAt(2)).setText(resources.getString(setTopicStringFormat, itemView.getTopic()));
 
-        handler.post(() -> bindView.secondaryViewBinding(cardView, itemView, position));
-
-
+        // time
         ((TextView) view.getChildAt(0))
                 .setText(
                         resources.getString(
@@ -155,6 +151,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                 );
 
 
+        MaterialCardView cardView = (MaterialCardView) view.getChildAt(1);
+
+        ((TextView) cardView.getChildAt(2)).setText(resources.getString(setTopicStringFormat, itemView.getTopic()));
+
         ((TextView) cardView.getChildAt(3)).setText(
                 Html.fromHtml(
                         resources.getString(
@@ -164,16 +164,17 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
         );
 
+        bindView.secondaryViewBinding(cardView, itemView, position);
 
     }
 
 
-    private byte i = 0;
+    private int i = 0;
     @Override
-    public void secondaryViewBinding(MaterialCardView view, TaskData itemView, int position) {
+    public void secondaryViewBinding(MaterialCardView cardView, TaskData itemView, int position) {
 
         if (itemView.getRepeatStatus() != TaskConstants.REPEAT_STATUS_NO_REPEAT) {
-            LinearLayout daysInWeek = (LinearLayout) view.getChildAt(4);
+            LinearLayout daysInWeek = (LinearLayout) cardView.getChildAt(4);
 
             try {
                 // FOR E.G:- [1, 2, 4, 5, 7]
@@ -188,17 +189,17 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         }
 
         if (itemView.getPinned() == TaskConstants.PINNED_YES)
-            view.getChildAt(0).setVisibility(VISIBLE);
+            cardView.getChildAt(0).setVisibility(VISIBLE);
 
-        view.setOnLongClickListener(v -> {
-            startSelection(itemView.getTaskId(), view, position);
+        cardView.setOnLongClickListener(v -> {
+            startSelection(itemView.getTaskId(), cardView, position);
             //startSelection(itemView.getTaskId(), view, position);
             return true;
         });
 
-        view.setOnClickListener(v -> {
+        cardView.setOnClickListener(v -> {
             if (longClickSelected) {
-                startSelection(itemView.getTaskId(), view, position);
+                startSelection(itemView.getTaskId(), cardView, position);
                 //startSelection(itemView.getTaskId(), view, position);
             }
             else {
@@ -206,11 +207,11 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             }
         });
 
-        setTaskCardSelected(itemView.getSelected(), view);
+        setTaskCardSelected(itemView.getSelected(), cardView);
 
 
         if (itemView.getAlreadyDone() == TaskConstants.ALREADY_DONE_YES_BYTE) {
-            view.getChildAt(1).setVisibility(VISIBLE);
+            cardView.getChildAt(1).setVisibility(VISIBLE);
         }
 
     }

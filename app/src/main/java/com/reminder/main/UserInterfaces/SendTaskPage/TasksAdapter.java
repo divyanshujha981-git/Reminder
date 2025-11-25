@@ -24,7 +24,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.Tasks.TaskConstants;
 import com.reminder.main.SqLite.Tasks.TaskData;
@@ -33,23 +33,24 @@ import org.json.JSONException;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> implements
-        ApplicationCustomInterfaces.BindView,
-        ApplicationCustomInterfaces.ContextualActionBarCallback{
+        CustomInterfaces.BindView,
+        CustomInterfaces.ContextualActionBarCallback{
 
     private final ArrayList<TaskData> taskList;
-    private final ApplicationCustomInterfaces.BindView bindView = this;
+    private final CustomInterfaces.BindView bindView = this;
     private Context context;
     private Resources resources;
     private Typeface typeface;
     private final DecimalFormat minuteFormat = new DecimalFormat("00");
-    //private boolean longClickSelected = false;
-    private ArrayList<String> itemsSelectedIDs = new ArrayList<>();
-    private ArrayList<Integer> itemsSelectedIndex = new ArrayList<>();
+    private final Map<String, TaskData> itemsSelected = new HashMap<>();
+    private final ArrayList<Integer> itemsSelectedIndex = new ArrayList<>();
 
     private final int
             timeStringFormat = R.string.task_card_time_format,
@@ -58,7 +59,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
     private String[] repeatType, amPm;
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private final ApplicationCustomInterfaces.ContextualActionBar contextualActionBar;
+    private final CustomInterfaces.ContextualActionBar contextualActionBar;
 
 
     public TasksAdapter(
@@ -66,7 +67,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             Context mainActivityContext
     ) {
         this.taskList = list;
-        contextualActionBar = (ApplicationCustomInterfaces.ContextualActionBar) mainActivityContext;
+        contextualActionBar = (CustomInterfaces.ContextualActionBar) mainActivityContext;
         contextualActionBar.setContextualActionBarVisible(this, null);
         setHasStableIds(true);
     }
@@ -181,13 +182,13 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             view.getChildAt(0).setVisibility(VISIBLE);
 
         view.setOnLongClickListener(v -> {
-            startSelection(itemView.getTaskId(), view, position);
+            startSelection(itemView, view, position);
             //startSelection(itemView.getTaskId(), view, position);
             return true;
         });
 
         view.setOnClickListener(v -> {
-            startSelection(itemView.getTaskId(), view, position);
+            startSelection(itemView, view, position);
             //startSelection(itemView.getTaskId(), view, position);
         });
 
@@ -205,21 +206,21 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
 
 
-    private void startSelection(String taskID, MaterialCardView view, int index) {
+    private void startSelection(TaskData taskData, MaterialCardView view, int index) {
 
-        if (itemsSelectedIDs.contains(taskID)) {
-            itemsSelectedIDs.remove(taskID);
+        if (itemsSelected.containsKey(taskData.getTaskId())) {
+            itemsSelected.remove(taskData.getTaskId());
             itemsSelectedIndex.remove((Object) index);
             setTaskCardSelected(false, view);
 
         }
         else {
-            itemsSelectedIDs.add(taskID);
+            itemsSelected.put(taskData.getTaskId(), taskData);
             itemsSelectedIndex.add(index);
             setTaskCardSelected(true, view);
         }
 
-        contextualActionBar.changeTitle(String.valueOf(itemsSelectedIDs.size()));
+        contextualActionBar.changeTitle(String.valueOf(itemsSelected.size()));
 
 
 //        if (!longClickSelected) {
@@ -227,7 +228,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 //            contextualActionBar.setContextualActionBarVisible(this, null);
 //        }
 
-        Log.d("TAG", "startSelection: " + itemsSelectedIDs.toString());
+        Log.d("TAG", "startSelection: " + itemsSelected.toString());
 
         //if (itemsSelectedIDs.isEmpty()) {
         //    longClickSelected = false;
@@ -245,7 +246,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
 
 
-    public void setTaskCardSelected(boolean condition, MaterialCardView taskCard) {
+    private void setTaskCardSelected(boolean condition, MaterialCardView taskCard) {
          if (condition) {
              taskCard.getChildAt(5).setVisibility(VISIBLE);
              ((LinearLayout) taskCard.getParent()).setBackground(ContextCompat.getDrawable(context, R.drawable.selected_background_card));
@@ -259,6 +260,11 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
 
 
+    public Map<String, TaskData> getSelectedTask() {
+        return itemsSelected;
+    }
+
+
 
 
 
@@ -269,22 +275,30 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
     @Override
     public void selectAll() {
 
-        itemsSelectedIDs = taskList.stream().map(TaskData::getTaskId).collect(Collectors.toCollection(ArrayList::new));
-        itemsSelectedIndex = IntStream.range(0, taskList.size()).boxed().collect(Collectors.toCollection(ArrayList::new));
+        for (int i = 0; i < taskList.size(); i++) {
+            itemsSelected.put(taskList.get(i).getTaskId(), taskList.get(i));
+        }
+
+        for (int i = 0; i < taskList.size(); i++) {
+            itemsSelectedIndex.add(i);
+        }
+
+        //itemsSelected = taskList.stream().map(TaskData::getTaskId).collect(Collectors.toCollection(ArrayList::new));
+        //itemsSelectedIndex = IntStream.range(0, taskList.size()).boxed().collect(Collectors.toCollection(ArrayList::new));
 
         for (TaskData taskData : taskList) {
             taskData.setSelected(true);
         }
 
         notifyDataSetChanged();
-        contextualActionBar.changeTitle(itemsSelectedIDs.size()+"");
+        contextualActionBar.changeTitle(itemsSelected.size()+"");
 
     }
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void unSelectAll(boolean actionBarDestroy) {
-        itemsSelectedIDs.clear();
+        itemsSelected.clear();
         itemsSelectedIndex.clear();
 
         for (TaskData taskData : taskList) {

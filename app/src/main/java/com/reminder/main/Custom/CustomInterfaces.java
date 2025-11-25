@@ -1,4 +1,4 @@
-package com.reminder.main.Other;
+package com.reminder.main.Custom;
 
 import android.widget.LinearLayout;
 
@@ -13,7 +13,7 @@ import com.reminder.main.UserInterfaces.UserTaskInbox.MainActivity.UserTaskInbox
 import java.util.ArrayList;
 import java.util.Map;
 
-public class ApplicationCustomInterfaces {
+public class CustomInterfaces {
 
     public interface BottomNavItemCheck {
         void navItemChecked(int position);

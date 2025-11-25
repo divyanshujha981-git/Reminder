@@ -1,5 +1,7 @@
 package com.reminder.main.UserInterfaces.AddTaskPage;
 
+import static com.reminder.main.Custom.CustomFunctions.generateNewTaskID;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,13 +15,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.Tasks.TaskConstants;
 import com.reminder.main.SqLite.Tasks.TaskData;
 import com.reminder.main.SqLite.Tasks.TasksDB;
-import com.reminder.main.UserInterfaces.Global.DatePickerClass;
-import com.reminder.main.UserInterfaces.Global.TimePickerClass;
+import com.reminder.main.Custom.CustomDatePicker;
+import com.reminder.main.Custom.CustomTimePicker;
 import com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity;
 import com.reminder.main.UserInterfaces.ReschedulePage.ReSchedulePage;
 import com.reminder.main.UserInterfaces.ReschedulePage.RepeatStatusSpinnerClass;
@@ -37,8 +39,8 @@ import java.util.Collections;
 
 
 public class AddTask extends AppCompatActivity implements
-        ApplicationCustomInterfaces.DateTime,
-        ApplicationCustomInterfaces.RepeatStatus {
+        CustomInterfaces.DateTime,
+        CustomInterfaces.RepeatStatus {
     private final Calendar finalAlarmDate = Calendar.getInstance();
     private final ArrayList<Integer> finalDaysInWeek = new ArrayList<>();
     private final DecimalFormat format = new DecimalFormat("00");
@@ -247,14 +249,14 @@ public class AddTask extends AppCompatActivity implements
         );
 
         addDateBtn.setOnClickListener(v -> {
-            DatePickerClass datePickerClass = new DatePickerClass(this);
-            datePickerClass.showCalendar();
+            CustomDatePicker customDatePicker = new CustomDatePicker(this);
+            customDatePicker.showCalendar();
         });
 
 
         findViewById(R.id.selectTimeButton).setOnClickListener(v -> {
-            TimePickerClass timePickerClass = new TimePickerClass(getSupportFragmentManager(), this);
-            timePickerClass.timeFunction();
+            CustomTimePicker customTimePicker = new CustomTimePicker(getSupportFragmentManager(), this);
+            customTimePicker.timeFunction();
         });
 
 
@@ -417,7 +419,7 @@ public class AddTask extends AppCompatActivity implements
                         TaskConstants.ALREADY_DONE_NO_BYTE,
                         TaskConstants.PINNED_NO,
                         null,
-                        String.valueOf(Calendar.getInstance().getTimeInMillis()),
+                        generateNewTaskID(this),
                         TaskConstants.PRIORITY_NORMAL,
                         null
                 );
@@ -435,6 +437,8 @@ public class AddTask extends AppCompatActivity implements
 
 
     }
+
+
 
 
 

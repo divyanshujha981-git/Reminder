@@ -19,8 +19,11 @@ public class FirebaseConstants {
     public static final String UPDATE_STATUS_FOR_RECEIVE_REQUEST_TO_RECEIVE_TASK = "updateReceiveEmployeeRequestStatus";
     public static final String UPDATE_STATUS_FOR_TASK_AUTO_DOWNLOAD = "updateTaskAutoDownloadStatus";
     public static final String UPDATE_STATUS_FOR_RECEIVE_TASK = "updateReceiveTaskStatus";
+    public static final String SET_DEVICE_MESSAGE_TOKEN = "setDeviceToken";
+    public static final String DOWNLOADED_TASK = "downloadTask";
     public static final String UPDATE_REQUEST_STATUS = "updateRequestStatus";
     public static final String GET_USER_PROFILE_DATA = "getUserProfileData";
+    public static final String SEND_TASK_REQUEST = "sendTask";
     public static final String TASKS = "tasks";
     public static final String TASK_STATUS = "tStatus";
     public static final String PROFILE_DETAILS = "pDetails";
@@ -48,6 +51,7 @@ public class FirebaseConstants {
     public static final String TASK_SENT = "tSent";
     public static final String TASK_RECEIVED = "tReceived";
     public static final String TASK_AUTO_DOWNLOAD = "tad";
+    public static final String TASK_ARRAY = "tArray";
 
     public static final String BLOCKED_CONTACTS_LIST = "bcList";
     public static final String DEVICE_MESSAGE_TOKEN_LIST = "dmtList";

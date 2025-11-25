@@ -5,12 +5,10 @@ import static com.reminder.main.SqLite.TaskStatus.TaskStatusConstants.DOWNLOADED
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableRow;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,7 +27,6 @@ public class TaskInboxSentAdapter extends RecyclerView.Adapter<TaskInboxSentAdap
 
     private final ArrayList<UserTaskInboxData> taskList;
     private final DecimalFormat minuteFormat = new DecimalFormat("00");
-    private final Handler handler = new Handler(Looper.getMainLooper());
     private final Calendar calendar = Calendar.getInstance();
     private Resources resources;
     private String[] amPm;
@@ -112,9 +109,8 @@ public class TaskInboxSentAdapter extends RecyclerView.Adapter<TaskInboxSentAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         UserTaskInboxData data = taskList.get(position);
-        TableRow tableRow = (TableRow) holder.itemView;
-
-        primaryViewBinding(tableRow, data);
+        LinearLayout linearLayout = (LinearLayout) holder.itemView;
+        primaryViewBinding(linearLayout, data);
 
     }
 
@@ -125,7 +121,7 @@ public class TaskInboxSentAdapter extends RecyclerView.Adapter<TaskInboxSentAdap
 
 
 
-    private void primaryViewBinding(TableRow tableRow, UserTaskInboxData data) {
+    private void primaryViewBinding(LinearLayout tableRow, UserTaskInboxData data) {
 
         MaterialCardView cardView = (MaterialCardView) tableRow.getChildAt(1);
         ((TextView) cardView.getChildAt(0)).setText(data.TASK_DATA.getTopic());
@@ -143,11 +139,9 @@ public class TaskInboxSentAdapter extends RecyclerView.Adapter<TaskInboxSentAdap
                 );
 
 
-        handler.post(() -> {
-           if (data.TASK_STATUS_DATA.getDownloaded() == DOWNLOADED_YES_BYTE) {
-               cardView.getChildAt(2).setVisibility(View.GONE);
-           }
-        });
+       if (data.TASK_STATUS_DATA.getDownloaded() == DOWNLOADED_YES_BYTE) {
+           cardView.getChildAt(2).setVisibility(View.GONE);
+       }
 
     }
 

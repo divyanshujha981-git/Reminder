@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.itsxtt.patternlock.PatternLockView;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class Pattern extends Fragment {
 
     private final String key;
-    private ApplicationCustomInterfaces.AllowUserToNavigate allowUserToNavigate;
+    private CustomInterfaces.AllowUserToNavigate allowUserToNavigate;
 
 
     public Pattern(String key) {
@@ -35,7 +35,7 @@ public class Pattern extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        allowUserToNavigate = (ApplicationCustomInterfaces.AllowUserToNavigate) requireContext();
+        allowUserToNavigate = (CustomInterfaces.AllowUserToNavigate) requireContext();
 
 
         ((PatternLockView) view.findViewById(R.id.patternLockView)).setOnPatternListener(new PatternLockView.OnPatternListener() {

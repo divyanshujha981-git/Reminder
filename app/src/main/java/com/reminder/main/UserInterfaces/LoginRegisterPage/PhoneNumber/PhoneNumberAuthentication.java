@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity;
 
@@ -115,7 +115,7 @@ public class PhoneNumberAuthentication extends AppCompatActivity {
 
 
 
-    public static void startPhoneNumberAuthentication(Context context, String phoneNumber,ApplicationCustomInterfaces.PhoneAuthCallBack phoneAuthCallBack) {
+    public static void startPhoneNumberAuthentication(Context context, String phoneNumber, CustomInterfaces.PhoneAuthCallBack phoneAuthCallBack) {
 
         PhoneAuthOptions.Builder builder =
                 PhoneAuthOptions.newBuilder(FirebaseAuth.getInstance())

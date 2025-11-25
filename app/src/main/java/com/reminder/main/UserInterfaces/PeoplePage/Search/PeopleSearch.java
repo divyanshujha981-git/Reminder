@@ -36,6 +36,7 @@ import com.reminder.main.SqLite.Request.RequestData;
 import java.util.ArrayList;
 import java.util.Map;
 
+
 public class PeopleSearch extends Fragment {
     private EditText searchUser;
     private Map<String, RequestData> requestData;
@@ -110,15 +111,23 @@ public class PeopleSearch extends Fragment {
                 .startAt(searchText)
                 .endAt(searchText + "\uf8ff"); // prefix match
 
+        Log.d("TAG", "searchUsers: ");
+
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                Log.d("TAG", "onDataChange: " + dataSnapshot);
+
                 ArrayList<PeopleSearchData> resultList = new ArrayList<>();
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
                     PeopleSearchData data = new PeopleSearchData();
                     data.setAccountPrivate(Boolean.TRUE.equals(snapshot.child(IS_ACCOUNT_PRIVATE).getValue(Boolean.class)));
                     data.setUserPrimaryId(snapshot.getKey());
                     Log.d("TAG", "onDataChange: " + snapshot.getKey());
+
                     if (data.isAccountPrivate() || data.getUserPrimaryId().equals(FIREBASE_USER != null ? FIREBASE_USER.getUid() : null)) continue;
 
                     data.setName(snapshot.child(USER_NAME).getValue(String.class));
@@ -128,6 +137,7 @@ public class PeopleSearch extends Fragment {
                     data.setProfession(snapshot.child(USER_PROFESSION).getValue(String.class));
                     resultList.add(data);
                     Log.d("TAG", "onDataChange: " + data.getName());
+
                 }
 
                 recyclerView.setAdapter(new PeopleSearchAdapter(resultList, requestData));
@@ -135,7 +145,7 @@ public class PeopleSearch extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.d("TAG", "onCancelled: " + databaseError);
             }
         });
 

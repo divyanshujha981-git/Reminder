@@ -11,7 +11,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.Tasks.TaskConstants;
 import com.reminder.main.SqLite.Tasks.TaskData;
@@ -19,9 +19,9 @@ import com.reminder.main.SqLite.Tasks.TaskData;
 public class TaskManipulationBottomSheet extends BottomSheetDialogFragment {
     private final TaskData taskData;
 
-    private final ApplicationCustomInterfaces.ManipulateTask manipulateTask;
+    private final CustomInterfaces.ManipulateTask manipulateTask;
 
-    public TaskManipulationBottomSheet(TaskData taskData, ApplicationCustomInterfaces.ManipulateTask manipulateTask) {
+    public TaskManipulationBottomSheet(TaskData taskData, CustomInterfaces.ManipulateTask manipulateTask) {
         this.manipulateTask = manipulateTask;
         this.taskData = taskData;
     }

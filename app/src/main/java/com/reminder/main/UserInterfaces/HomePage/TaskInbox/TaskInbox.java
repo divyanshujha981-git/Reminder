@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.UserDetails.UserDetailsData;
 
@@ -22,10 +22,10 @@ public class TaskInbox extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<UserDetailsData> taskInboxPeopleData;
     private final String TAG = "TAG";
-    private final ApplicationCustomInterfaces.RefreshLayout mainPAgePagerAdapterContext;
+    private final CustomInterfaces.RefreshLayout mainPAgePagerAdapterContext;
 
 
-    public TaskInbox(ApplicationCustomInterfaces.RefreshLayout mainPAgePagerAdapterContext) {
+    public TaskInbox(CustomInterfaces.RefreshLayout mainPAgePagerAdapterContext) {
         this.mainPAgePagerAdapterContext = mainPAgePagerAdapterContext;
 
     }
@@ -52,7 +52,7 @@ public class TaskInbox extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((ApplicationCustomInterfaces.BottomNavItemCheck) requireContext()).navItemChecked(1);
+        ((CustomInterfaces.BottomNavItemCheck) requireContext()).navItemChecked(1);
 
     }
 

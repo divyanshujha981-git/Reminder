@@ -27,7 +27,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.reminder.main.Other.AlertDialogueForAll;
+import com.reminder.main.Custom.CustomAlertDialogue;
 import com.reminder.main.R;
 import com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity;
 import com.reminder.main.UserInterfaces.LoginRegisterPage.PhoneNumber.PhoneNumberAuthentication;
@@ -43,7 +43,6 @@ public class LoginRegister extends AppCompatActivity {
     private MaterialButton googleSignInButton, phoneSignInButton;
     public static final String SIGN_IN_TYPE_GOOGLE = "sit_google";
     public static final String SIGN_IN_TYPE_PHONE = "sit_phone";
-
     private final FirebaseAuth FIREBASE_AUTH = MainActivity.FIREBASE_AUTH;
     private LinearLayout loadingView;
 
@@ -158,7 +157,7 @@ public class LoginRegister extends AppCompatActivity {
                     else {
                         // If sign in fails, display a message to the user
                         Log.e("TAG", "signInWithCredential:failure", task.getException());
-                        new AlertDialogueForAll(this).showAlert(
+                        new CustomAlertDialogue(this).showAlert(
                                 "Something went wrong.",
                                 "Please ensure you are connected to the internet and at least one Google account is signed in on this device.",
                                 "Ok"

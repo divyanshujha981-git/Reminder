@@ -20,7 +20,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.UserDetails.UserDetailsData;
 
@@ -64,7 +64,7 @@ public class AccountPage extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((ApplicationCustomInterfaces.BottomNavItemCheck) requireContext()).navItemChecked(2);
+        ((CustomInterfaces.BottomNavItemCheck) requireContext()).navItemChecked(2);
     }
 
 

@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.Tasks.TaskData;
 import com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity;
@@ -34,10 +34,10 @@ import java.util.ArrayList;
 
 
 public class Tasks extends Fragment implements
-        ApplicationCustomInterfaces.FilterTask {
+        CustomInterfaces.FilterTask {
 
     private RecyclerView taskRecyclerView;
-    private ApplicationCustomInterfaces.NestedScroll nestedScroll;
+    private CustomInterfaces.NestedScroll nestedScroll;
     private TaskData upComingTaskData;
     private final DecimalFormat decimalFormat = new DecimalFormat("00");
     private int upComingTaskPosition;
@@ -51,7 +51,7 @@ public class Tasks extends Fragment implements
     private LinearLayout unComingTaskLayout;
     private RecyclerView navBarRecyclerView;
     private final MainPagePagerAdapter MAIN_PAGE_PAGER_ADAPTER;
-    private ApplicationCustomInterfaces.BottomNavItemCheck navItemCheck;
+    private CustomInterfaces.BottomNavItemCheck navItemCheck;
 
 
 
@@ -102,10 +102,10 @@ public class Tasks extends Fragment implements
         clearFilterBtn = view.findViewById(R.id.clearFilterButton);
 
         pinTaskOnTop = PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("pinTaskOnTop", true);
-        navItemCheck = (ApplicationCustomInterfaces.BottomNavItemCheck) requireContext();
+        navItemCheck = (CustomInterfaces.BottomNavItemCheck) requireContext();
         pinned = view.findViewById(R.id.seePinned);
 
-        nestedScroll = (ApplicationCustomInterfaces.NestedScroll) requireContext();
+        nestedScroll = (CustomInterfaces.NestedScroll) requireContext();
         noTaskImage = view.findViewById(R.id.noTaskFoundImage);
 
     }
@@ -133,6 +133,7 @@ public class Tasks extends Fragment implements
         });
         clearFilterBtn.setOnClickListener(v -> {
             setMainTaskDataToUI();
+            setNavDateTaskToUI();
             v.setVisibility(View.GONE);
         });
 
@@ -194,8 +195,8 @@ public class Tasks extends Fragment implements
             taskRecyclerView.setVisibility(View.GONE);
         }
         else {
-            taskRecyclerView.setAdapter(new TasksAdapter(taskData, getActivity(), MAIN_PAGE_PAGER_ADAPTER));
             noTaskImage.setVisibility(View.GONE);
+            taskRecyclerView.setAdapter(new TasksAdapter(taskData, getActivity(), MAIN_PAGE_PAGER_ADAPTER));
             taskRecyclerView.setVisibility(View.VISIBLE);
         }
 
@@ -304,6 +305,8 @@ public class Tasks extends Fragment implements
     // ---------- ------------ ---------- //
 
     public void setPinningDataToClass(boolean pinTaskOnTop, boolean pinnedTaskAvailable) {
+        Log.d("TAG", "setPinningDataToClass: " + pinTaskOnTop);
+        Log.d("TAG", "setPinningDataToClass: " + pinnedTaskAvailable);
         this.pinTaskOnTop = pinTaskOnTop;
         this.pinnedTaskAvailable = pinnedTaskAvailable;
 
@@ -317,12 +320,14 @@ public class Tasks extends Fragment implements
 
 
     private void setPinnedDataToUI() {
+
         if (pinTaskOnTop && pinnedTaskAvailable) {
             pinned.setVisibility(View.VISIBLE);
         }
         else {
             pinned.setVisibility(View.GONE);
         }
+
     }
 
 

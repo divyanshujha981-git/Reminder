@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.imageview.ShapeableImageView;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.UserDetails.UserDetailsData;
 import com.reminder.main.UserInterfaces.UserTaskInbox.MainActivity.UserTaskInbox;
@@ -31,12 +31,12 @@ import java.util.ArrayList;
 public class TaskInboxAdapter extends RecyclerView.Adapter<TaskInboxAdapter.ViewHolder> {
     private Context context;
     private final ArrayList<UserDetailsData> taskSharedList;
-    private final ApplicationCustomInterfaces.RefreshLayout refreshLayout;
+    private final CustomInterfaces.RefreshLayout refreshLayout;
     private Intent intent;
 
 
 
-    public TaskInboxAdapter(ArrayList<UserDetailsData> taskSharedList, ApplicationCustomInterfaces.RefreshLayout refreshLayout) {
+    public TaskInboxAdapter(ArrayList<UserDetailsData> taskSharedList, CustomInterfaces.RefreshLayout refreshLayout) {
         this.taskSharedList = taskSharedList;
         this.refreshLayout = refreshLayout;
         setHasStableIds(true);

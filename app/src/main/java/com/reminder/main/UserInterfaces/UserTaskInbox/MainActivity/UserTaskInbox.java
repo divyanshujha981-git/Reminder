@@ -37,7 +37,7 @@ public class UserTaskInbox extends AppCompatActivity {
         setContentView(R.layout.user_task_inbox);
 
         declare();
-        setActions();
+
 
     }
 
@@ -64,8 +64,10 @@ public class UserTaskInbox extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        setActions();
         setDataToUI();
     }
+
 
     private void setActions() {
 

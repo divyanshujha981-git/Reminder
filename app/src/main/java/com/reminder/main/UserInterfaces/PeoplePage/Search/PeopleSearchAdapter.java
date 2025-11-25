@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.Request.RequestConstants;
 import com.reminder.main.SqLite.Request.RequestData;
@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class PeopleSearchAdapter extends RecyclerView.Adapter<PeopleSearchAdapter.ViewHolder> implements
-        ApplicationCustomInterfaces.RequestStatusChangeCallback {
+        CustomInterfaces.RequestStatusChangeCallback {
 
     private Context context;
     private final Map<String, RequestData> requestData;
@@ -44,7 +44,7 @@ public class PeopleSearchAdapter extends RecyclerView.Adapter<PeopleSearchAdapte
     private PeopleSearchData currentPeopleData;
     private ViewHolder currentViewHolder;
     private View currentViewOrButton;
-    private final ApplicationCustomInterfaces.RefreshLayout refreshCallback = PeoplePagerAdapter.PEOPLE_PAGER_ADAPTER_CONTEXT;
+    private final CustomInterfaces.RefreshLayout refreshCallback = PeoplePagerAdapter.PEOPLE_PAGER_ADAPTER_CONTEXT;
 
 
 

@@ -17,7 +17,7 @@ import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.CommonDB.CommonDB;
 import com.reminder.main.SqLite.Tasks.TaskConstants;
@@ -29,8 +29,8 @@ import java.util.Calendar;
 
 
 public class PrivatePages extends AppCompatActivity implements
-        ApplicationCustomInterfaces.ContextualActionBar,
-        ApplicationCustomInterfaces.RefreshLayout {
+        CustomInterfaces.ContextualActionBar,
+        CustomInterfaces.RefreshLayout {
 
 
     private RecyclerView taskRecyclerView;
@@ -144,7 +144,7 @@ public class PrivatePages extends AppCompatActivity implements
 
 
     @Override
-    public void setContextualActionBarVisible(ApplicationCustomInterfaces.ContextualActionBarCallback contextualActionBarCallback, ApplicationCustomInterfaces.ManipulateTask manipulateTask) {
+    public void setContextualActionBarVisible(CustomInterfaces.ContextualActionBarCallback contextualActionBarCallback, CustomInterfaces.ManipulateTask manipulateTask) {
 
 
         actionMode = startSupportActionMode(new ActionMode.Callback() {

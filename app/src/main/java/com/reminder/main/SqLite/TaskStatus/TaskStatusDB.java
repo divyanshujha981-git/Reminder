@@ -18,14 +18,14 @@ public class TaskStatusDB {
 
 
 
-    public static void insertMultipleTaskStatus(Context context, ArrayList<ContentValues> data) {
+    public static void insertOrUpdateMultipleTaskStatus(Context context, ArrayList<ContentValues> data) {
         CommonDB commonDB = new CommonDB(context);
         SQLiteDatabase db = commonDB.getWritableDatabase();
         db.beginTransaction();
 
         for (ContentValues data1: data) {
             try {
-                db.insert(TaskStatusConstants.TASK_STATUS_TABLE_NAME, null,data1);
+                db.insert(TaskStatusConstants.TASK_STATUS_TABLE_NAME, null, data1);
             }
             catch (Exception e) {
                 db.update(

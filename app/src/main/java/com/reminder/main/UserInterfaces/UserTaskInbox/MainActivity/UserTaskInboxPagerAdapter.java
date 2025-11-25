@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.UserInterfaces.UserTaskInbox.TaskReceived.TaskReceived;
 import com.reminder.main.UserInterfaces.UserTaskInbox.TaskSent.TaskSent;
 
@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 public class UserTaskInboxPagerAdapter extends FragmentStateAdapter
     implements
-        ApplicationCustomInterfaces.RefreshLayout,
-        ApplicationCustomInterfaces.TaskInboxInterface {
+        CustomInterfaces.RefreshLayout,
+        CustomInterfaces.TaskInboxInterface {
 
     private final TaskSent taskSent = new TaskSent();
     private final TaskReceived taskReceived = new TaskReceived();

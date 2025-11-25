@@ -24,8 +24,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.SqLite.CommonDB.CommonDB;
 
 import java.util.ArrayList;
@@ -40,11 +41,11 @@ public class UserTaskInboxSQLData {
     private final Calendar calendar = Calendar.getInstance();
     private final Handler handler = new Handler(Looper.getMainLooper());
 
-    private final ApplicationCustomInterfaces.TaskInboxInterface taskInboxInterface;
+    private final CustomInterfaces.TaskInboxInterface taskInboxInterface;
     public UserTaskInboxSQLData(
             Context context,
             String userPrimaryId,
-            ApplicationCustomInterfaces.TaskInboxInterface taskInboxInterface
+            CustomInterfaces.TaskInboxInterface taskInboxInterface
     ) {
         this.context = context;
         this.userPrimaryId = userPrimaryId;
@@ -84,7 +85,9 @@ public class UserTaskInboxSQLData {
 
     private Thread getTaskSentData() {
         return new Thread(() -> {
-            Cursor cursor = db.rawQuery(
+            Cursor cursor;
+            /*
+             cursor = db.rawQuery(
                     " SELECT " +
                             " task."+TOPIC + ", " +//----------------------0
                             " task."+PRIORITY + ", " +//-------------------1
@@ -106,10 +109,47 @@ public class UserTaskInboxSQLData {
                     , null
             );
 
-            if (cursor.getCount() > 0) {
-                cursor.moveToFirst();
+             */
 
-                ArrayList<UserTaskInboxData> taskSentData = new ArrayList<>();
+            cursor = db.rawQuery(
+                    " SELECT " +
+                            " task."+TOPIC + ", " +//----------------------0
+                            " task."+PRIORITY + ", " +//-------------------1
+                            " task."+REPEAT_STATUS + ", " +//--------------2
+                            " task."+DATE_ARRAY + ", " +//-----------------3
+                            " task."+REPEATING_ALARM_DATE + ", " +//-------4
+                            " task."+PINNED + ", " +//---------------------5
+                            " task."+ALREADY_DONE + ", " +//---------------6
+                            " task."+TASK_ID + ", " +//--------------------7
+                            " task."+ALARM_DATE + ", " +//-----------------8
+                            " task."+TASK_WEB_ID + ", " +//----------------9
+                            " taskShared."+DOWNLOADED + ", " +//-----------10
+                            " taskShared."+USER_PRIMARY_ID +//-------------11
+
+                            " FROM (" +
+                                " SELECT " +
+                                    " taskStatus."+TASK_WEB_ID + ", " +
+                                    " taskStatus."+USER_PRIMARY_ID + ", " +
+                                    " taskStatus."+DOWNLOADED +
+                                " FROM " + TASK_SENT_TABLE_NAME + " as taskSent " +
+                                " INNER JOIN " + TASK_STATUS_TABLE_NAME + " as taskStatus " +
+                                " ON " + " taskSent."+TASK_WEB_ID +"="+ " taskStatus."+TASK_WEB_ID +
+                                " WHERE " + " taskSent."+USER_PRIMARY_ID+"="+"\""+userPrimaryId+"\"" +
+                            ") as taskShared " +
+                            " INNER JOIN " + TASK_TABLE_NAME + " as task " +
+                            " ON task."+TASK_WEB_ID + "=" + " taskShared."+TASK_WEB_ID +
+                                " WHERE " +
+                            " taskShared."+USER_PRIMARY_ID+"="+"\""+userPrimaryId+"\""
+
+                    , null
+            );
+
+            ArrayList<UserTaskInboxData> taskSentData = new ArrayList<>();
+
+            if (cursor.getCount() > 0) {
+
+                cursor.moveToFirst();
+                Log.d("TAG", "getTaskSentData: " + cursor.getCount());
 
                 do {
                     UserTaskInboxData data = new UserTaskInboxData();
@@ -134,23 +174,30 @@ public class UserTaskInboxSQLData {
                     data.TASK_DATA.setTaskWebId(cursor.getString(9));
                     data.TASK_STATUS_DATA.setTaskWebId(cursor.getString(9));
                     data.TASK_STATUS_DATA.setDownloaded((byte) cursor.getInt(10));
+
+                    Log.d("TAG", "getTaskSentData: " + data.TASK_DATA.getTopic());
                     taskSentData.add(data);
                 }
                 while (cursor.moveToNext());
 
-                handler.post(() -> {
-                    taskInboxInterface.setTaskSentList(taskSentData);
-                   cursor.close();
-                });
+
 
             }
+
+            handler.post(() -> {
+                taskInboxInterface.setTaskSentList(taskSentData);
+                cursor.close();
+            });
         });
     }
 
 
     private Thread getTaskReceivedData() {
         return new Thread(() -> {
-            Cursor cursor = db.rawQuery(
+            Cursor cursor;
+
+            /*
+            cursor = db.rawQuery(
                     " SELECT " +
                             " task."+TOPIC + ", " +//----------------------0
                             " task."+PRIORITY + ", " +//-------------------1
@@ -172,8 +219,46 @@ public class UserTaskInboxSQLData {
                     , null
             );
 
+
+             */
+
+            cursor = db.rawQuery(
+                    " SELECT " +
+                            " task."+TOPIC + ", " +//----------------------0
+                            " task."+PRIORITY + ", " +//-------------------1
+                            " task."+REPEAT_STATUS + ", " +//--------------2
+                            " task."+DATE_ARRAY + ", " +//-----------------3
+                            " task."+REPEATING_ALARM_DATE + ", " +//-------4
+                            " task."+PINNED + ", " +//---------------------5
+                            " task."+ALREADY_DONE + ", " +//---------------6
+                            " task."+TASK_ID + ", " +//--------------------7
+                            " task."+ALARM_DATE + ", " +//-----------------8
+                            " task."+TASK_WEB_ID + ", " +//----------------9
+                            " taskShared."+DOWNLOADED + ", " +//-----------10
+                            " taskShared."+USER_PRIMARY_ID +//-------------11
+
+                            " FROM (" +
+                                " SELECT " +
+                                    " taskStatus."+TASK_WEB_ID + ", " +
+                                    " taskStatus."+USER_PRIMARY_ID + ", " +
+                                    " taskStatus."+DOWNLOADED +
+                                " FROM " + TASK_RECEIVED_TABLE_NAME + " as taskReceived " +
+                                " INNER JOIN " + TASK_STATUS_TABLE_NAME + " as taskStatus " +
+                                " ON " + " taskReceived."+TASK_WEB_ID +"="+ " taskStatus."+TASK_WEB_ID +
+                                " WHERE " + " taskReceived."+USER_PRIMARY_ID+"="+"\""+userPrimaryId+"\"" +
+                            ") as taskShared " +
+                            " INNER JOIN " + TASK_TABLE_NAME + " as task " +
+                            " ON task."+TASK_WEB_ID + "=" + " taskShared."+TASK_WEB_ID +
+                            " WHERE " +
+                            " taskShared."+USER_PRIMARY_ID+"="+"\""+userPrimaryId+"\""
+
+                    , null
+            );
+
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
+
+
 
                 ArrayList<UserTaskInboxData> taskReceivedData = new ArrayList<>();
 
@@ -195,11 +280,13 @@ public class UserTaskInboxSQLData {
                     data.TASK_DATA.setMinute((byte) calendar.get(Calendar.MINUTE));
                     data.TASK_DATA.setAmPm((byte) calendar.get(Calendar.AM_PM));
 
-
                     data.TASK_DATA.setAlarmDate(cursor.getLong(8));
                     data.TASK_DATA.setTaskWebId(cursor.getString(9));
                     data.TASK_STATUS_DATA.setTaskWebId(cursor.getString(9));
                     data.TASK_STATUS_DATA.setDownloaded((byte) cursor.getInt(10));
+
+                    Log.d("TAG", "getTaskReceivedData: " + data.TASK_DATA.getTopic());
+
                     taskReceivedData.add(data);
                 }
                 while (cursor.moveToNext());

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout style="@style/CardViewParentLayout_TaskCard"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout style="@style/CardViewParentLayout_TaskCard">
 
         <!--    0   -->
         <TextView style="@style/SetDate_TaskCard" />
@@ -22,7 +21,6 @@
 
         <!--    2   -->
         <com.google.android.material.card.MaterialCardView
-            android:visibility="gone"
             style="@style/CardView_TaskCard">
 
             <!--    0  of 1   -->

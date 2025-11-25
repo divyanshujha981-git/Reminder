@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.imageview.ShapeableImageView;
-import com.reminder.main.Other.AlertDialogueForAll;
+import com.reminder.main.Custom.CustomAlertDialogue;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.BlockedContact.BlockedContactData;
 
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 /* loaded from: /storage/emulated/0/Documents/jadec/sources/com.google.reminder/dex-files/0.dex */
 public class BlockedContactsAdapter extends RecyclerView.Adapter<BlockedContactsAdapter.ViewHolder> {
-    private AlertDialogueForAll alertDialogueForAll;
+    private CustomAlertDialogue customAlertDialogue;
     private final ArrayList<BlockedContactData> blockedContacts;
     private Context context;
     private int currentPosition;

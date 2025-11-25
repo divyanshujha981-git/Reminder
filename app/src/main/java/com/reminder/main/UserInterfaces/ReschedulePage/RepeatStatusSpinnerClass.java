@@ -8,20 +8,20 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatSpinner;
 
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 
 
 public class RepeatStatusSpinnerClass extends AppCompatSpinner implements AdapterView.OnItemSelectedListener {
 
     private int prevSelection;
-    private final ApplicationCustomInterfaces.RepeatStatus repeatStatus;
+    private final CustomInterfaces.RepeatStatus repeatStatus;
 
     public RepeatStatusSpinnerClass(@NonNull Context context, int initialRepeatStatus, AppCompatSpinner spinner) {
         super(context);
 
         this.prevSelection = initialRepeatStatus;
-        this.repeatStatus = (ApplicationCustomInterfaces.RepeatStatus) context;
+        this.repeatStatus = (CustomInterfaces.RepeatStatus) context;
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context, R.array.repeatType, R.layout.spinner_layout);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);

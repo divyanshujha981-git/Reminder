@@ -20,6 +20,7 @@ public class TaskConstants {
             USER_PRIMARY_ID = FirebaseConstants.USER_PRIMARY_ID,
             TASK_ID = "task_id",
             TASK_TABLE_NAME = "tasks",
+            TASK_FTS_TABLE_NAME = "tasks_fts",
             TASK_WEB_ID = FirebaseConstants.TASK_WEB_ID;
 
 
@@ -41,6 +42,18 @@ public class TaskConstants {
                     PRIORITY + " BYTE NOT NULL," +                              // 12
                     TASK_WEB_ID + " TEXT UNIQUE " +                             // 13
                     " )";
+
+
+
+
+    public static final String TASK_FTS_TABLE_QUERY =
+            " CREATE VIRTUAL TABLE " + TASK_FTS_TABLE_NAME +
+                    "USING fts5(" +
+                    TOPIC + "," +
+                    DESCRIPTION + "," +
+                    "content=" +TASK_TABLE_NAME + "," +
+                    " content_rowid=" + TASK_ID +
+            ")";
 
 
     public static final byte

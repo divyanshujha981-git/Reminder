@@ -3,10 +3,16 @@ package com.reminder.main.UserInterfaces.SettingsPage.AccountSettings;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.reminder.main.Custom.CustomFunctions.getTaskIdFromTaskWebId;
 import static com.reminder.main.Firebase.FirebaseConstants.BLOCKED_CONTACTS;
 import static com.reminder.main.Firebase.FirebaseConstants.DESCRIPTION;
+import static com.reminder.main.Firebase.FirebaseConstants.DOWNLOADED;
+import static com.reminder.main.Firebase.FirebaseConstants.DOWNLOADED_NO_BYTE;
+import static com.reminder.main.Firebase.FirebaseConstants.DOWNLOADED_YES;
+import static com.reminder.main.Firebase.FirebaseConstants.DOWNLOADED_YES_BYTE;
 import static com.reminder.main.Firebase.FirebaseConstants.GET_ACCOUNT_DATA;
 import static com.reminder.main.Firebase.FirebaseConstants.GET_USER_PROFILE_DATA;
+import static com.reminder.main.Firebase.FirebaseConstants.PERCENTAGE_COMPLETE;
 import static com.reminder.main.Firebase.FirebaseConstants.PROFILE_DETAILS;
 import static com.reminder.main.Firebase.FirebaseConstants.RECEIVE_REQUEST;
 import static com.reminder.main.Firebase.FirebaseConstants.REPEAT_STATUS;
@@ -21,9 +27,11 @@ import static com.reminder.main.Firebase.FirebaseConstants.STATUS_ACCEPTED;
 import static com.reminder.main.Firebase.FirebaseConstants.STATUS_ACCEPTED_BYTE;
 import static com.reminder.main.Firebase.FirebaseConstants.STATUS_PENDING_BYTE;
 import static com.reminder.main.Firebase.FirebaseConstants.TASKS;
+import static com.reminder.main.Firebase.FirebaseConstants.TASK_ARRAY;
 import static com.reminder.main.Firebase.FirebaseConstants.TASK_RECEIVED;
 import static com.reminder.main.Firebase.FirebaseConstants.TASK_SENT;
 import static com.reminder.main.Firebase.FirebaseConstants.TASK_STATUS;
+import static com.reminder.main.Firebase.FirebaseConstants.TASK_WEB_ID;
 import static com.reminder.main.Firebase.FirebaseConstants.TOPIC;
 import static com.reminder.main.Firebase.FirebaseConstants.USER_ABOUT;
 import static com.reminder.main.Firebase.FirebaseConstants.USER_EMAIL;
@@ -33,6 +41,17 @@ import static com.reminder.main.Firebase.FirebaseConstants.USER_PRIMARY_ID;
 import static com.reminder.main.Firebase.FirebaseConstants.USER_PRIMARY_ID_LIST;
 import static com.reminder.main.Firebase.FirebaseConstants.USER_PROFESSION;
 import static com.reminder.main.Firebase.FirebaseConstants.USER_PROFILE_PIC;
+import static com.reminder.main.SqLite.TaskShared.TaskSharedConstants.TASK_RECEIVED_TABLE_NAME;
+import static com.reminder.main.SqLite.TaskShared.TaskSharedConstants.TASK_SENT_TABLE_NAME;
+import static com.reminder.main.SqLite.TaskShared.TaskSharedDB.insertOrUpdateMultipleTaskShared;
+import static com.reminder.main.SqLite.TaskStatus.TaskStatusDB.insertOrUpdateMultipleTaskStatus;
+import static com.reminder.main.SqLite.Tasks.TaskConstants.ALARM_DATE;
+import static com.reminder.main.SqLite.Tasks.TaskConstants.ALREADY_DONE_NO_BYTE;
+import static com.reminder.main.SqLite.Tasks.TaskConstants.DATE_ARRAY;
+import static com.reminder.main.SqLite.Tasks.TaskConstants.DAYS_OF_WEEK;
+import static com.reminder.main.SqLite.Tasks.TaskConstants.PINNED_NO;
+import static com.reminder.main.SqLite.Tasks.TaskConstants.PRIORITY_NORMAL;
+import static com.reminder.main.SqLite.Tasks.TaskConstants.PRIVATE_NO;
 import static com.reminder.main.SqLite.Tasks.TaskConstants.REPEAT_STATUS_NO_REPEAT;
 import static com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity.FIREBASE_AUTH;
 import static com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity.FIREBASE_FUNCTIONS;
@@ -59,7 +78,6 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -67,14 +85,13 @@ import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.reminder.main.Firebase.FirebaseConstants;
-import com.reminder.main.Other.AlertDialogueForAll;
+import com.reminder.main.Custom.CustomAlertDialogue;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.BlockedContact.BlockedContactsDB;
 import com.reminder.main.SqLite.CommonDB.CommonDB;
 import com.reminder.main.SqLite.Request.RequestConstants;
 import com.reminder.main.SqLite.Request.RequestData;
 import com.reminder.main.SqLite.Request.RequestsDB;
-import com.reminder.main.SqLite.Tasks.TaskConstants;
 import com.reminder.main.SqLite.Tasks.TaskData;
 import com.reminder.main.SqLite.Tasks.TasksDB;
 import com.reminder.main.SqLite.UserDetails.UserDetailsConstant;
@@ -103,10 +120,9 @@ public class EditAccountInfo extends AppCompatActivity {
     private CoordinatorLayout circularProgress;
     private String GET_SIGN_IN_TYPE;
     private final FirebaseUser FIREBASE_USER = FIREBASE_AUTH.getCurrentUser();
-    private AlertDialogueForAll alertDialogueForAll;
+    private CustomAlertDialogue customAlertDialogue;
     private boolean dataFoundInFirebase = false;
     private final ArrayList<String> userPrimaryIdList = new ArrayList<>();
-
     private final String TAG = "TAG";
 
 
@@ -139,7 +155,7 @@ public class EditAccountInfo extends AppCompatActivity {
 
 
 
-        alertDialogueForAll = new AlertDialogueForAll(this);
+        customAlertDialogue = new CustomAlertDialogue(this);
 
         setName = findViewById(R.id.setName);
         setEmail = findViewById(R.id.setEmail);
@@ -267,9 +283,11 @@ public class EditAccountInfo extends AppCompatActivity {
                         // set account data
                         dataFoundInFirebase = true;
                         Log.d(TAG, "getAccountDetails: " + httpsCallableResult.getData());
+                        //assert httpsCallableResult.getData() != null;
                         setAccountDataToSQLite((Map<?, ?>) httpsCallableResult.getData());
                         setUserData((Map<?, ?>) ((Map<?, ?>) httpsCallableResult.getData()).get(PROFILE_DETAILS));
                         setUserDataToUI();
+                        //AccountSettings.signOut(this, val -> {});
                     })
                     .addOnFailureListener(e -> {
                         // get user data
@@ -359,6 +377,8 @@ public class EditAccountInfo extends AppCompatActivity {
 
 
     private void setAccountDataToSQLite(Map<?, ?> data) {
+
+
 
         Log.d(TAG, "setAccountDataToSQLite: " + data);
 
@@ -482,6 +502,8 @@ public class EditAccountInfo extends AppCompatActivity {
 
     private void taskSubCollections(Map<?,?> taskDetails) {
 
+        Log.d(TAG, "taskSubCollections: " + taskDetails);
+
         Map<?,?> taskData = (Map<?, ?>) taskDetails.get(TASKS);
         Map<?,?> taskSent = (Map<?, ?>) taskDetails.get(TASK_SENT);
         Map<?,?> taskReceived = (Map<?, ?>) taskDetails.get(TASK_RECEIVED);
@@ -517,7 +539,6 @@ public class EditAccountInfo extends AppCompatActivity {
 
 
     private void setUserDetailsToSQLite(Map<?,?> userDetails) {
-
         ArrayList<UserDetailsData> usersData = new ArrayList<>();
         userDetails.forEach((key, object) -> {
 
@@ -549,24 +570,26 @@ public class EditAccountInfo extends AppCompatActivity {
 
     private void setTaskDataToSQLite(Map<?,?> taskDetails) {
 
+        Log.d(TAG, "setTaskDataToSQLite: " + taskDetails);
+
         ArrayList<TaskData> taskDataData = new ArrayList<>();
 
         taskDetails.forEach((key, object) -> {
 
-            Map<?,?> map = (Map<?, ?>) object;
             String taskWebId = (String) key;
+            Map<?,?> map = (Map<?, ?>) object;
             String topic = (String) map.get(TOPIC);
-            String description = (String) map.get(DESCRIPTION);
-            long alarmDate = (long) map.get(FirebaseConstants.ALARM_DATE);
-            byte repeatStatus = map.containsKey(REPEAT_STATUS) ? (byte) map.get(REPEAT_STATUS) : REPEAT_STATUS_NO_REPEAT;
+            String description = map.containsKey(DESCRIPTION) ? (String) map.get(DESCRIPTION) : "" ;
+            long alarmDate = (long) map.get(ALARM_DATE);
+            byte repeatStatus = map.containsKey(REPEAT_STATUS) ? Byte.parseByte(map.get(REPEAT_STATUS)+"") : REPEAT_STATUS_NO_REPEAT;
 
             ArrayList<Integer> dateArrayList = null;
             String dateArray;
             try {
-                dateArrayList = (ArrayList<Integer>) taskDetails.get(FirebaseConstants.DATE_ARRAY);
+                dateArrayList = (ArrayList<Integer>) taskDetails.get(DATE_ARRAY);
                 dateArray = new JSONArray(dateArrayList).toString();
             }  catch (Exception e) {
-                dateArray = TaskConstants.DAYS_OF_WEEK;
+                dateArray = DAYS_OF_WEEK;
             }
 
             if (dateArrayList == null) {
@@ -584,13 +607,13 @@ public class EditAccountInfo extends AppCompatActivity {
 
             taskDataData.add(
                     new TaskData(
-                            TaskConstants.PRIVATE_NO,
+                            PRIVATE_NO,
                             topic,
                             description,
                             alarmDate,
                             repeatStatus,
                             dateArray,
-                            repeatStatus == TaskConstants.REPEAT_STATUS_NO_REPEAT ?
+                            repeatStatus == REPEAT_STATUS_NO_REPEAT ?
                                     alarmDate :
                                     AddTask.rescheduleDateAndTIme(
                                             dateArrayList,
@@ -598,11 +621,11 @@ public class EditAccountInfo extends AppCompatActivity {
                                             repeatStatus
                                     ),
                             0,
-                            TaskConstants.ALREADY_DONE_NO_BYTE,
-                            TaskConstants.PINNED_NO,
+                            ALREADY_DONE_NO_BYTE,
+                            PINNED_NO,
                             null,
-                            taskWebId.split("_")[0],
-                            TaskConstants.PRIORITY_NORMAL,
+                            getTaskIdFromTaskWebId(taskWebId),
+                            PRIORITY_NORMAL,
                             taskWebId
                     )
             );
@@ -617,6 +640,67 @@ public class EditAccountInfo extends AppCompatActivity {
     private void setTaskSentDataToSQLite(Map<?,?> taskSentDetails) {
 
 
+        ArrayList<ContentValues> taskSharedDataArray = new ArrayList<>();
+        ArrayList<ContentValues> taskStatusDataArray = new ArrayList<>();
+
+        taskSentDetails.forEach((taskWebId, obj) -> {
+
+            Map<?,?> subData = (Map<?,?>) obj;
+            ArrayList<?> taskArray = (ArrayList<?>) subData.get(TASK_ARRAY);
+
+            subData.forEach((uid,  downloadedData) -> {
+
+                Map<?,?> d = (Map<?,?>) downloadedData;
+                //String uid = String.valueOf(d.get(FirebaseConstants.USER_PRIMARY_ID));
+                byte downloaded = Boolean.parseBoolean(String.valueOf(d.get(DOWNLOADED))) == DOWNLOADED_YES ? DOWNLOADED_YES_BYTE : DOWNLOADED_NO_BYTE ;
+
+                ContentValues taskShared = new ContentValues();
+                ContentValues taskStatus = new ContentValues();
+
+                taskShared.put(USER_PRIMARY_ID, String.valueOf(uid));
+                taskShared.put(TASK_WEB_ID, String.valueOf(taskWebId));
+
+                taskStatus.put(USER_PRIMARY_ID, String.valueOf(uid));
+                taskStatus.put(TASK_WEB_ID, String.valueOf(taskWebId));
+                taskStatus.put(PERCENTAGE_COMPLETE, 0);
+                taskStatus.put(DOWNLOADED, downloaded);
+
+                taskSharedDataArray.add(taskShared);
+                taskStatusDataArray.add(taskStatus);
+
+            });
+
+
+            if (taskArray != null && !taskArray.isEmpty()) {
+
+                for (Object data: taskArray) {
+
+                    Map<?,?> d = (Map<?,?>) data;
+                    String uid = String.valueOf(d.get(FirebaseConstants.USER_PRIMARY_ID));
+                    byte downloaded = Boolean.parseBoolean(String.valueOf(d.get(DOWNLOADED))) == DOWNLOADED_YES ? DOWNLOADED_YES_BYTE : DOWNLOADED_NO_BYTE ;
+
+                    ContentValues taskShared = new ContentValues();
+                    ContentValues taskStatus = new ContentValues();
+
+                    taskShared.put(USER_PRIMARY_ID, uid);
+                    taskShared.put(TASK_WEB_ID, String.valueOf(taskWebId));
+
+                    taskStatus.put(USER_PRIMARY_ID, uid);
+                    taskStatus.put(TASK_WEB_ID, String.valueOf(taskWebId));
+                    taskStatus.put(PERCENTAGE_COMPLETE, 0);
+                    taskStatus.put(DOWNLOADED, downloaded);
+
+                    taskSharedDataArray.add(taskShared);
+                    taskStatusDataArray.add(taskStatus);
+
+                }
+
+            }
+
+        });
+
+        insertOrUpdateMultipleTaskShared(this, taskSharedDataArray, TASK_SENT_TABLE_NAME);
+        insertOrUpdateMultipleTaskStatus(this, taskStatusDataArray);
 
     }
 
@@ -624,15 +708,44 @@ public class EditAccountInfo extends AppCompatActivity {
 
     private void setTaskReceivedDataToSQLite(Map<?,?> taskReceivedDetails) {
 
+        Log.d(TAG, "setTaskReceivedDataToSQLite: " + taskReceivedDetails);
 
+        ArrayList<ContentValues> taskSharedDataArray = new ArrayList<>();
+        ArrayList<ContentValues> taskStatusDataArray = new ArrayList<>();
 
-    }
+        taskReceivedDetails.forEach((taskWebId, obj) -> {
 
+            Map<?,?> fd = (Map<?,?>) obj;
 
+            byte downloaded = Boolean.parseBoolean(String.valueOf(fd.get(DOWNLOADED))) == DOWNLOADED_YES ? DOWNLOADED_YES_BYTE : DOWNLOADED_NO_BYTE;
+            ArrayList<?> uidList = (ArrayList<?>) fd.get(FirebaseConstants.USER_PRIMARY_ID_LIST);
 
-    private void setTaskStatusDataToSQLite(Map<?,?> taskStatusDetails) {
+            if (uidList != null && !uidList.isEmpty()) {
 
+                uidList.forEach((uid) -> {
+                    
+                    ContentValues taskShared = new ContentValues();
+                    ContentValues taskStatus = new ContentValues();
 
+                    taskShared.put(USER_PRIMARY_ID, String.valueOf(uid));
+                    taskShared.put(TASK_WEB_ID, String.valueOf(taskWebId));
+
+                    taskStatus.put(USER_PRIMARY_ID, String.valueOf(uid));
+                    taskStatus.put(TASK_WEB_ID, String.valueOf(taskWebId));
+                    taskStatus.put(PERCENTAGE_COMPLETE, 0);
+                    taskStatus.put(DOWNLOADED, downloaded);
+
+                    taskSharedDataArray.add(taskShared);
+                    taskStatusDataArray.add(taskStatus);
+
+                });
+
+            }
+
+        });
+
+        insertOrUpdateMultipleTaskShared(this, taskSharedDataArray, TASK_RECEIVED_TABLE_NAME);
+        insertOrUpdateMultipleTaskStatus(this, taskStatusDataArray);
 
     }
 
@@ -667,6 +780,15 @@ public class EditAccountInfo extends AppCompatActivity {
 
 
 
+
+    private void setTaskStatusDataToSQLite(Map<?,?> taskStatusDetails) {
+
+
+
+    }
+
+
+
     private void updateProfileDataFirebase() {
         String userName = "";
         String userProfession = "";
@@ -697,22 +819,22 @@ public class EditAccountInfo extends AppCompatActivity {
 
 
         if (userEmail.trim().isEmpty() && GET_SIGN_IN_TYPE.equals(SIGN_IN_TYPE_GOOGLE)) {
-            alertDialogueForAll.showAlert("Please enter your email", "Ok");
+            customAlertDialogue.showAlert("Please enter your email", "Ok");
             return;
         }
 
         if (userName.isEmpty()) {
-            alertDialogueForAll.showAlert("Please enter your name", "Ok");
+            customAlertDialogue.showAlert("Please enter your name", "Ok");
             return;
         }
 
         if (userPhoneNumber.isEmpty() && GET_SIGN_IN_TYPE.equals(SIGN_IN_TYPE_PHONE)){
-            alertDialogueForAll.showAlert("Please enter your phone number", "Ok");
+            customAlertDialogue.showAlert("Please enter your phone number", "Ok");
             return;
         }
 
         if (userProfession.isEmpty()) {
-            alertDialogueForAll.showAlert("Please enter your profession", "Ok");
+            customAlertDialogue.showAlert("Please enter your profession", "Ok");
             return;
         }
 

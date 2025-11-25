@@ -20,15 +20,15 @@ import androidx.preference.PreferenceManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.reminder.main.BackgroundWorks.TaskWork.RescheduleTaskAfterAlarmTrigger;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.CommonDB.CommonDB;
 import com.reminder.main.SqLite.Tasks.TaskConstants;
 import com.reminder.main.SqLite.Tasks.TaskData;
 import com.reminder.main.SqLite.Tasks.TasksDB;
 import com.reminder.main.UserInterfaces.AddTaskPage.AddTask;
-import com.reminder.main.UserInterfaces.Global.DatePickerClass;
-import com.reminder.main.UserInterfaces.Global.TimePickerClass;
+import com.reminder.main.Custom.CustomDatePicker;
+import com.reminder.main.Custom.CustomTimePicker;
 import com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity;
 import com.reminder.main.UserInterfaces.NotificationPage.TaskAlarm.BroadCasts.TaskAlertBroadcast;
 
@@ -41,8 +41,8 @@ import java.util.Collections;
 
 
 public class ReSchedulePage extends AppCompatActivity implements
-        ApplicationCustomInterfaces.DateTime,
-        ApplicationCustomInterfaces.RepeatStatus {
+        CustomInterfaces.DateTime,
+        CustomInterfaces.RepeatStatus {
     private final Calendar finalAlarmDate = Calendar.getInstance();
     private LinearLayout daysInWeekView;
     private EditText setHour, setMinute;
@@ -105,14 +105,14 @@ public class ReSchedulePage extends AppCompatActivity implements
         setRepeatStatus(finalRepeatStatus);
 
         selectDateBtn.setOnClickListener(v -> {
-            DatePickerClass datePickerClass = new DatePickerClass(this);
-            datePickerClass.showCalendar();
+            CustomDatePicker customDatePicker = new CustomDatePicker(this);
+            customDatePicker.showCalendar();
         });
 
 
         findViewById(R.id.selectTimeButton).setOnClickListener(v -> {
-            TimePickerClass timePickerClass = new TimePickerClass(getSupportFragmentManager(), this);
-            timePickerClass.timeFunction();
+            CustomTimePicker customTimePicker = new CustomTimePicker(getSupportFragmentManager(), this);
+            customTimePicker.timeFunction();
         });
 
 
@@ -187,7 +187,7 @@ public class ReSchedulePage extends AppCompatActivity implements
         CommonDB commonDB = new CommonDB(this);
         Cursor cursor = commonDB.getReadableDatabase().rawQuery(
                 " SELECT * FROM " + TaskConstants.TASK_TABLE_NAME +
-                        " WHERE " + TaskConstants.TASK_ID + " = " + getIntent().getLongExtra(TaskConstants.TASK_ID, 0),
+                        " WHERE " + TaskConstants.TASK_ID + " = \"" + getIntent().getStringExtra(TaskConstants.TASK_ID) + "\"",
                 null
         );
 
@@ -341,8 +341,6 @@ public class ReSchedulePage extends AppCompatActivity implements
         daysInWeekView.setVisibility(status == TaskConstants.REPEAT_STATUS_NO_REPEAT ? View.GONE : View.VISIBLE);
         finalRepeatStatus = status;
     }
-
-
 
 
     private void cancelAndRescheduleTask() {

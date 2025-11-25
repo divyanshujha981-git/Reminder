@@ -318,6 +318,11 @@
             android:name=".BackgroundWorks.CheckNotificationService">
         </service>
 
+        <service
+            android:exported="false"
+            android:name=".BackgroundWorks.FirebaseWork.SyncFirebaseData">
+        </service>
+
 
     </application>
 

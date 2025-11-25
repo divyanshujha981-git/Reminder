@@ -2,9 +2,31 @@ package com.reminder.main.UserInterfaces.SendTaskPage;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.reminder.main.Custom.CustomFunctions.getTaskWebID;
+import static com.reminder.main.Firebase.FirebaseConstants.ALARM_DATE;
+import static com.reminder.main.Firebase.FirebaseConstants.DATE_ARRAY;
+import static com.reminder.main.Firebase.FirebaseConstants.DESCRIPTION;
+import static com.reminder.main.Firebase.FirebaseConstants.DOWNLOADED;
+import static com.reminder.main.Firebase.FirebaseConstants.DOWNLOADED_NO_BYTE;
+import static com.reminder.main.Firebase.FirebaseConstants.DOWNLOADED_YES;
+import static com.reminder.main.Firebase.FirebaseConstants.DOWNLOADED_YES_BYTE;
+import static com.reminder.main.Firebase.FirebaseConstants.PERCENTAGE_COMPLETE;
+import static com.reminder.main.Firebase.FirebaseConstants.REPEAT_STATUS;
+import static com.reminder.main.Firebase.FirebaseConstants.SEND_TASK_REQUEST;
+import static com.reminder.main.Firebase.FirebaseConstants.TASKS;
+import static com.reminder.main.Firebase.FirebaseConstants.TASK_WEB_ID;
+import static com.reminder.main.Firebase.FirebaseConstants.TOPIC;
+import static com.reminder.main.Firebase.FirebaseConstants.USER_PRIMARY_ID_LIST;
+import static com.reminder.main.SqLite.TaskShared.TaskSharedConstants.TASK_SENT_TABLE_NAME;
+import static com.reminder.main.SqLite.Tasks.TaskConstants.TASK_ID;
 import static com.reminder.main.SqLite.Tasks.TaskConstants.USER_PRIMARY_ID;
 
+import android.content.ContentValues;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,30 +36,43 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.functions.FirebaseFunctions;
-import com.reminder.main.Other.ApplicationCustomInterfaces;
+import com.google.gson.Gson;
+import com.reminder.main.Custom.CustomInterfaces;
 import com.reminder.main.R;
+import com.reminder.main.SqLite.TaskShared.TaskSharedDB;
+import com.reminder.main.SqLite.TaskStatus.TaskStatusDB;
 import com.reminder.main.SqLite.Tasks.TaskData;
+import com.reminder.main.SqLite.Tasks.TasksDB;
 import com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity;
 import com.reminder.main.UserInterfaces.HomePage.Tasks.NavBarDateTemplate;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+
+
 
 public class SendTask extends AppCompatActivity implements
-        ApplicationCustomInterfaces.TaskSQLInterface,
-        ApplicationCustomInterfaces.ContextualActionBar {
+        CustomInterfaces.TaskSQLInterface,
+        CustomInterfaces.ContextualActionBar, TextWatcher {
     private final FirebaseFunctions FIREBASE_FUNCTION = MainActivity.FIREBASE_FUNCTIONS;
     private String userPrimaryId;
+    private CoordinatorLayout circularProgress;
     private FloatingActionButton sendTaskButton;
+    private TasksAdapter tasksAdapter;
     private MaterialCardView searchCard;
     private RecyclerView recyclerView;
-    private ApplicationCustomInterfaces.ContextualActionBarCallback adapterTaskSelectCallback;
+    private CustomInterfaces.ContextualActionBarCallback adapterTaskSelectCallback;
     private Menu menu;
     private EditText searchUser;
     private TaskSQLData taskSQLData;
@@ -96,6 +131,7 @@ public class SendTask extends AppCompatActivity implements
         recyclerView = findViewById(R.id.recycler_view);
         taskSQLData = new TaskSQLData(this);
         toolbar = findViewById(R.id.toolBar);
+        circularProgress = findViewById(R.id.circular_progress_middle_view);
     }
 
 
@@ -103,12 +139,68 @@ public class SendTask extends AppCompatActivity implements
         setSupportActionBar(toolbar);
         sendTaskButton.setOnClickListener(this::sendTask);
         taskSQLData.getAllData();
+
+        searchUser.addTextChangedListener(this);
     }
 
 
     private void sendTask(View v) {
+        //animateView(v, GONE);
+        circularProgress.setVisibility(VISIBLE);
+
+        Map<String, Map<String, Object>> selectedTask = new HashMap<>();
+
+        ArrayList<ContentValues> updatableTasks = new ArrayList<>();
+
+        tasksAdapter.getSelectedTask().forEach((taskID, taskData) -> {
+            Map<String, Object> subTask = new HashMap<>();
+
+            subTask.put(TOPIC, taskData.getTopic());
+            subTask.put(ALARM_DATE, taskData.getAlarmDate());
+            subTask.put(REPEAT_STATUS, taskData.getRepeatStatus());
+            subTask.put(DATE_ARRAY, taskData.getDateArray().toString());
+            if (taskData.getDescription() != null && !taskData.getDescription().isEmpty()) {
+                subTask.put(DESCRIPTION, taskData.getTopic());
+            }
+
+            String taskWebId = getTaskWebID(this, taskData.getTaskId(), taskData.getTaskWebId());
+            Log.d("TAG", "sendTask: " + taskWebId);
+            selectedTask.put(taskWebId, subTask);
+
+            ContentValues values = new ContentValues();
+            values.put(TASK_WEB_ID, taskWebId);
+            values.put(TASK_ID, taskID);
+            updatableTasks.add(values);
+
+        });
+
+        TasksDB.updateMultipleTask(this, updatableTasks);
+
+        Map<String, Object> data = new HashMap<>();
+        data.put(TASKS, selectedTask);
+        data.put(USER_PRIMARY_ID_LIST, new ArrayList<>(Collections.singletonList(userPrimaryId)));
+
+        FIREBASE_FUNCTION.getHttpsCallable(SEND_TASK_REQUEST)
+                .call(new Gson().toJson(data))
+                .addOnSuccessListener(httpsCallableResult -> {
+                    new Thread(() -> {
+                        assert httpsCallableResult.getData() != null;
+                        fetchSentTaskToSQLite((Map<?, ?>) httpsCallableResult.getData());
+                        new Handler(Looper.getMainLooper()).post(this::finish);
+                    }).start();
+
+                })
+                .addOnFailureListener(e -> {
+
+
+
+                })
+                .addOnCompleteListener(task -> {
+                    circularProgress.setVisibility(GONE);
+                });
 
     }
+
 
     private void animateView(View v, int visibility) {
 
@@ -166,9 +258,51 @@ public class SendTask extends AppCompatActivity implements
     }
 
 
+
+    private void fetchSentTaskToSQLite(Map<?,?> data) {
+
+        ArrayList<ContentValues> taskSentData = new ArrayList<>();
+        ArrayList<ContentValues>  taskStatusData = new ArrayList<>();
+
+        data.forEach((uid, object) -> {
+
+            Map<?,?> subTask = (Map<?,?>) object;
+
+            ((Map<?,?>) Objects.requireNonNull(subTask.get(TASKS))).forEach((taskID, subTaskData) -> {
+
+                Log.d("TAG", "fetchSentTaskToSQLite: " + uid);
+                Log.d("TAG", "fetchSentTaskToSQLite: " + taskID);
+                Log.d("TAG", "fetchSentTaskToSQLite: " + subTaskData);
+
+                ContentValues taskSentDataContentValues = new ContentValues();
+                ContentValues taskStatusDataContentValues = new ContentValues();
+
+                boolean downloaded = Boolean.parseBoolean(String.valueOf(((Map<?,?>) subTaskData).get(DOWNLOADED)));
+                taskSentDataContentValues.put(USER_PRIMARY_ID, String.valueOf(uid));
+                taskSentDataContentValues.put(TASK_WEB_ID, String.valueOf(taskID));
+
+                taskStatusDataContentValues.put(USER_PRIMARY_ID, String.valueOf(uid));
+                taskStatusDataContentValues.put(TASK_WEB_ID, String.valueOf(taskID));
+                taskStatusDataContentValues.put(DOWNLOADED, downloaded == DOWNLOADED_YES ? DOWNLOADED_YES_BYTE : DOWNLOADED_NO_BYTE);
+                taskStatusDataContentValues.put(PERCENTAGE_COMPLETE, 0);
+
+                taskSentData.add(taskSentDataContentValues);
+                taskStatusData.add(taskStatusDataContentValues);
+
+            });
+
+        });
+
+        TaskSharedDB.insertOrUpdateMultipleTaskShared(this, taskSentData, TASK_SENT_TABLE_NAME);
+        TaskStatusDB.insertOrUpdateMultipleTaskStatus(this, taskStatusData);
+
+    }
+
+
     @Override
     public void setMainTaskData(ArrayList<TaskData> taskData) {
-        recyclerView.setAdapter(new TasksAdapter(taskData, this));
+        tasksAdapter = new TasksAdapter(taskData, this);
+        recyclerView.setAdapter(tasksAdapter);
     }
 
     @Override
@@ -192,7 +326,7 @@ public class SendTask extends AppCompatActivity implements
     }
 
     @Override
-    public void setContextualActionBarVisible(ApplicationCustomInterfaces.ContextualActionBarCallback contextualActionBarCallback, ApplicationCustomInterfaces.ManipulateTask manipulateTask) {
+    public void setContextualActionBarVisible(CustomInterfaces.ContextualActionBarCallback contextualActionBarCallback, CustomInterfaces.ManipulateTask manipulateTask) {
         adapterTaskSelectCallback = contextualActionBarCallback;
     }
 
@@ -207,6 +341,23 @@ public class SendTask extends AppCompatActivity implements
         getSupportActionBar().setTitle(value);
     }
 
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+
+    }
+
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
 
 
 }
