@@ -2,6 +2,8 @@ package com.reminder.main.SqLite.Tasks;
 
 import android.util.Log;
 
+import com.reminder.main.Custom.CustomFunctions;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -158,7 +160,8 @@ public class TaskData {
 
     public void setTaskId(String taskId) {
         this.taskId = taskId;
-        setTaskAddedTime(Long.parseLong(taskId.split("-")[0]));
+        Log.d("TAG", "setTaskId: " + taskId);
+        setTaskAddedTime(CustomFunctions.getIdFromTaskID(taskId));
     }
 
     public byte getPriority() {

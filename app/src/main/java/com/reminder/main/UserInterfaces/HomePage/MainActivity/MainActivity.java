@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void setAction() {
 
-        startService(new Intent(this, SyncFirebaseData.class));
+
 
         viewPager2.setAdapter(new MainPagePagerAdapter(this));
         bottomNavigationView.setOnItemSelectedListener(MainActivity.this);
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements
         intent.setComponent(new ComponentName("com.reminder.mini", "com.reminder.mini.BackgroundWorks.TaskWork.SystemRescheduleTaskAfterAlarmTrigger"));
         sendBroadcast(intent);
 
-        //checkPermissions();
+        checkPermissions();
 
         uiCorrection();
 
@@ -158,8 +158,6 @@ public class MainActivity extends AppCompatActivity implements
 
     private void setFirebase() {
 
-        FIREBASE_AUTH = FirebaseAuth.getInstance();
-        FIREBASE_FUNCTIONS = FirebaseFunctions.getInstance();
 
         try {
             FIREBASE_AUTH.useEmulator("10.0.2.2", 9099);
@@ -184,6 +182,9 @@ public class MainActivity extends AppCompatActivity implements
 
         if (FIREBASE_AUTH.getCurrentUser() != null && !userFoundInSQLite(this)) {
             startActivity(new Intent(this, EditAccountInfo.class));
+        }
+        else {
+            startService(new Intent(this, SyncFirebaseData.class));
         }
 
     }

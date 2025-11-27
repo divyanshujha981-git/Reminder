@@ -3,7 +3,7 @@ package com.reminder.main.UserInterfaces.SettingsPage.AccountSettings;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.reminder.main.Custom.CustomFunctions.getTaskIdFromTaskWebId;
+import static com.reminder.main.Custom.CustomFunctions.generateNewTaskID;
 import static com.reminder.main.Firebase.FirebaseConstants.BLOCKED_CONTACTS;
 import static com.reminder.main.Firebase.FirebaseConstants.DESCRIPTION;
 import static com.reminder.main.Firebase.FirebaseConstants.DOWNLOADED;
@@ -53,6 +53,7 @@ import static com.reminder.main.SqLite.Tasks.TaskConstants.PINNED_NO;
 import static com.reminder.main.SqLite.Tasks.TaskConstants.PRIORITY_NORMAL;
 import static com.reminder.main.SqLite.Tasks.TaskConstants.PRIVATE_NO;
 import static com.reminder.main.SqLite.Tasks.TaskConstants.REPEAT_STATUS_NO_REPEAT;
+import static com.reminder.main.SqLite.Tasks.TaskConstants.TASK_ID;
 import static com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity.FIREBASE_AUTH;
 import static com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity.FIREBASE_FUNCTIONS;
 import static com.reminder.main.UserInterfaces.LoginRegisterPage.LoginRegister.SIGN_IN_TYPE_GOOGLE;
@@ -579,6 +580,7 @@ public class EditAccountInfo extends AppCompatActivity {
             String taskWebId = (String) key;
             Map<?,?> map = (Map<?, ?>) object;
             String topic = (String) map.get(TOPIC);
+            String taskIO = map.containsKey(TASK_ID) ? (String) map.get(TASK_ID) : generateNewTaskID(this);
             String description = map.containsKey(DESCRIPTION) ? (String) map.get(DESCRIPTION) : "" ;
             long alarmDate = (long) map.get(ALARM_DATE);
             byte repeatStatus = map.containsKey(REPEAT_STATUS) ? Byte.parseByte(map.get(REPEAT_STATUS)+"") : REPEAT_STATUS_NO_REPEAT;
@@ -624,7 +626,7 @@ public class EditAccountInfo extends AppCompatActivity {
                             ALREADY_DONE_NO_BYTE,
                             PINNED_NO,
                             null,
-                            getTaskIdFromTaskWebId(taskWebId),
+                            taskIO,
                             PRIORITY_NORMAL,
                             taskWebId
                     )

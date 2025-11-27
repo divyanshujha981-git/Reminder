@@ -73,6 +73,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(libs.pattern.lock)
     implementation(libs.gson)
+    implementation(libs.jackson.databind)
 
     implementation("androidx.credentials:credentials:1.5.0")
     implementation("androidx.credentials:credentials-play-services-auth:1.5.0")

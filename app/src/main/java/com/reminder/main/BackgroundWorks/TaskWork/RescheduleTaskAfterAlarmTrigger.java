@@ -14,6 +14,7 @@ import android.util.Log;
 
 import androidx.preference.PreferenceManager;
 
+import com.reminder.main.Custom.CustomFunctions;
 import com.reminder.main.R;
 import com.reminder.main.SqLite.CommonDB.CommonDB;
 import com.reminder.main.SqLite.Tasks.TaskConstants;
@@ -49,22 +50,24 @@ public class RescheduleTaskAfterAlarmTrigger extends BroadcastReceiver {
 
         try {
 
-            String query = " SELECT " +
-                    TaskConstants.TASK_ID  + ", "  +
-                    TaskConstants.TOPIC  + ", "  +
-                    TaskConstants.REPEATING_ALARM_DATE  + ", "  +
-                    TaskConstants.PRIVATE + ", "  +
-                    TaskConstants.PRIORITY + ", "  +
-                    TaskConstants.ALREADY_DONE +
+            String query =
+                    " SELECT " +
+                        TaskConstants.TASK_ID  + ", "  +
+                        TaskConstants.TOPIC  + ", "  +
+                        TaskConstants.REPEATING_ALARM_DATE  + ", "  +
+                        TaskConstants.PRIVATE + ", "  +
+                        TaskConstants.PRIORITY + ", "  +
+                        TaskConstants.ALREADY_DONE +
                     " FROM " + TaskConstants.TASK_TABLE_NAME + " WHERE " + TaskConstants.REPEATING_ALARM_DATE + " > " + Calendar.getInstance().getTimeInMillis() + " ORDER BY " + TaskConstants.REPEATING_ALARM_DATE + " LIMIT 1";
 
-            String lateQuery = " SELECT " +
-                    TaskConstants.TASK_ID  + ", "  +
-                    TaskConstants.TOPIC  + ", "  +
-                    TaskConstants.LATER_ALARM_DATE  + ", "  +
-                    TaskConstants.PRIVATE + ", "  +
-                    TaskConstants.PRIORITY + ", "  +
-                    TaskConstants.ALREADY_DONE +
+            String lateQuery =
+                    " SELECT " +
+                        TaskConstants.TASK_ID  + ", "  +
+                        TaskConstants.TOPIC  + ", "  +
+                        TaskConstants.LATER_ALARM_DATE  + ", "  +
+                        TaskConstants.PRIVATE + ", "  +
+                        TaskConstants.PRIORITY + ", "  +
+                        TaskConstants.ALREADY_DONE +
                     " FROM " + TaskConstants.TASK_TABLE_NAME + " WHERE " + TaskConstants.LATER_ALARM_DATE + " > " + Calendar.getInstance().getTimeInMillis() + " ORDER BY " + TaskConstants.LATER_ALARM_DATE + " LIMIT 1";
 
 
@@ -97,22 +100,19 @@ public class RescheduleTaskAfterAlarmTrigger extends BroadcastReceiver {
 
             }
 
-            else if (repeatingCursor.getCount() > 0) {
-                repeatingCursor.moveToFirst();
-                reschedule(context, repeatingCursor);
-            }
-
-            else if (laterCursor.getCount() > 0) {
-                laterCursor.moveToFirst();
-                reschedule(context, laterCursor);
-            }
-
             else {
-                Log.d("TAG", "doWork: ** TASK NOT FOUND **");
+
+                if (repeatingCursor.getCount() > 0) {
+                    repeatingCursor.moveToFirst();
+                    reschedule(context, repeatingCursor);
+                }
+
+                if (laterCursor.getCount() > 0) {
+                    laterCursor.moveToFirst();
+                    reschedule(context, laterCursor);
+                }
+
             }
-
-
-
 
             repeatingCursor.close();
             laterCursor.close();
@@ -138,7 +138,7 @@ public class RescheduleTaskAfterAlarmTrigger extends BroadcastReceiver {
 
     private void reschedule(Context context, Cursor cursor) {
 
-        long taskID = cursor.getLong(0);
+        String taskID = cursor.getString(0);
         String topic = cursor.getString(1);
         long repeatingAlarmDate = cursor.getLong(2);
         int locked = cursor.getInt(3);
@@ -161,7 +161,7 @@ public class RescheduleTaskAfterAlarmTrigger extends BroadcastReceiver {
                 .putExtra(TaskConstants.PRIORITY, priority)
                 .putExtra(TaskConstants.ALREADY_DONE, alreadyDone);
 
-        int requestCode = (int) taskID;
+        int requestCode = CustomFunctions.getIdFromTaskID(taskID);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -192,7 +192,7 @@ public class RescheduleTaskAfterAlarmTrigger extends BroadcastReceiver {
 
 
 
-    public static void rescheduleCurrentTask(Context context, long taskID) {
+    public static void rescheduleCurrentTask(Context context, String taskID) {
         CommonDB commonDB = new CommonDB(context);
         Cursor cursor = commonDB.getReadableDatabase().rawQuery(" SELECT " +
                 TaskConstants.REPEAT_STATUS + ", " + // 0
@@ -200,7 +200,7 @@ public class RescheduleTaskAfterAlarmTrigger extends BroadcastReceiver {
                 TaskConstants.REPEATING_ALARM_DATE + ", " + // 2
                 TaskConstants.DATE_ARRAY + // 3
                 " FROM " + TaskConstants.TASK_TABLE_NAME +
-                " WHERE " + TaskConstants.TASK_ID + " = " + taskID,null);
+                " WHERE " + TaskConstants.TASK_ID + " = \"" + taskID + "\"",null);
 
         cursor.moveToFirst();
 

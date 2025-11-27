@@ -313,6 +313,17 @@
         </receiver>
 
 
+
+        <service
+            android:exported="false"
+            android:name=".BackgroundWorks.FirebaseWork.FirebaseMessaging.FirebaseMessageService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+
+
         <service
             android:exported="false"
             android:name=".BackgroundWorks.CheckNotificationService">

@@ -1,5 +1,7 @@
 package com.reminder.main.UserInterfaces.NotificationPage.TaskAlarm.BroadCasts;
 
+import static com.reminder.main.BackgroundWorks.TaskWork.RescheduleTaskAfterAlarmTrigger.rescheduleCurrentTask;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +24,7 @@ public class TaskAlertBroadcast extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         String topic = intent.getStringExtra(TaskConstants.TOPIC);
-        long taskID = intent.getLongExtra(TaskConstants.TASK_ID, 0L);
+        String taskID = intent.getStringExtra(TaskConstants.TASK_ID);
         int locked = intent.getIntExtra(TaskConstants.PRIVATE, TaskConstants.PRIVATE_NO);
 
         int alreadyDone = intent.getIntExtra(TaskConstants.ALREADY_DONE, TaskConstants.ALREADY_DONE_NO_BYTE);
@@ -60,7 +62,7 @@ public class TaskAlertBroadcast extends BroadcastReceiver {
 
 
 
-    private void postNotification(Context context, String topic, int locked, long taskID) {
+    private void postNotification(Context context, String topic, int locked, String taskID) {
 
         TaskNotificationGeneralClass taskNotificationGeneralClass = new TaskNotificationGeneralClass(context);
         taskNotificationGeneralClass.taskAlert(topic, taskID, locked);
@@ -81,9 +83,9 @@ public class TaskAlertBroadcast extends BroadcastReceiver {
 
 
 
-    private void rescheduleTask(Context context, long taskID) {
+    private void rescheduleTask(Context context, String taskID) {
 
-        RescheduleTaskAfterAlarmTrigger.rescheduleCurrentTask(context, taskID);
+        rescheduleCurrentTask(context, taskID);
         context.sendBroadcast(new Intent(context, RescheduleTaskAfterAlarmTrigger.class));
 
     }

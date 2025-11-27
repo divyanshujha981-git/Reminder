@@ -1,5 +1,7 @@
 package com.reminder.main.UserInterfaces.NotificationPage.TaskAlarm.NotificationTypes;
 
+import static com.reminder.main.Custom.CustomFunctions.getIdFromTaskID;
+
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +14,7 @@ import androidx.preference.PreferenceManager;
 
 import com.reminder.main.R;
 import com.reminder.main.SqLite.Tasks.TaskConstants;
-import com.reminder.main.UserInterfaces.NotificationPage.NotificationConstants;
+import com.reminder.main.UserInterfaces.NotificationPage.NotificationConstants.NotificationConstants;
 import com.reminder.main.UserInterfaces.NotificationPage.TaskAlarm.BroadCasts.TaskAlertCancelBroadcast;
 import com.reminder.main.UserInterfaces.NotificationPage.TaskAlarm.LaterTask.LaterTask;
 import com.reminder.main.UserInterfaces.Ppp.Ppp;
@@ -20,14 +22,14 @@ import com.reminder.main.UserInterfaces.TaskViewPage.TaskViewMain;
 
 
 public class TaskNotificationGeneralClass {
-    public static int NOTIFICATION_ID = 1;
+    public static int TASK_ALERT_NOTIFICATION_ID = 1;
     private final Context context;
 
     public TaskNotificationGeneralClass(Context context) {
         this.context = context;
     }
 
-    public void taskAlert(String topic, long taskID, int locked) {
+    public void taskAlert(String topic, String taskID, int locked) {
 
         if (ActivityCompat.checkSelfPermission(context, "android.permission.POST_NOTIFICATIONS") != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -52,25 +54,25 @@ public class TaskNotificationGeneralClass {
                 .setFullScreenIntent(shouldNotify ? getNotificationIntent(context, locked, taskID, topic) : null, true);
 
         NotificationManagerCompat manager = NotificationManagerCompat.from(context);
-        manager.notify(NOTIFICATION_ID, notificationBuilder.build());
+        manager.notify(TASK_ALERT_NOTIFICATION_ID, notificationBuilder.build());
 
 
     }
 
 
-    private PendingIntent getNotificationIntent(Context context, int lockedStatus, long taskID, String topic) {
+    private PendingIntent getNotificationIntent(Context context, int lockedStatus, String taskID, String topic) {
 
         Intent intent = new Intent(context, lockedStatus == TaskConstants.PRIVATE_YES ? PrivateNotificationIntent.class : NotificationIntent.class);
         intent.putExtra(TaskConstants.TASK_ID, String.valueOf(taskID));
         intent.putExtra(TaskConstants.TOPIC, topic);
 
-        return PendingIntent.getActivity(context, ((int) taskID) + 3, intent, PendingIntent.FLAG_IMMUTABLE);
+        return PendingIntent.getActivity(context, getIdFromTaskID(taskID) + 3, intent, PendingIntent.FLAG_IMMUTABLE);
 
 
     }
 
 
-    private PendingIntent getTaskIntent(Context context, int lockedStatus, long taskID) {
+    private PendingIntent getTaskIntent(Context context, int lockedStatus, String taskID) {
 
         Intent intent = new Intent(context, TaskViewMain.class);
 
@@ -79,29 +81,30 @@ public class TaskNotificationGeneralClass {
             intent.putExtra(Ppp.FOR_PAGE, Ppp.TASK_MAIN_PAGE);
         }
         intent.putExtra(TaskConstants.TASK_ID, String.valueOf(taskID));
-        return PendingIntent.getActivity(context, ((int) taskID) + 2, intent, PendingIntent.FLAG_IMMUTABLE);
+        return PendingIntent.getActivity(context, getIdFromTaskID(taskID) + 2, intent, PendingIntent.FLAG_IMMUTABLE);
 
 
     }
 
 
-    private PendingIntent getCancelIntent(Context context, long taskID) {
+    private PendingIntent getCancelIntent(Context context, String taskID) {
 
         Intent cancelIntent = new Intent(context, TaskAlertCancelBroadcast.class);
-        return PendingIntent.getBroadcast(context, (int) taskID, cancelIntent, PendingIntent.FLAG_IMMUTABLE);
+        return PendingIntent.getBroadcast(context, getIdFromTaskID(taskID), cancelIntent, PendingIntent.FLAG_IMMUTABLE);
 
 
     }
 
 
-    private PendingIntent getLaterIntent(Context context, long taskID) {
+    private PendingIntent getLaterIntent(Context context, String taskID) {
 
         Intent laterIntent = new Intent(context, LaterTask.class);
         laterIntent.putExtra(TaskConstants.TASK_ID, String.valueOf(taskID));
-        return PendingIntent.getActivity(context, ((int) taskID) + 1, laterIntent, PendingIntent.FLAG_IMMUTABLE);
+        return PendingIntent.getActivity(context, getIdFromTaskID(taskID) + 1, laterIntent, PendingIntent.FLAG_IMMUTABLE);
 
 
     }
+
 
 
 }

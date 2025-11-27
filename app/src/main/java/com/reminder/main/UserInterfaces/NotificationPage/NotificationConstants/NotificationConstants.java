@@ -1,4 +1,4 @@
-package com.reminder.main.UserInterfaces.NotificationPage;
+package com.reminder.main.UserInterfaces.NotificationPage.NotificationConstants;
 
 public class NotificationConstants {
     public static String TASK_NOTIFICATION_CHANNEL_ID = "1";

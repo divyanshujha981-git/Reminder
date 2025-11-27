@@ -158,6 +158,7 @@ public class SendTask extends AppCompatActivity implements
             subTask.put(TOPIC, taskData.getTopic());
             subTask.put(ALARM_DATE, taskData.getAlarmDate());
             subTask.put(REPEAT_STATUS, taskData.getRepeatStatus());
+            subTask.put(TASK_ID, taskData.getTaskId());
             subTask.put(DATE_ARRAY, taskData.getDateArray().toString());
             if (taskData.getDescription() != null && !taskData.getDescription().isEmpty()) {
                 subTask.put(DESCRIPTION, taskData.getTopic());

@@ -1,6 +1,8 @@
 package com.reminder.main.BackgroundWorks.FirebaseWork;
 
+import static com.reminder.main.Custom.CustomFunctions.generateNewTaskID;
 import static com.reminder.main.Firebase.FirebaseConstants.BLOCKED_CONTACTS;
+import static com.reminder.main.Firebase.FirebaseConstants.DATE_ARRAY;
 import static com.reminder.main.Firebase.FirebaseConstants.DESCRIPTION;
 import static com.reminder.main.Firebase.FirebaseConstants.DOWNLOADED;
 import static com.reminder.main.Firebase.FirebaseConstants.DOWNLOADED_NO_BYTE;
@@ -41,6 +43,7 @@ import static com.reminder.main.SqLite.TaskShared.TaskSharedConstants.TASK_SENT_
 import static com.reminder.main.SqLite.TaskShared.TaskSharedDB.insertOrUpdateMultipleTaskShared;
 import static com.reminder.main.SqLite.TaskStatus.TaskStatusDB.insertOrUpdateMultipleTaskStatus;
 import static com.reminder.main.SqLite.Tasks.TaskConstants.REPEAT_STATUS_NO_REPEAT;
+import static com.reminder.main.SqLite.Tasks.TaskConstants.TASK_ID;
 import static com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity.FIREBASE_AUTH;
 import static com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity.FIREBASE_FUNCTIONS;
 
@@ -75,6 +78,7 @@ import com.reminder.main.UserInterfaces.SettingsPage.AccountSettings.AccountSett
 import com.reminder.main.UserInterfaces.SettingsPage.AccountSettings.EditAccountInfo;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.net.ConnectException;
 import java.util.ArrayList;
@@ -97,6 +101,7 @@ public class SyncFirebaseData extends Service {
         new Thread(this::syncAccountData).start();
         return super.onStartCommand(intent, flags, startId);
     }
+
 
     private void syncAccountData() {
 
@@ -341,31 +346,36 @@ public class SyncFirebaseData extends Service {
             Map<?,?> map = (Map<?, ?>) object;
             String taskWebId = (String) key;
             String topic = (String) map.get(TOPIC);
+            String taskIO = map.containsKey(TASK_ID) ? (String) map.get(TASK_ID) : generateNewTaskID(context);
             String description = (String) map.get(DESCRIPTION);
             long alarmDate = (long) map.get(FirebaseConstants.ALARM_DATE);
             byte repeatStatus = map.containsKey(REPEAT_STATUS) ? Byte.parseByte(map.get(REPEAT_STATUS)+"") : REPEAT_STATUS_NO_REPEAT;
+            JSONArray dateArray = null;
 
-            ArrayList<Integer> dateArrayList = null;
-            String dateArray;
+            Log.d("TAG", "setTaskDataToSQLite: " + map.containsKey(DATE_ARRAY));
+
             try {
-                dateArrayList = (ArrayList<Integer>) taskDetails.get(FirebaseConstants.DATE_ARRAY);
-                dateArray = new JSONArray(dateArrayList).toString();
-            }  catch (Exception e) {
-                dateArray = TaskConstants.DAYS_OF_WEEK;
+                dateArray = new JSONArray((String) (
+                        map.containsKey(DATE_ARRAY) ?
+                                map.get(DATE_ARRAY)
+                                :
+                                TaskConstants.DAYS_OF_WEEK
+                ));
+            }
+            catch (JSONException e) {
+                Log.w("TAG", "setTaskDataToSQLite: ", e);
             }
 
-            if (dateArrayList == null) {
-                dateArrayList = new ArrayList<>();
+
+            ArrayList<Integer> dateArrayList = new ArrayList<>();
+            for (int i = 0; i < dateArray.length(); i++) {
                 try {
-                    JSONArray jsonArray = new JSONArray(dateArray);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        dateArrayList.add(jsonArray.getInt(i));
-                    }
-                }
-                catch (Exception ignored) {
-
+                    dateArrayList.add(dateArray.getInt(i));
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
                 }
             }
+
 
             taskDataData.add(
                     new TaskData(
@@ -374,7 +384,7 @@ public class SyncFirebaseData extends Service {
                             description,
                             alarmDate,
                             repeatStatus,
-                            dateArray,
+                            dateArray.toString(),
                             repeatStatus == TaskConstants.REPEAT_STATUS_NO_REPEAT ?
                                     alarmDate :
                                     AddTask.rescheduleDateAndTIme(
@@ -386,7 +396,7 @@ public class SyncFirebaseData extends Service {
                             TaskConstants.ALREADY_DONE_NO_BYTE,
                             TaskConstants.PINNED_NO,
                             null,
-                            taskWebId.split("_")[0],
+                            taskIO,
                             TaskConstants.PRIORITY_NORMAL,
                             taskWebId
                     )

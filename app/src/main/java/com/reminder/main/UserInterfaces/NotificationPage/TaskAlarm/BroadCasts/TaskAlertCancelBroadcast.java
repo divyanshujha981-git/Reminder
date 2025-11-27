@@ -15,7 +15,7 @@ public class TaskAlertCancelBroadcast extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.cancel(TaskNotificationGeneralClass.NOTIFICATION_ID);
+        manager.cancel(TaskNotificationGeneralClass.TASK_ALERT_NOTIFICATION_ID);
         Log.d("TAG", "onReceive: **CANCELLATION TRIGGERED**");
         try {
             CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);

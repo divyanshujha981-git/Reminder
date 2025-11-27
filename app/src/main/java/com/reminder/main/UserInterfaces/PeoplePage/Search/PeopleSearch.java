@@ -7,7 +7,7 @@ import static com.reminder.main.Firebase.FirebaseConstants.USER_NAME;
 import static com.reminder.main.Firebase.FirebaseConstants.USER_PHONE_NUMBER;
 import static com.reminder.main.Firebase.FirebaseConstants.USER_PROFESSION;
 import static com.reminder.main.Firebase.FirebaseConstants.USER_PROFILE_PIC;
-import static com.reminder.main.UserInterfaces.HomePage.MainActivity.MainActivity.FIREBASE_DATABASE;
+
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.reminder.main.R;
@@ -42,6 +43,7 @@ public class PeopleSearch extends Fragment {
     private Map<String, RequestData> requestData;
     private DatabaseReference ref;
     private RecyclerView recyclerView;
+    private final FirebaseDatabase FIREBASE_DATABASE = FirebaseDatabase.getInstance();
     private final FirebaseUser FIREBASE_USER = FirebaseAuth.getInstance().getCurrentUser();
     @Nullable
     @Override
@@ -61,6 +63,7 @@ public class PeopleSearch extends Fragment {
     private void declare(View view) {
         searchUser = view.findViewById(R.id.searchUser);
         recyclerView = view.findViewById(R.id.recycler_view);
+        setFirebase();
         ref = FIREBASE_DATABASE.getReference(USERS);
     }
 
@@ -96,6 +99,18 @@ public class PeopleSearch extends Fragment {
 
     }
 
+
+    private void setFirebase() {
+
+        try {
+            FIREBASE_DATABASE.useEmulator("10.0.2.2", 9000);
+        }
+        catch (IllegalStateException e) {
+            Log.e("TAG", "setFirebase: ** FIREBASE_DATABASE **", e);
+        }
+
+
+    }
 
 
     public void setPeoplePendingAndAcceptedDataToClass(Map<String, RequestData> requestData) {

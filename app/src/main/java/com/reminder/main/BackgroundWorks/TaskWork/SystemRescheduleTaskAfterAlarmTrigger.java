@@ -8,6 +8,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.reminder.main.SqLite.CommonDB.CommonDB;
 import com.reminder.main.SqLite.Tasks.TaskConstants;
 import com.reminder.main.SqLite.Tasks.TasksDB;
@@ -23,22 +25,12 @@ import java.util.ArrayList;
 public class SystemRescheduleTaskAfterAlarmTrigger extends BroadcastReceiver {
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(Context context, @NonNull Intent intent) {
         Log.d("TAG", "onReceive: **SYSTEM RESCHEDULE TRIGGERED**");
 
         Log.d("TAG", "onReceive: **ACTION = " + intent.getAction() + "**");
 
         if (intent.getAction()!= null) {
-
-            //if (
-            //        intent.getAction().equals("APP_STARTED") ||
-            //        intent.getAction().equals("android.intent.action.BOOT_COMPLETED") ||
-            //        intent.getAction().equals("android.intent.action.REBOOT") ||
-            //        intent.getAction().equals("android.intent.action.ACTION_POWER_DISCONNECTED") ||
-            //        intent.getAction().equals("android.intent.action.ACTION_POWER_CONNECTED") ||
-            //        intent.getAction().equals("android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED")
-            //)
-            //{
 
             Log.d("TAG", "onReceive: **BOOT_COMPLETED**");
 
