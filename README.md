@@ -1,4 +1,4 @@
-<img width="1198" height="2531" alt="Screenshot_20250323_201737" src="https://github.com/user-attachments/assets/af86d18f-7c79-479d-9f81-792d2ab55128" />  # 📝 Reminder
+# 📝 Reminder
 
 **Reminder** is a simple yet powerful task manager designed not just for personal productivity but also for seamless task sharing with others. Whether you're organizing your own schedule or coordinating tasks with friends, family, or teammates, Reminder makes task management effortless, collaborative, and reliable — even offline.
 
