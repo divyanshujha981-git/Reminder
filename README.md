@@ -1,6 +1,6 @@
-  # 📝 Reminder-Mini
+  # 📝 Reminder
 
-**Reminder-Mini** is a simple yet powerful task manager designed not just for personal productivity but also for seamless task sharing with others. Whether you're organizing your own schedule or coordinating tasks with friends, family, or teammates, Reminder-Mini makes task management effortless, collaborative, and reliable — even offline.
+**Reminder** is a simple yet powerful task manager designed not just for personal productivity but also for seamless task sharing with others. Whether you're organizing your own schedule or coordinating tasks with friends, family, or teammates, Reminder makes task management effortless, collaborative, and reliable — even offline.
 
 ---
 
@@ -11,7 +11,6 @@
 - 🔔 Task reminders with notifications
 - 🌓 Light and dark theme support
 - 📱 Clean and minimal UI
-- 💾 Offline-first experience – works without internet
 - 🔐 No data collection – your tasks stay on your device
 - 🤝 Share Tasks With Others
 - ✔️ Accept or Decline Shared Tasks
@@ -45,6 +44,16 @@
  <img width="auto" height="500" alt="Screenshot_20251124_231454" src="https://github.com/user-attachments/assets/ec524e75-50ab-49ff-9f40-99d6678e9a85" />
 
  <img width="auto" height="500" alt="Screenshot_20250323_201712" src="https://github.com/user-attachments/assets/2f60f847-e1bb-43f5-adb0-8fed1c3b55d7" />
+
+---
+
+## 🚀 How It Works
+
+- Create your task.
+- Connect with people you want to collaborate with.
+- Share tasks with them in one tap.
+- They can Accept or Decline the task.
+- All updates sync automatically.
 
 ---
 
