@@ -1,4 +1,4 @@
-  # 📝 Reminder
+<img width="1198" height="2531" alt="Screenshot_20250323_201737" src="https://github.com/user-attachments/assets/af86d18f-7c79-479d-9f81-792d2ab55128" />  # 📝 Reminder
 
 **Reminder** is a simple yet powerful task manager designed not just for personal productivity but also for seamless task sharing with others. Whether you're organizing your own schedule or coordinating tasks with friends, family, or teammates, Reminder makes task management effortless, collaborative, and reliable — even offline.
 
@@ -44,6 +44,13 @@
  <img width="auto" height="500" alt="Screenshot_20251124_231454" src="https://github.com/user-attachments/assets/ec524e75-50ab-49ff-9f40-99d6678e9a85" />
 
  <img width="auto" height="500" alt="Screenshot_20250323_201712" src="https://github.com/user-attachments/assets/2f60f847-e1bb-43f5-adb0-8fed1c3b55d7" />
+
+<img width="1198" height="2531" alt="Screenshot_20250323_201712" src="https://github.com/user-attachments/assets/b85a7d8c-5849-49c2-842e-6c0eaf42a2b4" />
+
+<img width="1198" height="2531" alt="Screenshot_20250323_201737" src="https://github.com/user-attachments/assets/8d22ac35-7499-4ccc-8e8c-25a052a6e06a" />
+
+ <img width="1198" height="2531" alt="Screenshot_20250323_212749" src="https://github.com/user-attachments/assets/3fba9f6a-4ec2-4933-8888-5f4dd5dde662" />
+
 
 ---
 
